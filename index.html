@@ -13,7 +13,7 @@
     <nav>
       <a href="#home">الرئيسية</a>
       <a href="#phones">الهواتف</a>
-      <a href="#phones">الهواتف</a>
+      <a href="#prices">الأسعار</a>
       <a href="#reviews">المراجعات</a>
       <a href="#videos">الفيديوهات</a>
       <a href="#contact">تواصل</a>
@@ -54,44 +54,10 @@
           <div class="eyebrow">PHONE HUB</div>
           <h2>ابحث عن جهازك</h2>
         </div>
-        <p>واجهة جاهزة حتى نربطها لاحقاً بقاعدة أسعار ومواصفات الهواتف.</p>
+        <p>المواصفات والأسعار راح تكون مرتبطة بقاعدة بيانات MiTech.</p>
       </div>
       <div class="search-box">
         <input id="phoneSearch" type="search" placeholder="ابحث عن iPhone, Samsung, Xiaomi..." oninput="filterPhones()">
-        <button onclick="filterPhones()">بحث</button>
-      </div>
-      <div id="phoneGrid" class="phone-grid">
-        <article class="phone-card" data-name="Samsung Galaxy S26 Ultra">
-          <div class="phone-icon">S26</div>
-          <h3>Galaxy S26 Ultra</h3>
-          <p>Samsung • Flagship</p>
-          <span>عرض التفاصيل →</span>
-        </article>
-        <article class="phone-card" data-name="iPhone 17 Pro Max">
-          <div class="phone-icon"></div>
-          <h3>iPhone 17 Pro Max</h3>
-          <p>Apple • Flagship</p>
-          <span>عرض التفاصيل →</span>
-        </article>
-        <article class="phone-card" data-name="Galaxy A57 5G">
-          <div class="phone-icon">A57</div>
-          <h3>Galaxy A57 5G</h3>
-          <p>Samsung • Mid-range</p>
-          <span>عرض التفاصيل →</span>
-        </article>
-      </div>
-    </section>
-
-    <section id="phones" class="section phone-section">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">PHONE PRICES</div>
-          <h2>أسعار الهواتف</h2>
-        </div>
-        <p>ابحث عن جهازك وشوف السعر والمواصفات الأساسية. نربط الأسعار الحقيقية لاحقاً بقاعدة بيانات MiTech.</p>
-      </div>
-      <div class="search-box">
-        <input id="phoneSearch" type="search" placeholder="ابحث عن اسم الجهاز..." oninput="filterPhones()">
         <select id="brandFilter" onchange="filterPhones()">
           <option value="">كل الشركات</option>
           <option value="Samsung">Samsung</option>
@@ -102,18 +68,48 @@
       </div>
       <div id="phoneGrid" class="phone-grid">
         <article class="phone-card" data-name="Samsung Galaxy S26 Ultra" data-brand="Samsung">
-          <div class="phone-icon samsung-icon">S26</div>
-          <div class="phone-info"><span>Samsung</span><h3>Galaxy S26 Ultra</h3><p>12GB / 256GB</p><strong>السعر قريباً</strong></div>
+          <div class="phone-icon samsung-icon">S26<br><small>ULTRA</small></div>
+          <div class="phone-info"><span>Samsung</span><h3>Galaxy S26 Ultra</h3><p>12GB / 256GB • Flagship</p><strong>السعر قريباً</strong></div>
         </article>
         <article class="phone-card" data-name="iPhone 17 Pro Max" data-brand="Apple">
           <div class="phone-icon apple-icon"></div>
-          <div class="phone-info"><span>Apple</span><h3>iPhone 17 Pro Max</h3><p>256GB</p><strong>السعر قريباً</strong></div>
+          <div class="phone-info"><span>Apple</span><h3>iPhone 17 Pro Max</h3><p>256GB • Flagship</p><strong>السعر قريباً</strong></div>
         </article>
-        <article class="phone-card" data-name="Samsung Galaxy A57 5G" data-brand="Samsung">
-          <div class="phone-icon a57-icon">A57</div>
-          <div class="phone-info"><span>Samsung</span><h3>Galaxy A57 5G</h3><p>8GB / 256GB</p><strong>السعر قريباً</strong></div>
+        <article class="phone-card" data-name="Galaxy A57 5G" data-brand="Samsung">
+          <div class="phone-icon a57-icon">A57<br><small>5G</small></div>
+          <div class="phone-info"><span>Samsung</span><h3>Galaxy A57 5G</h3><p>8GB / 256GB • Mid-range</p><strong>السعر قريباً</strong></div>
         </article>
       </div>
+    </section>
+
+    <section id="prices" class="section phone-section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">IRAQ PHONE PRICES</div>
+          <h2>أسعار الهواتف بالعراق</h2>
+        </div>
+        <p>قسم الأسعار جاهز حتى نربطه بملف الأسعار الحقيقي. حالياً الأسعار المعروضة تجريبية.</p>
+      </div>
+      <div class="price-tools">
+        <input id="priceSearch" type="search" placeholder="ابحث بالاسم أو الماركة..." oninput="filterPrices()">
+        <select id="priceBrand" onchange="filterPrices()"><option value="">كل الشركات</option><option>Samsung</option><option>Apple</option><option>Xiaomi</option></select>
+        <select id="priceSort" onchange="sortPrices()"><option value="default">ترتيب</option><option value="low">الأرخص أولاً</option><option value="high">الأغلى أولاً</option></select>
+      </div>
+      <div id="priceGrid" class="price-grid">
+        <article class="price-card" data-brand="Samsung" data-price="0" data-name="Samsung Galaxy S26 Ultra">
+          <div class="price-top"><span class="brand-tag">Samsung</span><span class="status">تجريبي</span></div>
+          <h3>Galaxy S26 Ultra</h3><p>12GB / 256GB</p><div class="price-value">السعر قريباً</div><small>سيتم تحديثه من قاعدة بيانات MiTech</small>
+        </article>
+        <article class="price-card" data-brand="Apple" data-price="0" data-name="Apple iPhone 17 Pro Max">
+          <div class="price-top"><span class="brand-tag">Apple</span><span class="status">تجريبي</span></div>
+          <h3>iPhone 17 Pro Max</h3><p>256GB</p><div class="price-value">السعر قريباً</div><small>سيتم تحديثه من قاعدة بيانات MiTech</small>
+        </article>
+        <article class="price-card" data-brand="Samsung" data-price="0" data-name="Samsung Galaxy A57 5G">
+          <div class="price-top"><span class="brand-tag">Samsung</span><span class="status">تجريبي</span></div>
+          <h3>Galaxy A57 5G</h3><p>8GB / 256GB</p><div class="price-value">السعر قريباً</div><small>سيتم تحديثه من قاعدة بيانات MiTech</small>
+        </article>
+      </div>
+      <div class="update-note">آخر تحديث: <b>بانتظار ربط قاعدة الأسعار</b></div>
     </section>
 
     <section id="reviews" class="section alt">
