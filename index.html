@@ -66,7 +66,7 @@
         </select>
         <button onclick="filterPhones()">بحث</button>
       </div>
-      <div id="phoneGrid" class="phone-grid">
+      <div id="phoneCount" class="sr-only"></div><div id="phoneGrid" class="phone-grid">
         <article class="phone-card" data-name="Samsung Galaxy S26 Ultra" data-brand="Samsung">
           <div class="phone-icon samsung-icon">S26<br><small>ULTRA</small></div>
           <div class="phone-info"><span>Samsung</span><h3>Galaxy S26 Ultra</h3><p>12GB / 256GB • Flagship</p><strong>السعر قريباً</strong></div>
@@ -88,28 +88,17 @@
           <div class="eyebrow">IRAQ PHONE PRICES</div>
           <h2>أسعار الهواتف بالعراق</h2>
         </div>
-        <p>قسم الأسعار جاهز حتى نربطه بملف الأسعار الحقيقي. حالياً الأسعار المعروضة تجريبية.</p>
+        <p>الأسعار مأخوذة من قاعدة بيانات MiTech ويمكن البحث والفلترة حسب الشركة.</p>
       </div>
       <div class="price-tools">
         <input id="priceSearch" type="search" placeholder="ابحث بالاسم أو الماركة..." oninput="filterPrices()">
         <select id="priceBrand" onchange="filterPrices()"><option value="">كل الشركات</option><option>Samsung</option><option>Apple</option><option>Xiaomi</option></select>
         <select id="priceSort" onchange="sortPrices()"><option value="default">ترتيب</option><option value="low">الأرخص أولاً</option><option value="high">الأغلى أولاً</option></select>
       </div>
-      <div id="priceGrid" class="price-grid">
-        <article class="price-card" data-brand="Samsung" data-price="0" data-name="Samsung Galaxy S26 Ultra">
-          <div class="price-top"><span class="brand-tag">Samsung</span><span class="status">تجريبي</span></div>
-          <h3>Galaxy S26 Ultra</h3><p>12GB / 256GB</p><div class="price-value">السعر قريباً</div><small>سيتم تحديثه من قاعدة بيانات MiTech</small>
-        </article>
-        <article class="price-card" data-brand="Apple" data-price="0" data-name="Apple iPhone 17 Pro Max">
-          <div class="price-top"><span class="brand-tag">Apple</span><span class="status">تجريبي</span></div>
-          <h3>iPhone 17 Pro Max</h3><p>256GB</p><div class="price-value">السعر قريباً</div><small>سيتم تحديثه من قاعدة بيانات MiTech</small>
-        </article>
-        <article class="price-card" data-brand="Samsung" data-price="0" data-name="Samsung Galaxy A57 5G">
-          <div class="price-top"><span class="brand-tag">Samsung</span><span class="status">تجريبي</span></div>
-          <h3>Galaxy A57 5G</h3><p>8GB / 256GB</p><div class="price-value">السعر قريباً</div><small>سيتم تحديثه من قاعدة بيانات MiTech</small>
-        </article>
+      <div id="priceCount" class="sr-only"></div><div id="priceGrid" class="price-grid">
+        <div class="loading-state">جاري تحميل الأسعار...</div>
       </div>
-      <div class="update-note">آخر تحديث: <b>بانتظار ربط قاعدة الأسعار</b></div>
+      <div class="update-note">آخر تحديث: <b>بيانات MiTech</b></div>
     </section>
 
     <section id="reviews" class="section alt">
