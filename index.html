@@ -1,154 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="M.iTech - أخبار التقنية، مراجعات الهواتف، الأسعار والمقارنات.">
-  <title>M.iTech | Mohammed Imad</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="MiTech — أسعار الهواتف، مراجعات، مقارنات وأخبار التقنية في العراق.">
+<title>MiTech — التقنية بالعراقي</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="nav">
-    <a class="logo" href="#home">M.i<span>Tech</span></a>
-    <nav>
-      <a href="#home">الرئيسية</a>
-      <a href="#phones">الهواتف</a>
-      <a href="#reviews">المراجعات</a>
-      <a href="#videos">الفيديوهات</a>
-      <a href="#contact">تواصل</a>
-    </nav>
-    <a class="nav-btn" href="#contact">تعاون معنا</a>
-  </header>
+<header class="header">
+  <a class="brand" href="#home"><span>Mi</span>Tech</a>
+  <nav>
+    <a href="#phones">الهواتف</a>
+    <a href="#compare">مقارنة</a>
+    <a href="#news">الأخبار</a>
+    <a href="#reviews">المراجعات</a>
+    <a href="#videos">الفيديوهات</a>
+  </nav>
+  <a class="work" href="#work">تعاون معنا</a>
+</header>
 
-  <main>
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <div class="badge">TECH • REVIEWS • NEWS</div>
-        <h1>كل التقنية<br><strong>بمكان واحد.</strong></h1>
-        <p>أخبار تقنية، مراجعات، مقارنات وأسعار الهواتف — من M.iTech.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#phones">استكشف الهواتف</a>
-          <a class="btn ghost" href="#videos">شاهد آخر الفيديوهات</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <div class="orb"></div>
-        <div class="device">M.iTech</div>
-        <div class="floating-card one">📱 مراجعات الأجهزة</div>
-        <div class="floating-card two">⚡ اختبارات الأداء</div>
-        <div class="floating-card three">💰 أسعار الهواتف</div>
-      </div>
-    </section>
-
-    <section class="stats">
-      <div><strong>27K+</strong><span>YouTube</span></div>
-      <div><strong>20K+</strong><span>Instagram</span></div>
-      <div><strong>18K+</strong><span>TikTok</span></div>
-      <div><strong>100%</strong><span>Tech</span></div>
-    </section>
-
-    <section id="phones" class="section">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">PHONE HUB</div>
-          <h2>ابحث عن جهازك</h2>
-        </div>
-        <p>واجهة جاهزة حتى نربطها لاحقاً بقاعدة أسعار ومواصفات الهواتف.</p>
-      </div>
-      <div class="search-box">
-        <input id="phoneSearch" type="search" placeholder="ابحث عن iPhone, Samsung, Xiaomi..." oninput="filterPhones()">
-        <button onclick="filterPhones()">بحث</button>
-      </div>
-      <div id="phoneGrid" class="phone-grid">
-        <article class="phone-card" data-name="Samsung Galaxy S26 Ultra">
-          <div class="phone-icon">S26</div>
-          <h3>Galaxy S26 Ultra</h3>
-          <p>Samsung • Flagship</p>
-          <span>عرض التفاصيل →</span>
-        </article>
-        <article class="phone-card" data-name="iPhone 17 Pro Max">
-          <div class="phone-icon"></div>
-          <h3>iPhone 17 Pro Max</h3>
-          <p>Apple • Flagship</p>
-          <span>عرض التفاصيل →</span>
-        </article>
-        <article class="phone-card" data-name="Galaxy A57 5G">
-          <div class="phone-icon">A57</div>
-          <h3>Galaxy A57 5G</h3>
-          <p>Samsung • Mid-range</p>
-          <span>عرض التفاصيل →</span>
-        </article>
-      </div>
-    </section>
-
-    <section id="reviews" class="section alt">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">REVIEWS</div>
-          <h2>أحدث المراجعات</h2>
-        </div>
-        <a class="text-link" href="#contact">كل المراجعات →</a>
-      </div>
-      <div class="review-grid">
-        <article class="review featured">
-          <div class="review-image">S26 ULTRA</div>
-          <div class="review-body">
-            <span class="tag">مراجعة</span>
-            <h3>Galaxy S26 Ultra — هل يستحق الترقية؟</h3>
-            <p>تجربة الشاشة، الكاميرات، الأداء والبطارية بشكل عملي.</p>
-            <a href="#contact">اقرأ المراجعة →</a>
-          </div>
-        </article>
-        <article class="review">
-          <div class="review-image">BATTERY</div>
-          <div class="review-body">
-            <span class="tag">اختبار</span>
-            <h3>اختبار البطارية والأداء</h3>
-            <p>نتائج حقيقية ودرجات حرارة أثناء الاستخدام.</p>
-            <a href="#contact">التفاصيل →</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="videos" class="section">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">VIDEO</div>
-          <h2>من قناتي</h2>
-        </div>
-        <a class="text-link" href="https://www.youtube.com/@mitech808" target="_blank" rel="noopener">YouTube →</a>
-      </div>
-      <div class="video-grid">
-        <a class="video" href="https://www.youtube.com/@mitech808" target="_blank" rel="noopener"><span>▶</span><b>أحدث مراجعات الهواتف</b></a>
-        <a class="video" href="https://www.instagram.com/mitech808/" target="_blank" rel="noopener"><span>▶</span><b>آخر Reels</b></a>
-        <a class="video" href="https://www.tiktok.com/@m.itech" target="_blank" rel="noopener"><span>▶</span><b>محتوى سريع وتقني</b></a>
-      </div>
-    </section>
-
-    <section id="contact" class="contact">
-      <div>
-        <div class="eyebrow">WORK WITH ME</div>
-        <h2>عندك منتج أو حملة؟<br>خلينا نحچي.</h2>
-        <p>مراجعات، حملات إطلاق، Reels، تغطيات فعاليات وتعاونات تقنية.</p>
-      </div>
-      <div class="contact-actions">
-        <a class="btn primary" href="mailto:contact@mitech.tech">تواصل عبر الإيميل</a>
-        <a class="btn ghost" href="https://www.instagram.com/mitech808/" target="_blank" rel="noopener">Instagram</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="logo">M.i<span>Tech</span></div>
-    <p>© 2026 M.iTech — Mohammed Imad. All rights reserved.</p>
-    <div class="socials">
-      <a href="https://www.youtube.com/@mitech808" target="_blank" rel="noopener">YouTube</a>
-      <a href="https://www.instagram.com/mitech808/" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.tiktok.com/@m.itech" target="_blank" rel="noopener">TikTok</a>
+<main id="home">
+<section class="hero">
+  <div class="hero-copy">
+    <div class="pill">MI TECH • IRAQ</div>
+    <h1>التقنية<br><em>بشكل أبسط.</em></h1>
+    <p>أسعار الهواتف، المواصفات، المقارنات والمراجعات — كلشي تحتاجه قبل ما تشتري جهازك.</p>
+    <div class="actions">
+      <a class="btn primary" href="#phones">ابحث عن جهاز</a>
+      <a class="btn secondary" href="#reviews">شوف المراجعات</a>
     </div>
-  </footer>
+  </div>
+  <div class="hero-visual">
+    <div class="glow"></div>
+    <div class="phone"><div class="camera"></div><b>MiTech</b><small>TECH IRAQ</small></div>
+    <div class="mini m1">⚡ أداء حقيقي</div>
+    <div class="mini m2">💰 أسعار العراق</div>
+    <div class="mini m3">📊 مقارنات</div>
+  </div>
+</section>
 
-  <script src="script.js"></script>
-</body>
-</html>
+<section class="numbers">
+  <div><b>27K+</b><span>YouTube</span></div>
+  <div><b>20K+</b><span>Instagram</span></div>
+  <div><b>18K+</b><span>TikTok</span></div>
+  <div><b>MiTech</b><span>Tech in Iraq</span></div>
+</section>
+
+<section id="phones" class="section">
+  <div class="section-title"><div><label>PHONE DATABASE</label><h2>أسعار ومواصفات الهواتف</h2></div><p>واجهة أولية لقاعدة الأسعار. نربطها لاحقاً ببياناتك الحقيقية.</p></div>
+  <div class="search">
+    <span>⌕</span><input id="search" placeholder="ابحث عن جهاز مثل S26 Ultra..." oninput="filterPhones()">
+    <select id="brand" onchange="filterPhones()"><option value="">كل الشركات</option><option>Samsung</option><option>Apple</option><option>Xiaomi</option></select>
+  </div>
+  <div id="phonesGrid" class="cards">
+    <article class="phone-card" data-name="Samsung Galaxy S26 Ultra" data-brand="Samsung">
+      <div class="product-img samsung">S26<br><small>ULTRA</small></div><div class="pc-body"><span>Samsung</span><h3>Galaxy S26 Ultra</h3><p>12GB / 256GB • Flagship</p><strong>السعر قريباً</strong></div>
+    </article>
+    <article class="phone-card" data-name="Apple iPhone 17 Pro Max" data-brand="Apple">
+      <div class="product-img apple">iPhone<br><small>PRO MAX</small></div><div class="pc-body"><span>Apple</span><h3>iPhone 17 Pro Max</h3><p>256GB • Flagship</p><strong>السعر قريباً</strong></div>
+    </article>
+    <article class="phone-card" data-name="Samsung Galaxy A57 5G" data-brand="Samsung">
+      <div class="product-img a57">A57<br><small>5G</small></div><div class="pc-body"><span>Samsung</span><h3>Galaxy A57 5G</h3><p>8GB / 256GB • Mid-range</p><strong>السعر قريباً</strong></div>
+    </article>
+  </div>
+</section>
+
+<section id="compare" class="section dark">
+  <div class="section-title"><div><label>COMPARE</label><h2>قارن قبل لا تشتري</h2></div><p>اختار جهازين ونخلي القرار أسهل.</p></div>
+  <div class="compare-box">
+    <div class="compare-phone"><b>Galaxy S26 Ultra</b><span>Samsung</span></div>
+    <div class="vs">VS</div>
+    <div class="compare-phone"><b>iPhone 17 Pro Max</b><span>Apple</span></div>
+  </div>
+  <div class="specs">
+    <div><span>الشاشة</span><b>6.9" 120Hz</b><b>6.9" 120Hz</b></div>
+    <div><span>الكاميرا</span><b>200MP</b><b>48MP</b></div>
+    <div><span>الشحن</span><b>45W</b><b>سريع</b></div>
+    <div><span>النظام</span><b>Android</b><b>iOS</b></div>
+  </div>
+</section>
+
+<section id="news" class="section">
+  <div class="section-title"><div><label>TECH NEWS</label><h2>آخر الأخبار والتسريبات</h2></div><a class="more" href="#news">كل الأخبار →</a></div>
+  <div class="news-grid">
+    <article class="news big"><div class="news-art">APPLE</div><div><label>APPLE • تسريبات</label><h3>كل ما نعرفه عن الجيل القادم من iPhone</h3><p>التسريبات والمعلومات المتداولة، مرتبة بشكل مختصر وواضح.</p></div></article>
+    <article class="news"><div class="news-art samsung-art">SAMSUNG</div><label>SAMSUNG</label><h3>أحدث أخبار Galaxy</h3><p>تحديثات الأجهزة والميزات الجديدة.</p></article>
+    <article class="news"><div class="news-art ai-art">AI</div><label>AI</label><h3>أخبار الذكاء الاصطناعي</h3><p>أهم الأدوات والتحديثات التقنية.</p></article>
+  </div>
+</section>
+
+<section id="reviews" class="section dark">
+  <div class="section-title"><div><label>REVIEWS & TESTS</label><h2>تجارب من MiTech</h2></div><a class="more" href="#videos">شاهد الفيديوهات →</a></div>
+  <div class="review-grid">
+    <article class="review"><div class="review-art">S26 ULTRA</div><div class="review-body"><label>مراجعة</label><h3>Galaxy S26 Ultra</h3><p>الشاشة • الكاميرا • الأداء • البطارية • Gaming</p><a href="#videos">شاهد المراجعة →</a></div></article>
+    <article class="review"><div class="review-art battery">BATTERY</div><div class="review-body"><label>اختبار</label><h3>اختبارات البطارية والحرارة</h3><p>نتائج عملية وأرقام من الاستخدام الحقيقي.</p><a href="#videos">شاهد الاختبار →</a></div></article>
+  </div>
+</section>
+
+<section id="videos" class="section">
+  <div class="section-title"><div><label>VIDEO</label><h2>آخر محتوى MiTech</h2></div></div>
+  <div class="video-grid">
+    <a class="video" href="https://www.youtube.com/@mitech808" target="_blank"><i>▶</i><b>YouTube</b><span>المراجعات الطويلة والاختبارات</span></a>
+    <a class="video" href="https://www.instagram.com/mitech808/" target="_blank"><i>▶</i><b>Instagram</b><span>Reels وأخبار سريعة</span></a>
+    <a class="video" href="https://www.tiktok.com/@m.itech" target="_blank"><i>▶</i><b>TikTok</b><span>محتوى تقني سريع</span></a>
+  </div>
+</section>
+
+<section id="work" class="work-section">
+  <div><label>WORK WITH MITECH</label><h2>عندك منتج؟<br>خلينا نشتغل سوا.</h2><p>مراجعات، إطلاقات، Reels، تغطيات فعاليات وحملات تقنية.</p></div>
+  <div class="work-actions"><a class="btn primary" href="mailto:contact@mitech.iq">تواصل معي</a><a class="btn secondary" href="https://www.instagram.com/mitech808/" target="_blank">Instagram</a></div>
+</section>
+</main>
+
+<footer><a class="brand"><span>Mi</span>Tech</a><p>© 2026 MiTech — Mohammed Imad</p><div><a href="https://www.youtube.com/@mitech808">YouTube</a><a href="https://www.instagram.com/mitech808/">Instagram</a><a href="https://www.tiktok.com/@m.itech">TikTok</a></div></footer>
+<script src="script.js"></script>
+</body></html>
