@@ -29,32 +29,22 @@
   <div id="priceError" style="display:none;text-align:center;padding:40px;color:#c00">
     تعذر تحميل الأسعار حالياً. حاول تحديث الصفحة.
   </div>
-  <div id="priceGrid" class="phone-grid price-grid"></div>
+  <div id="priceGrid" class="phone-grid"></div>
 </section>
 </main>
 
-<footer><div class="logo">M.i<span>Tech</span></div><p>© 2026 M.iTech — Mohammed Imad. All rights reserved.</p><div class="socials"><a href="https://www.youtube.com/@mitech808">YouTube</a><a href="https://www.instagram.com/mitech808/">Instagram</a><a href="https://www.tiktok.com/@m.itech">TikTok</a></div></footer>
 <script>
 let allPhones = [];
 let visiblePhones = [];
 
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
 function normalizePhone(x) {
   return {
-    name: String(x?.name ?? "").trim(),
-    ram: String(x?.ram ?? x?.["الرام والذاكره"] ?? "").trim(),
-    price: x?.price ?? x?.["السعر (price)"] ?? "",
-    brand: String(x?.brand ?? x?.["الماركه (Brand)"] ?? "").trim(),
-    store: String(x?.store ?? x?.["المتجر"] ?? "").trim(),
-    address: String(x?.address ?? x?.["العنوان"] ?? "").trim()
+    name: String(x.name ?? "").trim(),
+    ram: String(x.ram ?? "").trim(),
+    price: x.price ?? "",
+    brand: String(x.brand ?? "").trim(),
+    store: String(x.store ?? "").trim(),
+    address: String(x.address ?? "").trim()
   };
 }
 
@@ -73,112 +63,95 @@ function formatPrice(value) {
 
 function renderBrands() {
   const select = document.getElementById("priceBrand");
-  if (!select) return;
-
   const current = select.value;
-
-  const brands = [...new Set(
-    allPhones
-      .map(p => p.brand)
-      .filter(Boolean)
-  )].sort((a, b) => a.localeCompare(b, "ar"));
+  const brands = [...new Set(allPhones.map(p => p.brand).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b));
 
   select.innerHTML =
     '<option value="">كل الشركات</option>' +
-    brands.map(b =>
-      `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`
-    ).join("");
+    brands.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join("");
 
-  if (brands.includes(current)) {
-    select.value = current;
-  }
+  if (brands.includes(current)) select.value = current;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function renderPrices(list) {
   const grid = document.getElementById("priceGrid");
 
   if (!list.length) {
-    grid.innerHTML =
-      '<div style="grid-column:1/-1;text-align:center;padding:40px">لا توجد نتائج مطابقة.</div>';
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px">لا توجد نتائج مطابقة.</div>';
     return;
   }
 
   grid.innerHTML = list.map(p => {
     const available = Number.isFinite(priceNumber(p.price));
+    const specs = p.ram || "المواصفات غير متوفرة";
 
     return `
       <article class="phone-card price-item"
         data-name="${escapeHtml(p.name)}"
         data-brand="${escapeHtml(p.brand)}"
         data-price="${available ? priceNumber(p.price) : ""}">
-
-        <div class="price-card-placeholder">
-          <span>MiTech</span>
-        </div>
+        <div class="phone-icon"><span>${escapeHtml(p.brand || "MiTech")}</span></div>
 
         <div class="price-meta">
-          <span class="price-brand">${escapeHtml(p.brand)}</span>
+          <span class="price-brand">${escapeHtml(p.brand || "")}</span>
           <span class="price-status">${available ? "متوفر" : "غير متوفر"}</span>
         </div>
 
         <h3 dir="ltr">${escapeHtml(p.name)}</h3>
-        <p dir="ltr">${escapeHtml(p.ram || "المواصفات غير متوفرة")}</p>
+        <p dir="ltr">${escapeHtml(specs)}</p>
 
         <div class="real-price">${formatPrice(p.price)}</div>
 
-        ${p.store
-          ? `<small>${escapeHtml(p.store)}</small>`
-          : ""}
-        ${p.address
-          ? `<small style="display:block">${escapeHtml(p.address)}</small>`
-          : ""}
+        ${p.store ? `<small>${escapeHtml(p.store)}</small>` : `<small>MiTech Price Database</small>`}
+        ${p.address ? `<small style="display:block">${escapeHtml(p.address)}</small>` : ""}
       </article>
     `;
   }).join("");
 }
 
-function applyFilters() {
-  const search =
-    document.getElementById("priceSearch")?.value.trim().toLowerCase() || "";
-  const brand =
-    document.getElementById("priceBrand")?.value || "";
+function filterPrices() {
+  const q = document.getElementById("priceSearch").value.trim().toLowerCase();
+  const brand = document.getElementById("priceBrand").value;
 
   visiblePhones = allPhones.filter(p => {
-    const haystack =
-      `${p.name} ${p.brand} ${p.ram} ${p.store} ${p.address}`.toLowerCase();
-
-    return (!search || haystack.includes(search)) &&
-           (!brand || p.brand === brand);
+    const text = `${p.name} ${p.brand} ${p.ram} ${p.store}`.toLowerCase();
+    return (!q || text.includes(q)) && (!brand || p.brand === brand);
   });
 
-  applySort(false);
-}
-
-function applySort(render = true) {
-  const sort =
-    document.getElementById("priceSort")?.value || "";
-
-  if (sort === "low" || sort === "high") {
-    visiblePhones.sort((a, b) => {
-      const pa = priceNumber(a.price);
-      const pb = priceNumber(b.price);
-
-      if (!Number.isFinite(pa) && !Number.isFinite(pb)) return 0;
-      if (!Number.isFinite(pa)) return 1;
-      if (!Number.isFinite(pb)) return -1;
-
-      return sort === "low" ? pa - pb : pb - pa;
-    });
-  }
-
-  if (render) renderPrices(visiblePhones);
-
-  const count = document.getElementById("productCount");
-  if (count) count.textContent = visiblePhones.length;
+  renderPrices(visiblePhones);
+  document.getElementById("productCount").textContent = visiblePhones.length;
 }
 
 function sortPrices() {
-  applySort(true);
+  const sort = document.getElementById("priceSort").value;
+
+  if (sort === "low") {
+    visiblePhones.sort((a,b) => {
+      const pa = priceNumber(a.price), pb = priceNumber(b.price);
+      if (!Number.isFinite(pa)) return 1;
+      if (!Number.isFinite(pb)) return -1;
+      return pa - pb;
+    });
+  } else if (sort === "high") {
+    visiblePhones.sort((a,b) => {
+      const pa = priceNumber(a.price), pb = priceNumber(b.price);
+      if (!Number.isFinite(pa)) return 1;
+      if (!Number.isFinite(pb)) return -1;
+      return pb - pa;
+    });
+  }
+
+  renderPrices(visiblePhones);
 }
 
 async function loadPrices() {
@@ -186,77 +159,49 @@ async function loadPrices() {
   const error = document.getElementById("priceError");
 
   try {
-    // PRICE-ONLY MODE:
-    // No phones.json, GSMArena, catalog, or external device data.
+    // Cache-busting ensures a newly updated prices.json is fetched.
     const response = await fetch(
-      "prices.json?v=" + Date.now(),
-      { cache: "no-store" }
+      "https://raw.githubusercontent.com/ruoodui/mitech-website/main/prices.json?v=" + Date.now(),
+      {
+        cache: "no-store"
+      }
     );
 
-    if (!response.ok) {
-      throw new Error("prices.json HTTP " + response.status);
-    }
+    if (!response.ok) throw new Error("HTTP " + response.status);
 
     const data = await response.json();
 
-    const rawPhones = Array.isArray(data)
-      ? data
-      : (data.phones || data.products || []);
+    // Supports both:
+    // 1) { phones: [...], updatedAt: "..." }
+    // 2) [...]
+    const rawPhones = Array.isArray(data) ? data : data.phones;
 
     if (!Array.isArray(rawPhones)) {
       throw new Error("Invalid prices.json format");
     }
 
-    allPhones = rawPhones
-      .map(normalizePhone)
-      .filter(p => p.name);
-
+    allPhones = rawPhones.map(normalizePhone).filter(p => p.name);
     visiblePhones = [...allPhones];
 
     renderBrands();
     renderPrices(visiblePhones);
 
-    const count = document.getElementById("productCount");
-    if (count) count.textContent = allPhones.length;
+    document.getElementById("productCount").textContent = allPhones.length;
 
-    const updated = document.getElementById("lastUpdate");
-    if (updated) {
-      updated.textContent =
-        Array.isArray(data)
-          ? "غير محدد"
-          : String(data.updatedAt || data.lastUpdated || "غير محدد");
-    }
+    const updatedAt = Array.isArray(data)
+      ? ""
+      : String(data.updatedAt ?? "").trim();
 
-    if (loading) loading.style.display = "none";
-    if (error) error.style.display = "none";
+    document.getElementById("lastUpdate").textContent =
+      updatedAt || "غير محدد";
 
+    loading.style.display = "none";
   } catch (err) {
     console.error("MiTech prices:", err);
-
-    if (loading) loading.style.display = "none";
-    if (error) error.style.display = "block";
+    loading.style.display = "none";
+    error.style.display = "block";
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const search = document.getElementById("priceSearch");
-  const brand = document.getElementById("priceBrand");
-  const sort = document.getElementById("priceSort");
-
-  if (search) {
-    search.addEventListener("input", applyFilters);
-  }
-
-  if (brand) {
-    brand.addEventListener("change", applyFilters);
-  }
-
-  if (sort) {
-    sort.addEventListener("change", () => applySort(true));
-  }
-
-  loadPrices();
-});
-</script>
-
-</body></html>
+loadPrices();
+</script><footer><div class="logo">M.i<span>Tech</span></div><p>© 2026 M.iTech — Mohammed Imad. All rights reserved.</p><div class="socials"><a href="https://www.youtube.com/@mitech808">YouTube</a><a href="https://www.instagram.com/mitech808/">Instagram</a><a href="https://www.tiktok.com/@m.itech">TikTok</a></div></footer><script src="site.js"></script></body></html>
