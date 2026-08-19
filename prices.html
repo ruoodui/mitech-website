@@ -161,7 +161,7 @@ async function loadPrices() {
   try {
     // Cache-busting ensures a newly updated prices.json is fetched.
     const response = await fetch(
-      "https://mitech-website.eng-mohammede-me.workers.dev/prices.json?v=" + Date.now(),
+      "https://raw.githubusercontent.com/ruoodui/mitech-website/main/prices.json?v=" + Date.now(),
       {
         cache: "no-store"
       }
