@@ -20,8 +20,6 @@
     </select>
   </div>
 
-  <div class="catalog-note">المواصفات والصور من كتالوج MiTech — الأسعار من قاعدة أسعار MiTech.</div>
-
   <div class="price-meta-line">
     <div class="price-count">عدد المنتجات: <b id="productCount">—</b></div>
     <div class="price-update">آخر تحديث للأسعار: <b id="lastUpdate">—</b></div>
@@ -33,33 +31,31 @@
   </div>
   <div id="priceGrid" class="phone-grid price-grid"></div>
 </section>
+</main>
 
+<footer><div class="logo">M.i<span>Tech</span></div><p>© 2026 M.iTech — Mohammed Imad. All rights reserved.</p><div class="socials"><a href="https://www.youtube.com/@mitech808">YouTube</a><a href="https://www.instagram.com/mitech808/">Instagram</a><a href="https://www.tiktok.com/@m.itech">TikTok</a></div></footer>
 <script>
 let allPhones = [];
 let visiblePhones = [];
-let devices = [];
-let deviceIndex = new Map();
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
 function normalizePhone(x) {
   return {
     name: String(x?.name ?? "").trim(),
-    ram: String(x?.ram ?? "").trim(),
-    memory: String(x?.memory ?? "").trim(),
-    price: x?.price ?? "",
-    brand: String(x?.brand ?? "").trim(),
-    store: String(x?.store ?? "").trim(),
-    address: String(x?.address ?? "").trim()
+    ram: String(x?.ram ?? x?.["الرام والذاكره"] ?? "").trim(),
+    price: x?.price ?? x?.["السعر (price)"] ?? "",
+    brand: String(x?.brand ?? x?.["الماركه (Brand)"] ?? "").trim(),
+    store: String(x?.store ?? x?.["المتجر"] ?? "").trim(),
+    address: String(x?.address ?? x?.["العنوان"] ?? "").trim()
   };
-}
-
-function normalizeKey(value) {
-  return String(value ?? "")
-    .toLowerCase()
-    .replace(/[\u200f\u200e]/g, "")
-    .replace(/&amp;/g, "&")
-    .replace(/[^a-z0-9\u0600-\u06ff]+/gi, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 function priceNumber(value) {
@@ -75,77 +71,25 @@ function formatPrice(value) {
     : "السعر غير متوفر";
 }
 
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function addDeviceIndex(device) {
-  const name = normalizeKey(device.name);
-  if (!name) return;
-
-  deviceIndex.set(name, device);
-
-  // Also index without common brand prefix.
-  const noBrand = name
-    .replace(/^samsung\s+/, "")
-    .replace(/^huawei\s+/, "")
-    .replace(/^apple\s+/, "")
-    .trim();
-
-  if (noBrand && !deviceIndex.has(noBrand)) {
-    deviceIndex.set(noBrand, device);
-  }
-}
-
-function findDevice(pricePhone) {
-  const key = normalizeKey(pricePhone.name);
-  if (!key) return null;
-
-  let device = deviceIndex.get(key);
-  if (device) return device;
-
-  const noBrand = key
-    .replace(/^samsung\s+/, "")
-    .replace(/^huawei\s+/, "")
-    .replace(/^apple\s+/, "")
-    .trim();
-
-  return deviceIndex.get(noBrand) || null;
-}
-
 function renderBrands() {
   const select = document.getElementById("priceBrand");
   if (!select) return;
 
   const current = select.value;
 
-  // Merge brands from prices AND catalog.
-  const brands = new Set();
-
-  allPhones.forEach(p => {
-    if (p.brand) brands.add(p.brand);
-  });
-
-  devices.forEach(d => {
-    if (d.brand) brands.add(String(d.brand).trim());
-  });
-
-  const sorted = [...brands]
-    .filter(Boolean)
-    .sort((a, b) => a.localeCompare(b, "ar"));
+  const brands = [...new Set(
+    allPhones
+      .map(p => p.brand)
+      .filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b, "ar"));
 
   select.innerHTML =
     '<option value="">كل الشركات</option>' +
-    sorted.map(b =>
+    brands.map(b =>
       `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`
     ).join("");
 
-  if (sorted.includes(current)) {
+  if (brands.includes(current)) {
     select.value = current;
   }
 }
@@ -161,10 +105,6 @@ function renderPrices(list) {
 
   grid.innerHTML = list.map(p => {
     const available = Number.isFinite(priceNumber(p.price));
-    const specs = p.ram || p.memory || "المواصفات غير متوفرة";
-    const device = findDevice(p);
-    const image = device?.image || "";
-    const detailUrl = device?.url || "";
 
     return `
       <article class="phone-card price-item"
@@ -172,67 +112,58 @@ function renderPrices(list) {
         data-brand="${escapeHtml(p.brand)}"
         data-price="${available ? priceNumber(p.price) : ""}">
 
-        <div class="device-image-wrap">
-          ${image
-            ? `<img class="device-image" src="${escapeHtml(image)}"
-                 alt="${escapeHtml(p.name)}" loading="lazy"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-               <div class="device-image-fallback" style="display:none">${escapeHtml(p.brand || "MiTech")}</div>`
-            : `<div class="device-image-fallback">${escapeHtml(p.brand || "MiTech")}</div>`}
+        <div class="price-card-placeholder">
+          <span>MiTech</span>
         </div>
 
         <div class="price-meta">
-          <span class="price-brand">${escapeHtml(p.brand || device?.brand || "")}</span>
+          <span class="price-brand">${escapeHtml(p.brand)}</span>
           <span class="price-status">${available ? "متوفر" : "غير متوفر"}</span>
         </div>
 
         <h3 dir="ltr">${escapeHtml(p.name)}</h3>
-        <p dir="ltr">${escapeHtml(specs)}</p>
+        <p dir="ltr">${escapeHtml(p.ram || "المواصفات غير متوفرة")}</p>
 
         <div class="real-price">${formatPrice(p.price)}</div>
 
         ${p.store
           ? `<small>${escapeHtml(p.store)}</small>`
-          : `<small>MiTech Price Database</small>`}
+          : ""}
         ${p.address
           ? `<small style="display:block">${escapeHtml(p.address)}</small>`
           : ""}
-
-        <div class="device-actions">
-          ${detailUrl
-            ? `<a class="device-btn primary" href="${escapeHtml(detailUrl)}"
-                 target="_blank" rel="noopener">المواصفات</a>`
-            : `<button class="device-btn primary" type="button" disabled>المواصفات</button>`}
-        </div>
       </article>
     `;
   }).join("");
 }
 
-function filterPrices() {
-  const q = document.getElementById("priceSearch").value.trim().toLowerCase();
-  const brand = document.getElementById("priceBrand").value;
+function applyFilters() {
+  const search =
+    document.getElementById("priceSearch")?.value.trim().toLowerCase() || "";
+  const brand =
+    document.getElementById("priceBrand")?.value || "";
 
   visiblePhones = allPhones.filter(p => {
-    const text =
-      `${p.name} ${p.brand} ${p.ram} ${p.memory} ${p.store}`.toLowerCase();
+    const haystack =
+      `${p.name} ${p.brand} ${p.ram} ${p.store} ${p.address}`.toLowerCase();
 
-    return (!q || text.includes(q)) &&
+    return (!search || haystack.includes(search)) &&
            (!brand || p.brand === brand);
   });
 
-  renderPrices(visiblePhones);
-  document.getElementById("productCount").textContent = visiblePhones.length;
+  applySort(false);
 }
 
-function sortPrices() {
-  const sort = document.getElementById("priceSort").value;
+function applySort(render = true) {
+  const sort =
+    document.getElementById("priceSort")?.value || "";
 
   if (sort === "low" || sort === "high") {
     visiblePhones.sort((a, b) => {
       const pa = priceNumber(a.price);
       const pb = priceNumber(b.price);
 
+      if (!Number.isFinite(pa) && !Number.isFinite(pb)) return 0;
       if (!Number.isFinite(pa)) return 1;
       if (!Number.isFinite(pb)) return -1;
 
@@ -240,24 +171,14 @@ function sortPrices() {
     });
   }
 
-  renderPrices(visiblePhones);
+  if (render) renderPrices(visiblePhones);
+
+  const count = document.getElementById("productCount");
+  if (count) count.textContent = visiblePhones.length;
 }
 
-async function loadDevices() {
-  const response = await fetch(
-    "phones.json?v=" + Date.now(),
-    { cache: "no-store" }
-  );
-
-  if (!response.ok) {
-    throw new Error("phones.json HTTP " + response.status);
-  }
-
-  const data = await response.json();
-  devices = Array.isArray(data) ? data : (data.devices || data.phones || []);
-
-  deviceIndex = new Map();
-  devices.forEach(addDeviceIndex);
+function sortPrices() {
+  applySort(true);
 }
 
 async function loadPrices() {
@@ -265,17 +186,10 @@ async function loadPrices() {
   const error = document.getElementById("priceError");
 
   try {
-    // Device catalog is optional: prices must still work if phones.json is unavailable.
-    try {
-      await loadDevices();
-    } catch (catalogError) {
-      console.warn("MiTech catalog:", catalogError);
-      devices = [];
-      deviceIndex = new Map();
-    }
-
+    // PRICE-ONLY MODE:
+    // No phones.json, GSMArena, catalog, or external device data.
     const response = await fetch(
-      "https://raw.githubusercontent.com/ruoodui/mitech-website/main/prices.json?v=" + Date.now(),
+      "prices.json?v=" + Date.now(),
       { cache: "no-store" }
     );
 
@@ -284,7 +198,10 @@ async function loadPrices() {
     }
 
     const data = await response.json();
-    const rawPhones = Array.isArray(data) ? data : data.phones;
+
+    const rawPhones = Array.isArray(data)
+      ? data
+      : (data.phones || data.products || []);
 
     if (!Array.isArray(rawPhones)) {
       throw new Error("Invalid prices.json format");
@@ -299,26 +216,47 @@ async function loadPrices() {
     renderBrands();
     renderPrices(visiblePhones);
 
-    document.getElementById("productCount").textContent =
-      allPhones.length;
+    const count = document.getElementById("productCount");
+    if (count) count.textContent = allPhones.length;
 
-    const updatedAt = Array.isArray(data)
-      ? ""
-      : String(data.updatedAt ?? "").trim();
+    const updated = document.getElementById("lastUpdate");
+    if (updated) {
+      updated.textContent =
+        Array.isArray(data)
+          ? "غير محدد"
+          : String(data.updatedAt || data.lastUpdated || "غير محدد");
+    }
 
-    document.getElementById("lastUpdate").textContent =
-      updatedAt || "غير محدد";
+    if (loading) loading.style.display = "none";
+    if (error) error.style.display = "none";
 
-    loading.style.display = "none";
   } catch (err) {
     console.error("MiTech prices:", err);
-    loading.style.display = "none";
-    error.style.display = "block";
+
+    if (loading) loading.style.display = "none";
+    if (error) error.style.display = "block";
   }
 }
 
-loadPrices();
-</script>
-</main>
+document.addEventListener("DOMContentLoaded", () => {
+  const search = document.getElementById("priceSearch");
+  const brand = document.getElementById("priceBrand");
+  const sort = document.getElementById("priceSort");
 
-<footer><div class="logo">M.i<span>Tech</span></div><p>© 2026 M.iTech — Mohammed Imad. All rights reserved.</p><div class="socials"><a href="https://www.youtube.com/@mitech808">YouTube</a><a href="https://www.instagram.com/mitech808/">Instagram</a><a href="https://www.tiktok.com/@m.itech">TikTok</a></div></footer><script src="site.js"></script></body></html>
+  if (search) {
+    search.addEventListener("input", applyFilters);
+  }
+
+  if (brand) {
+    brand.addEventListener("change", applyFilters);
+  }
+
+  if (sort) {
+    sort.addEventListener("change", () => applySort(true));
+  }
+
+  loadPrices();
+});
+</script>
+
+</body></html>
