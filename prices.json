@@ -1,1154 +1,1157 @@
-[
-  {
-    "name": "Apple Watch Ultra 3 49mm",
-    "ram": "",
-    "price": "1,085,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple Watch Series 11 46mm",
-    "ram": "",
-    "price": "550,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple Watch Series 11 42mm",
-    "ram": "",
-    "price": "525,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "AirPods Max 2",
-    "ram": "",
-    "price": "775,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "AirPods Pro 3 Type-c",
-    "ram": "",
-    "price": "305,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "AirPods 4 ANC",
-    "ram": "",
-    "price": "260,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "AirPods 4",
-    "ram": "",
-    "price": "175,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple Pencil Pro",
-    "ram": "",
-    "price": "165,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple Pencil USB-C",
-    "ram": "",
-    "price": "130,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple Magic Keyboard For iPad Pro 11-inch M4-M5",
-    "ram": "",
-    "price": "590,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple Magic Keyboard For iPad Pro 11-inch M4-M5",
-    "ram": "",
-    "price": "525,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple Magic Mouse Black (USB-C)",
-    "ram": "",
-    "price": "160,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple AirTag Gen 2",
-    "ram": "",
-    "price": "60,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple AirTag Gen 2(4-PACK)",
-    "ram": "",
-    "price": "160,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Apple AirTag",
-    "ram": "",
-    "price": "43,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy S26 Ultra",
-    "ram": "16GB - 1TB",
-    "price": "2,490,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy S26 Ultra",
-    "ram": "12GB - 256GB",
-    "price": "1,555,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Z Fold 7",
-    "ram": "12GB - 256GB",
-    "price": "2,199,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Z Flip 7",
-    "ram": "12GB - 512GB",
-    "price": "1,479,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy S25 Ultra",
-    "ram": "12GB - 256GB",
-    "price": "1,355,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Watch 8 Classic",
-    "ram": "",
-    "price": "360,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Watch 8 44mm",
-    "ram": "",
-    "price": "310,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Watch 8 40mm",
-    "ram": "",
-    "price": "310,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Watch Ultra 2025",
-    "ram": "",
-    "price": "495,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Watch 7 44mm",
-    "ram": "",
-    "price": "240,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Buds 4 Pro",
-    "ram": "",
-    "price": "285,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Buds 4",
-    "ram": "",
-    "price": "200,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Buds 3 Pro",
-    "ram": "",
-    "price": "185,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Buds 3",
-    "ram": "",
-    "price": "125,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy Buds Core",
-    "ram": "",
-    "price": "59,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A57 5G",
-    "ram": "12GB - 512GB",
-    "price": "780,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A57 5G",
-    "ram": "12GB - 256GB",
-    "price": "680,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A57 5G",
-    "ram": "8GB - 256GB",
-    "price": "630,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A37 5G",
-    "ram": "12GB - 256GB",
-    "price": "539,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A37 5G",
-    "ram": "8GB - 256GB",
-    "price": "499,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A27 5G",
-    "ram": "8GB - 256GB",
-    "price": "499,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A27 5G",
-    "ram": "8GB - 128GB",
-    "price": "449,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A26 5G",
-    "ram": "6GB - 128GB",
-    "price": "335,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A26 5G",
-    "ram": "8GB - 256GB",
-    "price": "395,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A17",
-    "ram": "8GB - 256GB",
-    "price": "305,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A17",
-    "ram": "6GB - 128GB",
-    "price": "335,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A17",
-    "ram": "4GB - 128GB",
-    "price": "305,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A16",
-    "ram": "6GB - 128GB",
-    "price": "235,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A07",
-    "ram": "6GB - 128GB",
-    "price": "244,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A07",
-    "ram": "4GB - 128GB",
-    "price": "219,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Galaxy A07",
-    "ram": "4GB - 64GB",
-    "price": "196,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR MagicPad 4",
-    "ram": "12GB - 256GB",
-    "price": "1,225,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR Pad 10 PaperMate",
-    "ram": "8GB - 256GB",
-    "price": "560,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR Pad 10",
-    "ram": "8GB - 256GB",
-    "price": "530,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR Pad X9a",
-    "ram": "8GB - 128GB",
-    "price": "355,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR Pad X8b",
-    "ram": "4GB - 128GB",
-    "price": "295,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR Pad X8b",
-    "ram": "4GB - 64GB",
-    "price": "270,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR Pad X8a",
-    "ram": "4GB - 128GB",
-    "price": "285,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR Pad X7",
-    "ram": "4GB - 128GB",
-    "price": "195,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR CHOICE Pencil",
-    "ram": "",
-    "price": "40,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HONOR CHOICE Pencil Lite",
-    "ram": "",
-    "price": "15,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi 17T Pro",
-    "ram": "12GB - 1TB",
-    "price": "1,180,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi 17T Pro",
-    "ram": "12GB - 512GB",
-    "price": "1,060,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi 17T",
-    "ram": "12GB - 512GB",
-    "price": "825,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi 15T Pro",
-    "ram": "12GB - 512GB",
-    "price": "938,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi 17 Ultra",
-    "ram": "16GB - 1TB",
-    "price": "1,835,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi 17 Ultra",
-    "ram": "12GB - 512GB",
-    "price": "1,725,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi 17",
-    "ram": "12GB - 512GB",
-    "price": "1,194,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Note 15 Pro Plus 5G",
-    "ram": "12GB - 512GB",
-    "price": "626,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Note 15 Pro 5G",
-    "ram": "12GB - 256GB",
-    "price": "474,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Note 15 Pro",
-    "ram": "12GB - 256GB",
-    "price": "397,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Note 15",
-    "ram": "8GB - 256GB",
-    "price": "306,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi 15c",
-    "ram": "8GB - 256GB",
-    "price": "249,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi 15c",
-    "ram": "4GB - 256GB",
-    "price": "215,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi A7 Pro",
-    "ram": "4GB - 128GB",
-    "price": "207,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi A7 Pro",
-    "ram": "4GB - 64GB",
-    "price": "168,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO F7 ULTRA",
-    "ram": "16GB - 512GB",
-    "price": "900,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO F7 PRO",
-    "ram": "12GB - 512GB",
-    "price": "727,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO F6 Pro",
-    "ram": "12GB - 512GB",
-    "price": "650,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO X8 Pro Max",
-    "ram": "12GB - 512GB",
-    "price": "735,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO X8 Pro Max",
-    "ram": "12GB - 256GB",
-    "price": "678,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO X8 Pro 5G",
-    "ram": "12GB - 512GB",
-    "price": "585,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO X8 Pro 5G",
-    "ram": "8GB - 256GB",
-    "price": "549,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO M8 PRO",
-    "ram": "8GB - 256GB",
-    "price": "429,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO C81 Pro",
-    "ram": "4GB - 128GB",
-    "price": "207,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi Pad 8 Pro",
-    "ram": "12GB - 512GB",
-    "price": "934,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi Pad 8",
-    "ram": "8GB - 256GB",
-    "price": "676,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi Pad 6s Pro",
-    "ram": "12GB - 512GB",
-    "price": "760,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi Pad 7",
-    "ram": "12GB - 256GB",
-    "price": "537,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Xiaomi Pad 7",
-    "ram": "8GB - 256GB",
-    "price": "495,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Pad 2 9.7\"",
-    "ram": "4GB - 128GB",
-    "price": "245,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Pad 2 Pro",
-    "ram": "8GB - 256GB",
-    "price": "483,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Pad Pro",
-    "ram": "8GB - 256GB",
-    "price": "347,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "POCO Pad M1",
-    "ram": "8GB - 256GB",
-    "price": "422,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Pad 2",
-    "ram": "8GB - 256GB",
-    "price": "337,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "Redmi Pad 2",
-    "ram": "4GB - 128GB",
-    "price": "287,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI MatePad 12X",
-    "ram": "8GB - 256GB",
-    "price": "748,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI MatePad Pro 13.2",
-    "ram": "12GB - 512GB",
-    "price": "1,671,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI MatePad Pro 12.2 New",
-    "ram": "12GB - 512GB",
-    "price": "1,150,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI MatePad 11.5 2025",
-    "ram": "8GB - 256GB",
-    "price": "572,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI MatePad 11.5 2024",
-    "ram": "8GB - 128GB",
-    "price": "410,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI MatePad SE",
-    "ram": "6GB - 128GB",
-    "price": "",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI MatePad SE",
-    "ram": "8GB - 128GB",
-    "price": "350,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH FIT 5 PRO",
-    "ram": "",
-    "price": "299,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH FIT 5",
-    "ram": "",
-    "price": "209,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH GT6 Pro Titanium Silver",
-    "ram": "",
-    "price": "502,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH GT6 Pro Titanium Black",
-    "ram": "",
-    "price": "398,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH GT6 Pro Titanium Brown",
-    "ram": "",
-    "price": "398,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH GT6 46mm",
-    "ram": "",
-    "price": "256,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH GT6 41mm",
-    "ram": "",
-    "price": "244,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI Mate X7",
-    "ram": "12GB - 512GB",
-    "price": "2,790,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI nova 14 Pro",
-    "ram": "12GB - 512GB",
-    "price": "XX",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI nova 14",
-    "ram": "12GB - 256GB",
-    "price": "460,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI Pura 80 Ultra",
-    "ram": "12GB - 512GB",
-    "price": "1,826,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI Pura 80 Pro",
-    "ram": "12GB - 512GB",
-    "price": "1,087,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI Pura 80",
-    "ram": "12GB - 512GB",
-    "price": "XX",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI Pura 80 Pro",
-    "ram": "12GB - 512GB",
-    "price": "XX",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI Nova 15 Max",
-    "ram": "8GB - 256GB",
-    "price": "426,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH 5 46mm Stainless Black",
-    "ram": "",
-    "price": "569,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH 5 46mm Titanium Purple",
-    "ram": "",
-    "price": "569,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH 5 41mm Stainless Beige",
-    "ram": "",
-    "price": "569,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH 5 41mm Stainless Beige",
-    "ram": "",
-    "price": "851,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI WATCH D2",
-    "ram": "",
-    "price": "475,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI Band11",
-    "ram": "",
-    "price": "70,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeBuds 7i",
-    "ram": "",
-    "price": "99,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeBuds 6",
-    "ram": "",
-    "price": "145,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeBuds SE 4 ANC",
-    "ram": "",
-    "price": "60,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeBuds SE 3",
-    "ram": "",
-    "price": "50,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeClip 2",
-    "ram": "",
-    "price": "199,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeArc",
-    "ram": "",
-    "price": "85,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeLace Pro 2",
-    "ram": "",
-    "price": "95,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeLace Lite",
-    "ram": "",
-    "price": "40,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "HUAWEI FreeBuds SE 2",
-    "ram": "",
-    "price": "42,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix Note 60 Ultra",
-    "ram": "12GB - 512GB",
-    "price": "1,038,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix Note 60 Pro",
-    "ram": "12GB - 256GB",
-    "price": "603,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix Note 60 Pro",
-    "ram": "8GB - 256GB",
-    "price": "532,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix Note 60",
-    "ram": "8GB - 256GB",
-    "price": "560,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix Note 50 Edge",
-    "ram": "8GB - 256GB",
-    "price": "415,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix HOT 60 Pro Plus",
-    "ram": "8GB - 256GB",
-    "price": "308,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix HOT 60 Pro",
-    "ram": "8GB - 256GB",
-    "price": "275,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix Smart 20",
-    "ram": "4GB - 256GB",
-    "price": "258,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix Smart 20",
-    "ram": "4GB - 128GB",
-    "price": "190,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix Smart 20",
-    "ram": "4GB - 64GB",
-    "price": "182,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix GT 50 Pro",
-    "ram": "12GB - 256GB",
-    "price": "716,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix XPAD GT",
-    "ram": "8GB - 256GB",
-    "price": "510,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix PAD 20 Pro 4G",
-    "ram": "8GB - 256GB",
-    "price": "305,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix PAD EDGE 4G",
-    "ram": "8GB - 256GB",
-    "price": "420,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix X PAD 30e",
-    "ram": "4GB - 128GB",
-    "price": "234,000 IQD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  },
-  {
-    "name": "infinix X PAD 30e",
-    "ram": "8GB - 256GB",
-    "price": "358,000 QD",
-    "brand": "",
-    "store": "",
-    "address": ""
-  }
-]
+{
+  "phones": [
+    {
+      "name": "Apple Watch Ultra 3 49mm",
+      "ram": "",
+      "price": "1,085,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple Watch Series 11 46mm",
+      "ram": "",
+      "price": "550,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple Watch Series 11 42mm",
+      "ram": "",
+      "price": "525,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "AirPods Max 2",
+      "ram": "",
+      "price": "775,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "AirPods Pro 3 Type-c",
+      "ram": "",
+      "price": "305,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "AirPods 4 ANC",
+      "ram": "",
+      "price": "260,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "AirPods 4",
+      "ram": "",
+      "price": "175,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple Pencil Pro",
+      "ram": "",
+      "price": "165,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple Pencil USB-C",
+      "ram": "",
+      "price": "130,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple Magic Keyboard For iPad Pro 11-inch M4-M5",
+      "ram": "",
+      "price": "590,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple Magic Keyboard For iPad Pro 11-inch M4-M5",
+      "ram": "",
+      "price": "525,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple Magic Mouse Black (USB-C)",
+      "ram": "",
+      "price": "160,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple AirTag Gen 2",
+      "ram": "",
+      "price": "60,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple AirTag Gen 2(4-PACK)",
+      "ram": "",
+      "price": "160,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Apple AirTag",
+      "ram": "",
+      "price": "43,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy S26 Ultra",
+      "ram": "16GB - 1TB",
+      "price": "2,490,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy S26 Ultra",
+      "ram": "12GB - 256GB",
+      "price": "1,555,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Z Fold 7",
+      "ram": "12GB - 256GB",
+      "price": "2,199,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Z Flip 7",
+      "ram": "12GB - 512GB",
+      "price": "1,479,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy S25 Ultra",
+      "ram": "12GB - 256GB",
+      "price": "1,355,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Watch 8 Classic",
+      "ram": "",
+      "price": "360,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Watch 8 44mm",
+      "ram": "",
+      "price": "310,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Watch 8 40mm",
+      "ram": "",
+      "price": "310,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Watch Ultra 2025",
+      "ram": "",
+      "price": "495,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Watch 7 44mm",
+      "ram": "",
+      "price": "240,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Buds 4 Pro",
+      "ram": "",
+      "price": "285,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Buds 4",
+      "ram": "",
+      "price": "200,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Buds 3 Pro",
+      "ram": "",
+      "price": "185,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Buds 3",
+      "ram": "",
+      "price": "125,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy Buds Core",
+      "ram": "",
+      "price": "59,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A57 5G",
+      "ram": "12GB - 512GB",
+      "price": "780,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A57 5G",
+      "ram": "12GB - 256GB",
+      "price": "680,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A57 5G",
+      "ram": "8GB - 256GB",
+      "price": "630,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A37 5G",
+      "ram": "12GB - 256GB",
+      "price": "539,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A37 5G",
+      "ram": "8GB - 256GB",
+      "price": "499,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A27 5G",
+      "ram": "8GB - 256GB",
+      "price": "499,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A27 5G",
+      "ram": "8GB - 128GB",
+      "price": "449,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A26 5G",
+      "ram": "6GB - 128GB",
+      "price": "335,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A26 5G",
+      "ram": "8GB - 256GB",
+      "price": "395,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A17",
+      "ram": "8GB - 256GB",
+      "price": "305,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A17",
+      "ram": "6GB - 128GB",
+      "price": "335,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A17",
+      "ram": "4GB - 128GB",
+      "price": "305,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A16",
+      "ram": "6GB - 128GB",
+      "price": "235,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A07",
+      "ram": "6GB - 128GB",
+      "price": "244,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A07",
+      "ram": "4GB - 128GB",
+      "price": "219,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Galaxy A07",
+      "ram": "4GB - 64GB",
+      "price": "196,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR MagicPad 4",
+      "ram": "12GB - 256GB",
+      "price": "1,225,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR Pad 10 PaperMate",
+      "ram": "8GB - 256GB",
+      "price": "560,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR Pad 10",
+      "ram": "8GB - 256GB",
+      "price": "530,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR Pad X9a",
+      "ram": "8GB - 128GB",
+      "price": "355,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR Pad X8b",
+      "ram": "4GB - 128GB",
+      "price": "295,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR Pad X8b",
+      "ram": "4GB - 64GB",
+      "price": "270,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR Pad X8a",
+      "ram": "4GB - 128GB",
+      "price": "285,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR Pad X7",
+      "ram": "4GB - 128GB",
+      "price": "195,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR CHOICE Pencil",
+      "ram": "",
+      "price": "40,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HONOR CHOICE Pencil Lite",
+      "ram": "",
+      "price": "15,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi 17T Pro",
+      "ram": "12GB - 1TB",
+      "price": "1,180,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi 17T Pro",
+      "ram": "12GB - 512GB",
+      "price": "1,060,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi 17T",
+      "ram": "12GB - 512GB",
+      "price": "825,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi 15T Pro",
+      "ram": "12GB - 512GB",
+      "price": "938,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi 17 Ultra",
+      "ram": "16GB - 1TB",
+      "price": "1,835,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi 17 Ultra",
+      "ram": "12GB - 512GB",
+      "price": "1,725,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi 17",
+      "ram": "12GB - 512GB",
+      "price": "1,194,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Note 15 Pro Plus 5G",
+      "ram": "12GB - 512GB",
+      "price": "626,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Note 15 Pro 5G",
+      "ram": "12GB - 256GB",
+      "price": "474,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Note 15 Pro",
+      "ram": "12GB - 256GB",
+      "price": "397,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Note 15",
+      "ram": "8GB - 256GB",
+      "price": "306,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi 15c",
+      "ram": "8GB - 256GB",
+      "price": "249,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi 15c",
+      "ram": "4GB - 256GB",
+      "price": "215,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi A7 Pro",
+      "ram": "4GB - 128GB",
+      "price": "207,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi A7 Pro",
+      "ram": "4GB - 64GB",
+      "price": "168,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO F7 ULTRA",
+      "ram": "16GB - 512GB",
+      "price": "900,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO F7 PRO",
+      "ram": "12GB - 512GB",
+      "price": "727,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO F6 Pro",
+      "ram": "12GB - 512GB",
+      "price": "650,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO X8 Pro Max",
+      "ram": "12GB - 512GB",
+      "price": "735,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO X8 Pro Max",
+      "ram": "12GB - 256GB",
+      "price": "678,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO X8 Pro 5G",
+      "ram": "12GB - 512GB",
+      "price": "585,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO X8 Pro 5G",
+      "ram": "8GB - 256GB",
+      "price": "549,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO M8 PRO",
+      "ram": "8GB - 256GB",
+      "price": "429,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO C81 Pro",
+      "ram": "4GB - 128GB",
+      "price": "207,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi Pad 8 Pro",
+      "ram": "12GB - 512GB",
+      "price": "934,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi Pad 8",
+      "ram": "8GB - 256GB",
+      "price": "676,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi Pad 6s Pro",
+      "ram": "12GB - 512GB",
+      "price": "760,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi Pad 7",
+      "ram": "12GB - 256GB",
+      "price": "537,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Xiaomi Pad 7",
+      "ram": "8GB - 256GB",
+      "price": "495,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Pad 2 9.7\"",
+      "ram": "4GB - 128GB",
+      "price": "245,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Pad 2 Pro",
+      "ram": "8GB - 256GB",
+      "price": "483,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Pad Pro",
+      "ram": "8GB - 256GB",
+      "price": "347,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "POCO Pad M1",
+      "ram": "8GB - 256GB",
+      "price": "422,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Pad 2",
+      "ram": "8GB - 256GB",
+      "price": "337,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "Redmi Pad 2",
+      "ram": "4GB - 128GB",
+      "price": "287,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI MatePad 12X",
+      "ram": "8GB - 256GB",
+      "price": "748,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI MatePad Pro 13.2",
+      "ram": "12GB - 512GB",
+      "price": "1,671,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI MatePad Pro 12.2 New",
+      "ram": "12GB - 512GB",
+      "price": "1,150,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI MatePad 11.5 2025",
+      "ram": "8GB - 256GB",
+      "price": "572,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI MatePad 11.5 2024",
+      "ram": "8GB - 128GB",
+      "price": "410,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI MatePad SE",
+      "ram": "6GB - 128GB",
+      "price": "",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI MatePad SE",
+      "ram": "8GB - 128GB",
+      "price": "350,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH FIT 5 PRO",
+      "ram": "",
+      "price": "299,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH FIT 5",
+      "ram": "",
+      "price": "209,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH GT6 Pro Titanium Silver",
+      "ram": "",
+      "price": "502,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH GT6 Pro Titanium Black",
+      "ram": "",
+      "price": "398,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH GT6 Pro Titanium Brown",
+      "ram": "",
+      "price": "398,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH GT6 46mm",
+      "ram": "",
+      "price": "256,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH GT6 41mm",
+      "ram": "",
+      "price": "244,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI Mate X7",
+      "ram": "12GB - 512GB",
+      "price": "2,790,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI nova 14 Pro",
+      "ram": "12GB - 512GB",
+      "price": "XX",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI nova 14",
+      "ram": "12GB - 256GB",
+      "price": "460,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI Pura 80 Ultra",
+      "ram": "12GB - 512GB",
+      "price": "1,826,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI Pura 80 Pro",
+      "ram": "12GB - 512GB",
+      "price": "1,087,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI Pura 80",
+      "ram": "12GB - 512GB",
+      "price": "XX",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI Pura 80 Pro",
+      "ram": "12GB - 512GB",
+      "price": "XX",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI Nova 15 Max",
+      "ram": "8GB - 256GB",
+      "price": "426,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH 5 46mm Stainless Black",
+      "ram": "",
+      "price": "569,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH 5 46mm Titanium Purple",
+      "ram": "",
+      "price": "569,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH 5 41mm Stainless Beige",
+      "ram": "",
+      "price": "569,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH 5 41mm Stainless Beige",
+      "ram": "",
+      "price": "851,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI WATCH D2",
+      "ram": "",
+      "price": "475,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI Band11",
+      "ram": "",
+      "price": "70,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeBuds 7i",
+      "ram": "",
+      "price": "99,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeBuds 6",
+      "ram": "",
+      "price": "145,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeBuds SE 4 ANC",
+      "ram": "",
+      "price": "60,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeBuds SE 3",
+      "ram": "",
+      "price": "50,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeClip 2",
+      "ram": "",
+      "price": "199,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeArc",
+      "ram": "",
+      "price": "85,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeLace Pro 2",
+      "ram": "",
+      "price": "95,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeLace Lite",
+      "ram": "",
+      "price": "40,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "HUAWEI FreeBuds SE 2",
+      "ram": "",
+      "price": "42,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix Note 60 Ultra",
+      "ram": "12GB - 512GB",
+      "price": "1,038,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix Note 60 Pro",
+      "ram": "12GB - 256GB",
+      "price": "603,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix Note 60 Pro",
+      "ram": "8GB - 256GB",
+      "price": "532,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix Note 60",
+      "ram": "8GB - 256GB",
+      "price": "560,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix Note 50 Edge",
+      "ram": "8GB - 256GB",
+      "price": "415,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix HOT 60 Pro Plus",
+      "ram": "8GB - 256GB",
+      "price": "308,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix HOT 60 Pro",
+      "ram": "8GB - 256GB",
+      "price": "275,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix Smart 20",
+      "ram": "4GB - 256GB",
+      "price": "258,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix Smart 20",
+      "ram": "4GB - 128GB",
+      "price": "190,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix Smart 20",
+      "ram": "4GB - 64GB",
+      "price": "182,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix GT 50 Pro",
+      "ram": "12GB - 256GB",
+      "price": "716,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix XPAD GT",
+      "ram": "8GB - 256GB",
+      "price": "510,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix PAD 20 Pro 4G",
+      "ram": "8GB - 256GB",
+      "price": "305,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix PAD EDGE 4G",
+      "ram": "8GB - 256GB",
+      "price": "420,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix X PAD 30e",
+      "ram": "4GB - 128GB",
+      "price": "234,000 IQD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    },
+    {
+      "name": "infinix X PAD 30e",
+      "ram": "8GB - 256GB",
+      "price": "358,000 QD",
+      "brand": "",
+      "store": "",
+      "address": ""
+    }
+  ],
+  "updatedAt": "2026-08-18"
+}
