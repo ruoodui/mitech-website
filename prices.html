@@ -20,6 +20,8 @@
     </select>
   </div>
 
+  <div class="catalog-note">المواصفات والصور من كتالوج MiTech — الأسعار من قاعدة أسعار MiTech.</div>
+
   <div class="price-meta-line">
     <div class="price-count">عدد المنتجات: <b id="productCount">—</b></div>
     <div class="price-update">آخر تحديث للأسعار: <b id="lastUpdate">—</b></div>
@@ -29,13 +31,15 @@
   <div id="priceError" style="display:none;text-align:center;padding:40px;color:#c00">
     تعذر تحميل الأسعار حالياً. حاول تحديث الصفحة.
   </div>
-  <div id="priceGrid" class="phone-grid"></div>
+  <div id="priceGrid" class="phone-grid price-grid"></div>
 </section>
 </main>
 
 <script>
 let allPhones = [];
 let visiblePhones = [];
+let devices = [];
+let deviceByName = {};
 
 function normalizePhone(x) {
   return {
@@ -93,14 +97,22 @@ function renderPrices(list) {
 
   grid.innerHTML = list.map(p => {
     const available = Number.isFinite(priceNumber(p.price));
-    const specs = p.ram || "المواصفات غير متوفرة";
+    const specs = p.ram || p.memory || "المواصفات غير متوفرة";
+    const device = deviceByName[String(p.name || '').trim().toLowerCase()] || {};
+    const image = device.image || "";
+    const detailUrl = device.url || "";
 
     return `
       <article class="phone-card price-item"
         data-name="${escapeHtml(p.name)}"
         data-brand="${escapeHtml(p.brand)}"
         data-price="${available ? priceNumber(p.price) : ""}">
-        <div class="phone-icon"><span>${escapeHtml(p.brand || "MiTech")}</span></div>
+
+        <div class="device-image-wrap">
+          ${image
+            ? `<img class="device-image" src="${escapeHtml(image)}" alt="${escapeHtml(p.name)}" loading="lazy">`
+            : `<div class="device-image-fallback">${escapeHtml(p.brand || "MiTech")}</div>`}
+        </div>
 
         <div class="price-meta">
           <span class="price-brand">${escapeHtml(p.brand || "")}</span>
@@ -114,6 +126,12 @@ function renderPrices(list) {
 
         ${p.store ? `<small>${escapeHtml(p.store)}</small>` : `<small>MiTech Price Database</small>`}
         ${p.address ? `<small style="display:block">${escapeHtml(p.address)}</small>` : ""}
+
+        <div class="device-actions">
+          ${detailUrl
+            ? `<a class="device-btn primary" href="${escapeHtml(detailUrl)}" target="_blank" rel="noopener">المواصفات</a>`
+            : `<button class="device-btn primary" type="button" disabled>المواصفات</button>`}
+        </div>
       </article>
     `;
   }).join("");
@@ -154,11 +172,37 @@ function sortPrices() {
   renderPrices(visiblePhones);
 }
 
+async function loadDevices() {
+  const response = await fetch(
+    "phones.json?v=" + Date.now(),
+    { cache: "no-store" }
+  );
+
+  if (!response.ok) throw new Error("HTTP " + response.status);
+  devices = await response.json();
+
+  deviceByName = {};
+  devices.forEach(d => {
+    if (d.name) deviceByName[d.name.trim().toLowerCase()] = d;
+  });
+
+  // Also allow case-insensitive lookup.
+  const original = deviceByName;
+  deviceByName = new Proxy(original, {
+    get(target, prop) {
+      if (typeof prop !== "string") return target[prop];
+      return target[prop] || target[prop.toLowerCase()];
+    }
+  });
+}
+
 async function loadPrices() {
   const loading = document.getElementById("priceLoading");
   const error = document.getElementById("priceError");
 
   try {
+    await loadDevices();
+
     // Cache-busting ensures a newly updated prices.json is fetched.
     const response = await fetch(
       "https://raw.githubusercontent.com/ruoodui/mitech-website/main/prices.json?v=" + Date.now(),
