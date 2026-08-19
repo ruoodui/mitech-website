@@ -9,7 +9,9 @@ export default {
       "Access-Control-Max-Age": "86400"
     };
 
-    // CORS preflight
+    // =========================
+    // CORS PREFLIGHT
+    // =========================
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -30,6 +32,7 @@ export default {
         );
       }
 
+      // التحقق من رمز الإدارة
       if (request.headers.get("X-Admin-Key") !== env.ADMIN_KEY) {
         return json(
           { error: "رمز الإدارة غير صحيح" },
@@ -58,6 +61,7 @@ export default {
         );
       }
 
+      // تنظيف بيانات الأجهزة
       const phones = p.phones
         .map(x => ({
           name: String(x.name ?? "").trim(),
@@ -83,14 +87,19 @@ export default {
         "User-Agent": "MiTech-Price-Admin"
       };
 
-      // قراءة prices.json الحالي من GitHub
+      // =========================
+      // READ CURRENT PRICES
+      // =========================
+
       const g = await fetch(api, {
         headers: githubHeaders
       });
 
       if (!g.ok) {
         return json(
-          { error: "تعذر قراءة prices.json من GitHub" },
+          {
+            error: "تعذر قراءة prices.json من GitHub"
+          },
           502,
           corsHeaders
         );
@@ -104,21 +113,49 @@ export default {
         old = JSON.parse(
           decodeURIComponent(
             escape(
-              atob(cur.content.replace(/\n/g, ""))
+              atob(
+                cur.content.replace(/\n/g, "")
+              )
             )
           )
         );
-      } catch {}
+      } catch {
+        old = null;
+      }
 
-      const out = Array.isArray(old)
-        ? phones
-        : {
-            ...(old && typeof old === "object" ? old : {}),
-            phones,
-            updatedAt:
-              p.updatedAt ||
-              new Date().toISOString().slice(0, 10)
-          };
+      // =========================
+      // BUILD NEW PRICES FILE
+      // =========================
+      //
+      // دائماً نخزن بالشكل:
+      //
+      // {
+      //   phones: [...],
+      //   updatedAt: "19/08/2026"
+      // }
+      //
+
+      const updatedAt =
+        p.updatedAt ||
+        new Date().toLocaleDateString("en-GB", {
+          timeZone: "Asia/Baghdad"
+        });
+
+      const out = {
+        ...(old &&
+        !Array.isArray(old) &&
+        typeof old === "object"
+          ? old
+          : {}),
+
+        phones,
+
+        updatedAt
+      };
+
+      // =========================
+      // ENCODE JSON
+      // =========================
 
       const content = btoa(
         unescape(
@@ -128,20 +165,28 @@ export default {
         )
       );
 
-      // تحديث prices.json على GitHub
+      // =========================
+      // UPDATE GITHUB
+      // =========================
+
       const put = await fetch(
         `https://api.github.com/repos/${repo}/contents/${path}`,
         {
           method: "PUT",
+
           headers: {
             ...githubHeaders,
             "Content-Type": "application/json"
           },
+
           body: JSON.stringify({
             message:
-              `Update phone prices - ${p.updatedAt || "today"}`,
+              `Update phone prices - ${updatedAt}`,
+
             content,
+
             sha: cur.sha,
+
             branch
           })
         }
@@ -149,19 +194,23 @@ export default {
 
       if (!put.ok) {
         return json(
-          { error: "GitHub رفض تحديث الأسعار" },
+          {
+            error: "GitHub رفض تحديث الأسعار"
+          },
           502,
           corsHeaders
         );
       }
 
+      // =========================
+      // SUCCESS
+      // =========================
+
       return json(
         {
           ok: true,
           count: phones.length,
-          updatedAt:
-            p.updatedAt ||
-            new Date().toISOString().slice(0, 10)
+          updatedAt
         },
         200,
         corsHeaders
@@ -171,6 +220,7 @@ export default {
     // =========================
     // GET PRICES.JSON
     // =========================
+
     if (url.pathname === "/prices.json") {
 
       const repo = "ruoodui/mitech-website";
@@ -193,7 +243,9 @@ export default {
 
       if (!r.ok) {
         return json(
-          { error: "تعذر تحميل الأسعار" },
+          {
+            error: "تعذر تحميل الأسعار"
+          },
           502,
           corsHeaders
         );
@@ -211,27 +263,33 @@ export default {
           )
         );
 
-        return new Response(decoded, {
-          status: 200,
-          headers: {
-            ...corsHeaders,
+        return new Response(
+          decoded,
+          {
+            status: 200,
 
-            "Content-Type":
-              "application/json; charset=utf-8",
+            headers: {
+              ...corsHeaders,
 
-            "Cache-Control":
-              "no-store, no-cache, must-revalidate, proxy-revalidate",
+              "Content-Type":
+                "application/json; charset=utf-8",
 
-            "Pragma": "no-cache",
+              "Cache-Control":
+                "no-store, no-cache, must-revalidate, proxy-revalidate",
 
-            "Expires": "0"
+              "Pragma": "no-cache",
+
+              "Expires": "0"
+            }
           }
-        });
+        );
 
       } catch {
 
         return json(
-          { error: "ملف الأسعار غير صالح" },
+          {
+            error: "ملف الأسعار غير صالح"
+          },
           502,
           corsHeaders
         );
@@ -239,16 +297,18 @@ export default {
     }
 
     // =========================
-    // WEBSITE FILES
+    // WEBSITE ASSETS
     // =========================
+
     return env.ASSETS.fetch(request);
   }
 };
 
 
 // =========================
-// JSON RESPONSE
+// JSON RESPONSE HELPER
 // =========================
+
 function json(
   data,
   status = 200,
