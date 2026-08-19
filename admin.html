@@ -3,13 +3,26 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MiTech — إدارة الأسعار</title>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+const escR=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+let reviews=[];
+function reviewStat(s,cl=""){ $("reviewStatus").textContent=s; $("reviewStatus").className="status "+cl; }
+function renderReviews(){const b=$("reviewsList"); if(!reviews.length){b.innerHTML='<div class="muted">لا توجد مراجعات.</div>';return;} b.innerHTML=reviews.map((r,i)=>`<div class="review-row"><div><h3>${escR(r.title)}</h3><p>${escR(r.device||"")} ${r.date?"• "+escR(r.date):""}</p><p>${escR(r.youtube||"")}</p></div><button class="btn danger" onclick="deleteReview(${i})">حذف</button></div>`).join("");}
+async function loadReviews(){try{let r=await fetch("/api/reviews?ts="+Date.now(),{cache:"no-store"});let d=await r.json();if(!r.ok)throw Error(d.error||"فشل تحميل المراجعات");reviews=Array.isArray(d)?d:(d.reviews||[]);renderReviews();}catch(e){$("reviewsList").innerHTML='<div class="err">'+escR(e.message)+'</div>';}}
+$("tabPrices").onclick=()=>{$("tabPrices").classList.add("active");$("tabReviews").classList.remove("active");$("pricesPanel").style.display="";$("reviewsPanel").style.display="none";};
+$("tabReviews").onclick=()=>{$("tabReviews").classList.add("active");$("tabPrices").classList.remove("active");$("pricesPanel").style.display="none";$("reviewsPanel").style.display="";$("reviewDate").value=new Date().toISOString().slice(0,10);loadReviews();};
+$("addReview").onclick=async()=>{let key=$("reviewKey").value.trim();let title=$("reviewTitle").value.trim();let youtube=$("reviewYoutube").value.trim();if(!key)return reviewStat("أدخل رمز الإدارة","err");if(!title||!youtube)return reviewStat("العنوان ورابط YouTube مطلوبان","err");reviewStat("جاري الحفظ...");try{let r=await fetch("/api/reviews",{method:"POST",headers:{"Content-Type":"application/json","X-Admin-Key":key},body:JSON.stringify({title,youtube,device:$("reviewDevice").value.trim(),description:$("reviewDescription").value.trim(),date:$("reviewDate").value})});let d=await r.json();if(!r.ok)throw Error(d.error||"فشل الحفظ");$("reviewTitle").value="";$("reviewDevice").value="";$("reviewYoutube").value="";$("reviewDescription").value="";reviews=d.reviews||[];renderReviews();reviewStat("تمت الإضافة ✓","ok");}catch(e){reviewStat(e.message,"err");}};
+async function deleteReview(i){let key=$("reviewKey").value.trim();if(!key)return reviewStat("أدخل رمز الإدارة","err");if(!confirm("حذف المراجعة؟"))return;try{let r=await fetch("/api/reviews",{method:"DELETE",headers:{"Content-Type":"application/json","X-Admin-Key":key},body:JSON.stringify({youtube:reviews[i].youtube,title:reviews[i].title})});let d=await r.json();if(!r.ok)throw Error(d.error||"فشل الحذف");reviews=d.reviews||[];renderReviews();reviewStat("تم الحذف ✓","ok");}catch(e){reviewStat(e.message,"err");}}
+</script>
 <style>
 body{margin:0;background:#08090d;color:#f5f6f8;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:40px 20px}.card{background:#101218;border:1px solid #292e3b;border-radius:18px;padding:24px;margin-bottom:18px}h1{margin:0 0 8px;font-size:34px}.muted{color:#969dac}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}input{width:100%;box-sizing:border-box;background:#0b0d12;color:white;border:1px solid #333949;border-radius:11px;padding:13px;margin-top:7px}.drop{border:1px dashed #41495b;border-radius:14px;padding:25px;text-align:center;margin-top:18px}.actions{display:flex;gap:10px;align-items:center;margin-top:18px;flex-wrap:wrap}.btn{border:0;border-radius:11px;padding:13px 20px;font-weight:700;cursor:pointer}.primary{background:#18c9f2;color:#061017}.secondary{background:#202531;color:white}.status{padding:10px 14px;background:#171b24;border-radius:10px}.ok{color:#63e391}.err{color:#ff7777}table{width:100%;border-collapse:collapse;margin-top:15px}th,td{padding:10px;border-bottom:1px solid #252a35;text-align:right;white-space:nowrap}th{color:#18d2ff}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+
+.tabs{display:flex;gap:10px;margin-bottom:18px}.tab{border:1px solid #292e3b;background:#101218;color:#cbd0da;border-radius:11px;padding:12px 22px;font-weight:700;cursor:pointer}.tab.active{background:#18c9f2;color:#061017;border-color:#18c9f2}.review-row{display:flex;justify-content:space-between;gap:15px;align-items:center;padding:15px;margin-top:10px;background:#0b0d12;border:1px solid #252a35;border-radius:12px}.review-row h3{margin:0 0 6px}.review-row p{margin:3px 0;color:#969dac}.danger{background:#4a1d26;color:#ff9aa7}@media(max-width:700px){.review-row{display:block}}
 </style>
 </head>
 <body>
 <div class="wrap">
+<div class="tabs"><button class="tab active" id="tabPrices">💰 الأسعار</button><button class="tab" id="tabReviews">🎬 المراجعات</button></div>
 <div class="card"><h1>إدارة أسعار MiTech</h1><div class="muted">ارفع ملف Excel، راجع البيانات، ثم حدّث الأسعار على الموقع.</div></div>
 <div class="card">
 <div class="grid">
@@ -20,6 +33,22 @@ body{margin:0;background:#08090d;color:#f5f6f8;font-family:Arial,sans-serif}.wra
 <div class="actions"><button class="btn primary" id="preview">معاينة الملف</button><button class="btn secondary" id="publish" disabled>تحديث الأسعار بالموقع</button><span id="status" class="status">بانتظار الملف</span></div>
 </div>
 <div class="card"><b>المعاينة</b><span id="count" class="muted"> — 0 جهاز</span><div style="overflow:auto"><table><thead><tr id="head"></tr></thead><tbody id="body"></tbody></table></div></div>
+</div>
+<div id="reviewsPanel" style="display:none">
+<div class="card"><h1>إدارة المراجعات</h1><div class="muted">أضف روابط YouTube وتظهر تلقائياً بصفحة المراجعات.</div></div>
+<div class="card">
+<div class="grid">
+<label>رمز الإدارة<input id="reviewKey" type="password" placeholder="نفس رمز الإدارة"></label>
+<label>عنوان المراجعة<input id="reviewTitle" placeholder="مراجعة Galaxy S26 Ultra"></label>
+<label>اسم الجهاز<input id="reviewDevice" placeholder="Samsung Galaxy S26 Ultra"></label>
+<label>رابط YouTube<input id="reviewYoutube" placeholder="https://www.youtube.com/watch?v=..."></label>
+<label>التاريخ<input id="reviewDate" type="date"></label>
+</div>
+<label style="display:block;margin-top:15px">الوصف<input id="reviewDescription" placeholder="وصف مختصر"></label>
+<div class="actions"><button class="btn primary" id="addReview">إضافة المراجعة</button><span id="reviewStatus" class="status">جاهز</span></div>
+</div>
+<div class="card"><b>المراجعات الحالية</b><div id="reviewsList" style="margin-top:15px"></div></div>
+</div>
 </div>
 <script>
 const $=x=>document.getElementById(x); let rows=[];
