@@ -297,6 +297,251 @@ export default {
     }
 
     // =========================
+    // REVIEWS API
+    // =========================
+    //
+    // Reviews are stored in the same GitHub repository as:
+    // reviews.json
+    //
+    // GET    /api/reviews
+    // POST   /api/reviews
+    // DELETE /api/reviews
+    //
+
+    if (url.pathname === "/api/reviews") {
+      const repo = "ruoodui/mitech-website";
+      const path = "reviews.json";
+      const branch = "main";
+
+      const api =
+        `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
+
+      const githubHeaders = {
+        "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "MiTech-Reviews-Admin"
+      };
+
+      // Public read
+      if (request.method === "GET") {
+        const r = await fetch(api, { headers: githubHeaders });
+
+        if (!r.ok) {
+          return json(
+            { error: "تعذر تحميل المراجعات" },
+            502,
+            corsHeaders
+          );
+        }
+
+        const data = await r.json();
+
+        try {
+          const decoded = decodeURIComponent(
+            escape(
+              atob(data.content.replace(/\n/g, ""))
+            )
+          );
+
+          return new Response(decoded, {
+            status: 200,
+            headers: {
+              ...corsHeaders,
+              "Content-Type": "application/json; charset=utf-8",
+              "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+              "Pragma": "no-cache",
+              "Expires": "0"
+            }
+          });
+        } catch {
+          return json(
+            { error: "ملف المراجعات غير صالح" },
+            502,
+            corsHeaders
+          );
+        }
+      }
+
+      // Admin only for write operations
+      if (request.method !== "POST" && request.method !== "DELETE") {
+        return json(
+          { error: "Method not allowed" },
+          405,
+          corsHeaders
+        );
+      }
+
+      if (request.headers.get("X-Admin-Key") !== env.ADMIN_KEY) {
+        return json(
+          { error: "رمز الإدارة غير صحيح" },
+          401,
+          corsHeaders
+        );
+      }
+
+      // Read current reviews from GitHub.
+      const g = await fetch(api, { headers: githubHeaders });
+
+      let currentSha = null;
+      let reviews = [];
+
+      if (g.ok) {
+        const cur = await g.json();
+        currentSha = cur.sha;
+
+        try {
+          reviews = JSON.parse(
+            decodeURIComponent(
+              escape(
+                atob(cur.content.replace(/\n/g, ""))
+              )
+            )
+          );
+
+          if (!Array.isArray(reviews)) {
+            reviews = Array.isArray(reviews.reviews)
+              ? reviews.reviews
+              : [];
+          }
+        } catch {
+          reviews = [];
+        }
+      } else if (g.status !== 404) {
+        return json(
+          { error: "تعذر قراءة reviews.json من GitHub" },
+          502,
+          corsHeaders
+        );
+      }
+
+      if (request.method === "POST") {
+        let item;
+
+        try {
+          item = await request.json();
+        } catch {
+          return json(
+            { error: "بيانات المراجعة غير صالحة" },
+            400,
+            corsHeaders
+          );
+        }
+
+        const title = String(item.title ?? "").trim();
+        const youtube = String(item.youtube ?? "").trim();
+
+        if (!title || !youtube) {
+          return json(
+            { error: "العنوان ورابط YouTube مطلوبان" },
+            400,
+            corsHeaders
+          );
+        }
+
+        const review = {
+          title,
+          youtube,
+          device: String(item.device ?? "").trim(),
+          description: String(item.description ?? "").trim(),
+          date: String(item.date ?? "").trim()
+        };
+
+        reviews.unshift(review);
+      }
+
+      if (request.method === "DELETE") {
+        let item;
+
+        try {
+          item = await request.json();
+        } catch {
+          return json(
+            { error: "بيانات الحذف غير صالحة" },
+            400,
+            corsHeaders
+          );
+        }
+
+        const youtube = String(item.youtube ?? "").trim();
+        const title = String(item.title ?? "").trim();
+
+        const before = reviews.length;
+
+        reviews = reviews.filter(r => {
+          const sameYoutube =
+            youtube && String(r.youtube ?? "").trim() === youtube;
+          const sameTitle =
+            title && String(r.title ?? "").trim() === title;
+
+          return !(sameYoutube || sameTitle);
+        });
+
+        if (reviews.length === before) {
+          return json(
+            { error: "المراجعة غير موجودة" },
+            404,
+            corsHeaders
+          );
+        }
+      }
+
+      const content = btoa(
+        unescape(
+          encodeURIComponent(
+            JSON.stringify(reviews, null, 2)
+          )
+        )
+      );
+
+      const body = {
+        message:
+          request.method === "POST"
+            ? `Add review - ${new Date().toISOString()}`
+            : `Delete review - ${new Date().toISOString()}`,
+        content,
+        branch
+      };
+
+      if (currentSha) {
+        body.sha = currentSha;
+      }
+
+      const put = await fetch(
+        `https://api.github.com/repos/${repo}/contents/${path}`,
+        {
+          method: "PUT",
+          headers: {
+            ...githubHeaders,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        }
+      );
+
+      if (!put.ok) {
+        const errText = await put.text();
+        console.error("GitHub reviews update failed:", errText);
+
+        return json(
+          { error: "GitHub رفض تحديث المراجعات" },
+          502,
+          corsHeaders
+        );
+      }
+
+      return json(
+        {
+          ok: true,
+          count: reviews.length,
+          reviews
+        },
+        200,
+        corsHeaders
+      );
+    }
+
+    // =========================
     // WEBSITE ASSETS
     // =========================
 
