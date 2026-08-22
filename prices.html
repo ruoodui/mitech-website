@@ -37,58 +37,34 @@
 let allPhones = [];
 let visiblePhones = [];
 
-function normalizeBrand(value, name = "") {
-  const raw = String(value ?? "").trim();
-  const n = String(name ?? "").trim();
-
-  const aliases = {
-    "apple": "Apple", "آبل": "Apple", "ابل": "Apple",
-    "honor": "Honor",
-    "huawei": "Huawei", "هواوي": "Huawei",
-    "infinix": "Infinix", "انفينيكس": "Infinix",
-    "samsung": "Samsung", "سامسونج": "Samsung", "سامسونك": "Samsung",
-    "xiaomi": "Xiaomi", "شاومي": "Xiaomi",
-    "redmi": "Xiaomi", "poco": "Xiaomi"
-  };
-
-  const key = raw.toLowerCase();
-  if (aliases[key]) return aliases[key];
-
-  const first = n.toLowerCase().split(/\s+/)[0];
-  if (aliases[first]) return aliases[first];
-
-  if (/^(iphone|ipad|apple)\s/i.test(n)) return "Apple";
-  if (/^honor\s/i.test(n)) return "Honor";
-  if (/^huawei\s/i.test(n)) return "Huawei";
-  if (/^infinix\s/i.test(n)) return "Infinix";
-  if (/^samsung\s/i.test(n)) return "Samsung";
-  if (/^(xiaomi|redmi|poco)\s/i.test(n)) return "Xiaomi";
-
-  return raw;
+function inferBrand(name) {
+  const n = String(name ?? "").trim().toLowerCase();
+  if (/^(iphone|ipad|airpods|apple watch|apple pencil|apple magic|airtag)/i.test(name)) return "Apple";
+  if (/^galaxy|^samsung/i.test(name)) return "Samsung";
+  if (/^honor|^\s*honor/i.test(name)) return "Honor";
+  if (/^huawei|^\s*huawei/i.test(name)) return "Huawei";
+  if (/^xiaomi|^redmi|^poco/i.test(name)) return "Xiaomi";
+  if (/^infinix/i.test(name)) return "Infinix";
+  if (/^tecno/i.test(name)) return "Tecno";
+  if (/^oppo/i.test(name)) return "OPPO";
+  if (/^vivo/i.test(name)) return "vivo";
+  if (/^oneplus/i.test(name)) return "OnePlus";
+  if (/^realme/i.test(name)) return "realme";
+  if (/^google pixel|^pixel/i.test(name)) return "Google";
+  if (/^motorola|^moto/i.test(name)) return "Motorola";
+  return "";
 }
 
 function normalizePhone(x) {
-  const name = String(
-    x.name ?? x.Name ?? x["الاسم"] ?? x["الاسم (name)"] ?? ""
-  ).trim();
-
-  const brandValue =
-    x.brand ?? x.Brand ??
-    x["الماركة"] ?? x["الماركه"] ??
-    x["الماركة (Brand)"] ?? x["الماركه (Brand)"] ??
-    x.company ?? x.Company ?? "";
-
+  const name = String(x.name ?? x.Name ?? "").trim();
+  const brand = String(x.brand ?? x.Brand ?? "").trim() || inferBrand(name);
   return {
     name,
-    ram: String(
-      x.ram ?? x.RAM ?? x["الرام والذاكره"] ?? x["RAM & Memory"] ?? ""
-    ).trim(),
-    price: x.price ?? x.Price ?? x["السعر"] ?? x["السعر (price)"] ?? "",
-    brand: normalizeBrand(brandValue, name),
-    store: String(
-      x.store ?? x.Store ?? x["المتجر"] ?? x["الشركة"] ?? x["الشركه"] ?? ""
-    ).trim(),
-    address: String(x.address ?? x.Address ?? x["العنوان"] ?? "").trim()
+    ram: String(x.ram ?? x.RAM ?? "").trim(),
+    price: x.price ?? x.Price ?? "",
+    brand,
+    store: String(x.store ?? x.Store ?? "").trim(),
+    address: String(x.address ?? x.Address ?? "").trim()
   };
 }
 
@@ -108,10 +84,8 @@ function formatPrice(value) {
 function renderBrands() {
   const select = document.getElementById("priceBrand");
   const current = select.value;
-
-  const brands = [...new Set(
-    allPhones.map(p => normalizeBrand(p.brand, p.name)).filter(Boolean)
-  )].sort((a,b) => a.localeCompare(b));
+  const brands = [...new Set(allPhones.map(p => p.brand).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b));
 
   select.innerHTML =
     '<option value="">كل الشركات</option>' +
@@ -170,10 +144,8 @@ function filterPrices() {
   const brand = document.getElementById("priceBrand").value;
 
   visiblePhones = allPhones.filter(p => {
-    const normalizedBrand = normalizeBrand(p.brand, p.name);
-    const text = `${p.name} ${normalizedBrand} ${p.ram} ${p.store}`.toLowerCase();
-    return (!q || text.includes(q)) &&
-           (!brand || normalizedBrand === brand);
+    const text = `${p.name} ${p.brand} ${p.ram} ${p.store}`.toLowerCase();
+    return (!q || text.includes(q)) && (!brand || p.brand === brand);
   });
 
   renderPrices(visiblePhones);
@@ -208,14 +180,31 @@ async function loadPrices() {
 
   try {
     // Cache-busting ensures a newly updated prices.json is fetched.
-    const response = await fetch(
-      "https://mitech-website.eng-mohammede-me.workers.dev/prices.json?v=" + Date.now(),
-      {
-        cache: "no-store"
-      }
-    );
+    let response;
+    let lastError;
 
-    if (!response.ok) throw new Error("HTTP " + response.status);
+    // First use the same-origin JSON. This works both on Cloudflare
+    // Workers/static hosting and GitHub Pages.
+    for (const url of [
+      "prices.json?v=" + Date.now(),
+      "https://raw.githubusercontent.com/ruoodui/mitech-website/main/prices.json?v=" + Date.now()
+    ]) {
+      try {
+        const r = await fetch(url, {
+          cache: "no-store",
+          headers: { "Accept": "application/json" }
+        });
+        if (r.ok) {
+          response = r;
+          break;
+        }
+        lastError = new Error("HTTP " + r.status + " — " + url);
+      } catch (e) {
+        lastError = e;
+      }
+    }
+
+    if (!response) throw lastError || new Error("تعذر الوصول إلى prices.json");
 
     const data = await response.json();
 
