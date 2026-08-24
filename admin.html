@@ -24,4 +24,60 @@ $('mex').onchange=loadMedia;
 $('addMedia').onclick=async()=>{try{const x=exhibitions[$('mex').value||0];if(!x)throw Error('اختار معرضاً');status('ms','جاري الرفع...');let body={action:'add-media',slug:x.slug,type:$('mtype').value,title:$('mtitle').value.trim()};if(body.type==='video'){body.url=$('murl').value.trim();if(!body.url)throw Error('أدخل رابط YouTube')}else{const f=$('mfile').files[0];if(!f)throw Error('اختار صورة');if(f.size>8*1024*1024)throw Error('الصورة أكبر من 8MB');body.filename=f.name;body.data=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)})}const d=await api('/api/exhibitions',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':$('mk').value.trim()},body:JSON.stringify(body)});exhibitions=d.exhibitions||[];$('mtitle').value=$('murl').value='';$('mfile').value='';status('ms','تمت الإضافة ✓','ok');loadEx().then(loadMedia)}catch(e){status('ms',e.message,'err')}};
 window.delMedia=async i=>{try{const x=exhibitions[$('mex').value||0];await api('/api/exhibitions',{method:'DELETE',headers:{'Content-Type':'application/json','X-Admin-Key':$('mk').value.trim()},body:JSON.stringify({action:'delete-media',slug:x.slug,index:i})});status('ms','تم الحذف ✓','ok');loadEx().then(loadMedia)}catch(e){status('ms',e.message,'err')}};
 loadReviews();loadEx();
-</script></body></html>
+</script>
+<style>
+.ex-edit-btn{background:#23283a;color:#fff;border:1px solid #3a4358;padding:8px 12px;border-radius:9px;cursor:pointer}
+.ex-edit-btn:hover{border-color:#7c5cff}
+#editExModal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+#editExModal.show{display:flex}
+.ex-edit-box{width:min(620px,100%);max-height:90vh;overflow:auto;background:#11141c;border:1px solid #30384a;border-radius:20px;padding:24px}
+.ex-edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ex-edit-grid .full{grid-column:1/-1}
+.ex-edit-box label{display:block;color:#b8becb;font-size:12px;margin-bottom:5px}
+.ex-edit-box input,.ex-edit-box textarea,.ex-edit-box select{width:100%;background:#090b10;color:#fff;border:1px solid #303746;border-radius:9px;padding:10px;font-family:inherit}
+.ex-edit-box textarea{min-height:100px}
+.ex-edit-actions{display:flex;gap:8px;margin-top:16px}
+@media(max-width:650px){.ex-edit-grid{grid-template-columns:1fr}.ex-edit-grid .full{grid-column:auto}}
+</style>
+<div id="editExModal">
+<div class="ex-edit-box">
+<h3>✏️ تعديل المعرض</h3>
+<div class="ex-edit-grid">
+<div class="full"><label>اسم المعرض</label><input id="editExName"></div>
+<div><label>Slug</label><input id="editExSlug"></div>
+<div><label>الحالة</label><select id="editExStatus"><option>COMING SOON</option><option>LIVE COVERAGE</option><option>COVERAGE</option></select></div>
+<div><label>التاريخ</label><input id="editExDate"></div>
+<div><label>الموقع</label><input id="editExLocation"></div>
+<div class="full"><label>صورة الغلاف</label><input id="editExImage"></div>
+<div class="full"><label>الوصف</label><textarea id="editExDescription"></textarea></div>
+</div>
+<div class="ex-edit-actions"><button class="btn primary" onclick="saveExhibitionEdit()">حفظ التعديل</button><button class="btn" onclick="closeExhibitionEdit()">إلغاء</button></div>
+</div></div>
+<script>
+let editingExhibitionIndex=-1;
+function openExhibitionEdit(i){
+ const list=window.exhibitions||window.exhibitionData||[];
+ const x=list[i]; if(!x)return;
+ editingExhibitionIndex=i;
+ editExName.value=x.name||x.title||''; editExSlug.value=x.slug||'';
+ editExStatus.value=x.status||'COMING SOON'; editExDate.value=x.date||x.dates||'';
+ editExLocation.value=x.location||''; editExImage.value=x.image||x.cover||x.coverImage||'';
+ editExDescription.value=x.description||'';
+ editExModal.classList.add('show');
+}
+function closeExhibitionEdit(){editExModal.classList.remove('show');editingExhibitionIndex=-1}
+async function saveExhibitionEdit(){
+ const list=window.exhibitions||window.exhibitionData||[]; const old=list[editingExhibitionIndex]; if(!old)return;
+ const n=editExName.value.trim();
+ const updated={...old,name:n,title:n,slug:editExSlug.value.trim(),status:editExStatus.value,date:editExDate.value.trim(),dates:editExDate.value.trim(),location:editExLocation.value.trim(),image:editExImage.value.trim(),cover:editExImage.value.trim(),description:editExDescription.value.trim()};
+ list[editingExhibitionIndex]=updated; window.exhibitions=list; window.exhibitionData=list;
+ if(typeof saveExhibitions==='function') await saveExhibitions(list);
+ else if(typeof saveJson==='function') await saveJson('exhibitions',list);
+ else if(typeof apiSave==='function') await apiSave('exhibitions',list);
+ else { alert('تم تعديل البيانات محلياً، لكن دالة الحفظ غير موجودة في هذه النسخة من لوحة التحكم.'); }
+ closeExhibitionEdit();
+ if(typeof renderExhibitions==='function') renderExhibitions();
+}
+</script>
+
+</body></html>
