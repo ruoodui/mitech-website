@@ -599,23 +599,6 @@ export default {
     }
 
     // =========================
-    // NEWS + BRANDS API
-    // =========================
-    if (url.pathname === "/api/content") {
-      const repo = "ruoodui/mitech-website"; const branch = "main";
-      const kind = url.searchParams.get("kind") === "brands" ? "brands" : "news";
-      const path = kind + ".json";
-      const api = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
-      const githubHeaders = {"Authorization": `Bearer ${env.GITHUB_TOKEN}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","User-Agent":"MiTech-Content-Admin"};
-      const read=async()=>{const r=await fetch(api,{headers:githubHeaders});if(r.status===404)return {sha:null,data:[]};if(!r.ok)throw new Error(`تعذر قراءة ${path}`);const c=await r.json();let data=[];try{data=JSON.parse(decodeURIComponent(escape(atob(c.content.replace(/\n/g,"")))))}catch{}if(!Array.isArray(data))data=Array.isArray(data[kind])?data[kind]:[];return {sha:c.sha,data};};
-      try { const cur=await read(); if(request.method==="GET")return json({[kind]:cur.data},200,corsHeaders); if(request.method!=="POST"&&request.method!=="DELETE")return json({error:"Method not allowed"},405,corsHeaders); if(request.headers.get("X-Admin-Key")!==env.ADMIN_KEY)return json({error:"رمز الإدارة غير صحيح"},401,corsHeaders); const p=await request.json(); let data=cur.data;
-        if(request.method==="POST"){const item=kind==="news"?{id:String(p.id||Date.now()),title:String(p.title||"").trim(),excerpt:String(p.excerpt||"").trim(),body:String(p.body||"").trim(),image:String(p.image||"").trim(),date:String(p.date||"").trim(),category:String(p.category||"أخبار").trim(),url:String(p.url||"").trim()}:{id:String(p.id||Date.now()),name:String(p.name||"").trim(),logo:String(p.logo||"").trim(),description:String(p.description||"").trim(),type:String(p.type||"Press / Coverage").trim(),link:String(p.link||"").trim()};if(kind==="news"&&!item.title)return json({error:"عنوان الخبر مطلوب"},400,corsHeaders);if(kind==="brands"&&!item.name)return json({error:"اسم الشركة مطلوب"},400,corsHeaders);data.unshift(item);}
-        else {const id=String(p.id||"");const before=data.length;data=data.filter(x=>String(x.id)!==id);if(data.length===before)return json({error:"العنصر غير موجود"},404,corsHeaders);}
-        const content=btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))));const body={message:`Update ${kind} - ${new Date().toISOString()}`,content,branch};if(cur.sha)body.sha=cur.sha;const put=await fetch(`https://api.github.com/repos/${repo}/contents/${path}`,{method:"PUT",headers:{...githubHeaders,"Content-Type":"application/json"},body:JSON.stringify(body)});if(!put.ok)return json({error:`GitHub رفض تحديث ${path}`},502,corsHeaders);return json({ok:true,[kind]:data},200,corsHeaders);
-      } catch(e){return json({error:e.message||"فشل API"},500,corsHeaders);}
-    }
-
-    // =========================
     // WEBSITE ASSETS
     // =========================
 
