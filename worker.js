@@ -541,6 +541,63 @@ export default {
       );
     }
 
+
+    // =========================
+    // EXHIBITIONS API
+    // =========================
+    if (url.pathname === "/api/exhibitions") {
+      const repo = "ruoodui/mitech-website";
+      const path = "exhibitions.json";
+      const branch = "main";
+      const api = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
+      const githubHeaders = {
+        "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "MiTech-Exhibitions-Admin"
+      };
+      const readFile = async () => {
+        const r = await fetch(api,{headers:githubHeaders});
+        if (r.status === 404) return {sha:null, data:[]};
+        if (!r.ok) throw new Error("تعذر قراءة exhibitions.json من GitHub");
+        const c = await r.json();
+        let data=[];
+        try { data=JSON.parse(decodeURIComponent(escape(atob(c.content.replace(/\n/g,""))))); } catch {}
+        if (!Array.isArray(data)) data=Array.isArray(data.exhibitions)?data.exhibitions:[];
+        return {sha:c.sha,data};
+      };
+      try {
+        const current = await readFile();
+        if (request.method === "GET") return json({exhibitions:current.data},200,corsHeaders);
+        if (request.method !== "POST" && request.method !== "DELETE") return json({error:"Method not allowed"},405,corsHeaders);
+        if (request.headers.get("X-Admin-Key") !== env.ADMIN_KEY) return json({error:"رمز الإدارة غير صحيح"},401,corsHeaders);
+        const p=await request.json();
+        let data=current.data;
+        if (request.method === "POST" && p.action === "add-exhibition") {
+          const title=String(p.title||"").trim(), slug=String(p.slug||"").trim().toLowerCase().replace(/[^a-z0-9-]+/g,"-").replace(/^-+|-+$/g,"");
+          if(!title||!slug) return json({error:"اسم المعرض وSlug مطلوبان"},400,corsHeaders);
+          if(data.some(x=>x.slug===slug)) return json({error:"هذا الـSlug موجود مسبقاً"},409,corsHeaders);
+          data.unshift({title,slug,location:String(p.location||"").trim(),date:String(p.date||"").trim(),status:String(p.status||"COVERAGE").trim(),cover:String(p.cover||"").trim(),description:String(p.description||"").trim(),media:[]});
+        } else if (request.method === "POST" && p.action === "add-media") {
+          const x=data.find(v=>v.slug===String(p.slug||"")); if(!x) return json({error:"المعرض غير موجود"},404,corsHeaders);
+          const type=String(p.type||""); if(type!=="image"&&type!=="video") return json({error:"نوع المحتوى غير صالح"},400,corsHeaders);
+          let media={type,title:String(p.title||"").trim(),url:""};
+          if(type==="video") { media.url=String(p.url||"").trim(); if(!media.url) return json({error:"رابط الفيديو مطلوب"},400,corsHeaders); }
+          else { const dataUrl=String(p.data||""); if(!dataUrl.startsWith("data:image/")) return json({error:"ملف الصورة غير صالح"},400,corsHeaders); const m=dataUrl.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/); if(!m) return json({error:"الصورة غير صالحة"},400,corsHeaders); const ext=(String(p.filename||"image.jpg").split(".").pop()||"jpg").replace(/[^a-zA-Z0-9]/g,"").toLowerCase()||"jpg"; const safe=(String(p.filename||"image").replace(/[^a-zA-Z0-9._-]/g,"_").replace(/\.[^.]+$/,""))||"image"; const mediaPath=`media/exhibitions/${x.slug}/${Date.now()}-${safe}.${ext}`; const bin=m[2]; const put=await fetch(`https://api.github.com/repos/${repo}/contents/${mediaPath}`,{method:"PUT",headers:{...githubHeaders,"Content-Type":"application/json"},body:JSON.stringify({message:`Add exhibition image - ${x.slug}`,content:bin,branch})}); if(!put.ok) return json({error:"فشل رفع الصورة إلى GitHub"},502,corsHeaders); media.url=`https://raw.githubusercontent.com/${repo}/${branch}/${mediaPath}`; }
+          x.media=x.media||[]; x.media.unshift(media);
+        } else if (request.method === "DELETE" && p.action === "delete-exhibition") {
+          const before=data.length; data=data.filter(x=>x.slug!==String(p.slug||"")); if(data.length===before) return json({error:"المعرض غير موجود"},404,corsHeaders);
+        } else if (request.method === "DELETE" && p.action === "delete-media") {
+          const x=data.find(v=>v.slug===String(p.slug||"")); if(!x) return json({error:"المعرض غير موجود"},404,corsHeaders); const i=Number(p.index); if(!Number.isInteger(i)||i<0||i>=(x.media||[]).length) return json({error:"المحتوى غير موجود"},404,corsHeaders); x.media.splice(i,1);
+        } else return json({error:"طلب غير معروف"},400,corsHeaders);
+        const content=btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))));
+        const body={message:`Update exhibitions - ${new Date().toISOString()}`,content,branch}; if(current.sha) body.sha=current.sha;
+        const put=await fetch(`https://api.github.com/repos/${repo}/contents/${path}`,{method:"PUT",headers:{...githubHeaders,"Content-Type":"application/json"},body:JSON.stringify(body)});
+        if(!put.ok) return json({error:"GitHub رفض تحديث المعارض"},502,corsHeaders);
+        return json({ok:true,exhibitions:data},200,corsHeaders);
+      } catch(e) { return json({error:e.message||"فشل API المعارض"},500,corsHeaders); }
+    }
+
     // =========================
     // WEBSITE ASSETS
     // =========================

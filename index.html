@@ -13,10 +13,10 @@
     <nav>
       <a href="index.html">الرئيسية</a>
       <a href="phones.html">الهواتف</a>
-      <a href="prices.html">الأسعار</a>
       <a href="reviews.html">المراجعات</a>
+      <a href="news.html">الأخبار</a>
+      <a href="exhibitions.html">المعارض</a>
       <a href="videos.html">الفيديوهات</a>
-      <a href="contact.html">تواصل</a>
     </nav>
     <a class="nav-btn" href="contact.html">تعاون معنا</a>
   </header>
@@ -26,7 +26,7 @@
       <div class="hero-content">
         <div class="badge">TECH • REVIEWS • NEWS</div>
         <h1>كل التقنية<br><strong>بمكان واحد.</strong></h1>
-        <p>أخبار تقنية، مراجعات، مقارنات وأسعار الهواتف — من M.iTech.</p>
+        <p>أخبار تقنية، مراجعات، تغطيات معارض، فيديوهات وتجارب منتجات — من M.iTech.</p>
         <div class="hero-actions">
           <a class="btn primary" href="phones.html">استكشف الهواتف</a>
           <a class="btn ghost" href="videos.html">شاهد آخر الفيديوهات</a>
@@ -52,7 +52,7 @@
 
         <div class="floating-card one">📱 مراجعات الأجهزة</div>
         <div class="floating-card two">⚡ اختبارات الأداء</div>
-        <div class="floating-card three">💰 أسعار الهواتف</div>
+        <div class="floating-card three">🌍 تغطيات المعارض</div>
       </div>
     </section>
 
@@ -78,6 +78,14 @@
       </div>
     </section>
 
+
+    <section class="section exhibitions-home">
+      <div class="section-head">
+        <div><div class="eyebrow">EXHIBITIONS COVERAGE</div><h2>من قلب المعارض العالمية.</h2></div>
+        <p>تغطيات M.iTech للمعارض التقنية: صور، فيديوهات، أخبار، لقاءات وتجارب Hands-on.</p>
+      </div>
+      <div id="homeExhibitions" class="exhibition-grid"></div>
+    </section>
     <section id="contact" class="contact">
       <div>
         <div class="eyebrow">WORK WITH ME</div>
@@ -102,5 +110,8 @@
   </footer>
 
   <script src="script.js"></script>
-</body>
+  <script>
+  (async()=>{try{const r=await fetch("/api/exhibitions?ts="+Date.now(),{cache:"no-store"});const d=await r.json();const a=Array.isArray(d)?d:(d.exhibitions||[]);document.getElementById("homeExhibitions").innerHTML=a.slice(0,2).map(x=>`<a class="exhibition-card" href="exhibition.html?slug=${encodeURIComponent(x.slug)}"><div class="exhibition-cover" style="background-image:url('${String(x.cover||"").replace(/'/g,"%27")}')"><span>${x.status||"COVERAGE"}</span></div><div class="exhibition-body"><b>${x.title||""}</b><small>${x.location||""} ${x.date?"• "+x.date:""}</small><p>${x.description||""}</p></div></a>`).join("")||'<div class="muted">لا توجد تغطيات حالياً.</div>'}catch(e){console.warn(e)}})();
+  </script>
+<script src="site.js"></script></body>
 </html>
