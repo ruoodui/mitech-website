@@ -55,46 +55,84 @@ loadReviews();loadEx();
 </div></div>
 <script>
 let editingExhibitionIndex=-1;
-function openExhibitionEdit(i){
- const list=window.exhibitions||window.exhibitionData||[];
- const x=list[i]; if(!x)return;
- editingExhibitionIndex=i;
- editExName.value=x.name||x.title||''; editExSlug.value=x.slug||'';
- editExStatus.value=x.status||'COVERAGE'; editExDate.value=x.date||x.dates||'';
- editExLocation.value=x.location||''; editExImage.value=x.image||x.cover||x.coverImage||'';
- editExDescription.value=x.description||'';
- editExModal.classList.add('show');
-}
-function closeExhibitionEdit(){editExModal.classList.remove('show');editingExhibitionIndex=-1}
-async function saveExhibitionEdit(){
- const old=exhibitions[editingExhibitionIndex]; if(!old)return;
- const title=editExName.value.trim(), slug=editExSlug.value.trim();
- if(!title||!slug){alert('اسم المعرض وSlug مطلوبان');return}
- try{
-   const key=$('ek').value.trim();
-   if(!key){alert('أدخل رمز الإدارة أولاً');return}
-   status('esx','جاري حفظ التعديل...');
-   const d=await api('/api/exhibitions',{
-     method:'POST',
-     headers:{'Content-Type':'application/json','X-Admin-Key':key},
-     body:JSON.stringify({
-       action:'update-exhibition',
-       oldSlug:old.slug,
-       title,
-       slug,
-       location:editExLocation.value.trim(),
-       date:editExDate.value.trim(),
-       status:editExStatus.value,
-       cover:editExImage.value.trim(),
-       description:editExDescription.value.trim()
-     })
-   });
-   exhibitions=d.exhibitions||[];
-   closeExhibitionEdit();
-   status('esx','تم تعديل المعرض ✓','ok');
-   await loadEx();
- }catch(e){status('esx',e.message,'err')}
-}
+
+window.openExhibitionEdit=function(i){
+  const x=exhibitions[i];
+  if(!x){ alert('لم يتم العثور على المعرض'); return; }
+  editingExhibitionIndex=i;
+
+  $('editExName').value=x.title||x.name||'';
+  $('editExSlug').value=x.slug||'';
+  $('editExStatus').value=x.status||'COVERAGE';
+  $('editExDate').value=x.date||x.dates||'';
+  $('editExLocation').value=x.location||'';
+  $('editExImage').value=x.cover||x.image||x.coverImage||'';
+  $('editExDescription').value=x.description||'';
+
+  $('editExModal').classList.add('show');
+};
+
+window.closeExhibitionEdit=function(){
+  $('editExModal').classList.remove('show');
+  editingExhibitionIndex=-1;
+};
+
+window.saveExhibitionEdit=async function(){
+  const old=exhibitions[editingExhibitionIndex];
+  if(!old){ alert('لم يتم العثور على المعرض'); return; }
+
+  const title=$('editExName').value.trim();
+  const slug=$('editExSlug').value.trim();
+
+  if(!title || !slug){
+    alert('اسم المعرض و Slug مطلوبان');
+    return;
+  }
+
+  const key=$('ek').value.trim();
+  if(!key){
+    alert('أدخل رمز الإدارة أولاً');
+    $('ek').focus();
+    return;
+  }
+
+  try{
+    status('esx','جاري حفظ التعديل...');
+
+    const d=await api('/api/exhibitions',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'X-Admin-Key':key
+      },
+      body:JSON.stringify({
+        action:'update-exhibition',
+        oldSlug:old.slug,
+        title:title,
+        slug:slug,
+        location:$('editExLocation').value.trim(),
+        date:$('editExDate').value.trim(),
+        status:$('editExStatus').value,
+        cover:$('editExImage').value.trim(),
+        description:$('editExDescription').value.trim()
+      })
+    });
+
+    exhibitions=d.exhibitions||[];
+    window.closeExhibitionEdit();
+    status('esx','تم تعديل المعرض ✓','ok');
+    await loadEx();
+
+  }catch(e){
+    status('esx',e.message||'فشل تعديل المعرض','err');
+    alert(e.message||'فشل تعديل المعرض');
+  }
+};
+
+// احتياطاً: إغلاق النافذة عند الضغط خارجها
+$('editExModal').addEventListener('click',function(e){
+  if(e.target===this) window.closeExhibitionEdit();
+});
 </script>
 
 </body></html>
