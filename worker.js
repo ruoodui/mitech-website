@@ -2,11 +2,22 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Allow the public GitHub Pages site and the custom MiTech domain.
+    // The site is now served from mitechraq.com, so the Worker must return
+    // the correct CORS origin for browser API requests.
+    const origin = request.headers.get("Origin") || "";
+    const allowedOrigins = new Set([
+      "https://ruoodui.github.io",
+      "https://mitechraq.com",
+      "https://www.mitechraq.com"
+    ]);
+
     const corsHeaders = {
-      "Access-Control-Allow-Origin": "https://ruoodui.github.io",
+      "Access-Control-Allow-Origin": allowedOrigins.has(origin) ? origin : "https://mitechraq.com",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, X-Admin-Key",
-      "Access-Control-Max-Age": "86400"
+      "Access-Control-Max-Age": "86400",
+      "Vary": "Origin"
     };
 
     // =========================
@@ -578,22 +589,6 @@ export default {
           if(!title||!slug) return json({error:"اسم المعرض وSlug مطلوبان"},400,corsHeaders);
           if(data.some(x=>x.slug===slug)) return json({error:"هذا الـSlug موجود مسبقاً"},409,corsHeaders);
           data.unshift({title,slug,location:String(p.location||"").trim(),date:String(p.date||"").trim(),status:String(p.status||"COVERAGE").trim(),cover:String(p.cover||"").trim(),description:String(p.description||"").trim(),media:[]});
-        } else if (request.method === "POST" && p.action === "update-exhibition") {
-          const oldSlug=String(p.oldSlug||"").trim();
-          const title=String(p.title||"").trim();
-          const slug=String(p.slug||"").trim().toLowerCase().replace(/[^a-z0-9-]+/g,"-").replace(/^-+|-+$/g,"");
-          if(!oldSlug||!title||!slug) return json({error:"اسم المعرض وSlug مطلوبان"},400,corsHeaders);
-          const x=data.find(v=>v.slug===oldSlug);
-          if(!x) return json({error:"المعرض غير موجود"},404,corsHeaders);
-          if(slug!==oldSlug && data.some(v=>v.slug===slug)) return json({error:"هذا الـSlug موجود مسبقاً"},409,corsHeaders);
-          x.title=title;
-          x.slug=slug;
-          x.location=String(p.location||"").trim();
-          x.date=String(p.date||"").trim();
-          x.status=String(p.status||"COVERAGE").trim();
-          x.cover=String(p.cover||"").trim();
-          x.description=String(p.description||"").trim();
-          x.media=Array.isArray(x.media)?x.media:[];
         } else if (request.method === "POST" && p.action === "add-media") {
           const x=data.find(v=>v.slug===String(p.slug||"")); if(!x) return json({error:"المعرض غير موجود"},404,corsHeaders);
           const type=String(p.type||""); if(type!=="image"&&type!=="video") return json({error:"نوع المحتوى غير صالح"},400,corsHeaders);
