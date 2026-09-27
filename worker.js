@@ -2,19 +2,23 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Allow the public GitHub Pages site and the custom MiTech domain.
-    // The site is now served from mitechraq.com, so the Worker must return
-    // the correct CORS origin for browser API requests.
-    const origin = request.headers.get("Origin") || "";
+    // Allow only the known MiTech site origins.
+    // This keeps admin endpoints protected while allowing the custom domain.
     const allowedOrigins = new Set([
-      "https://ruoodui.github.io",
       "https://mitechraq.com",
-      "https://www.mitechraq.com"
+      "https://www.mitechraq.com",
+      "https://ruoodui.github.io",
+      "https://mitech-website.eng-mohammede-me.workers.dev"
     ]);
 
+    const requestOrigin = request.headers.get("Origin") || "";
+    const corsOrigin = allowedOrigins.has(requestOrigin)
+      ? requestOrigin
+      : "https://ruoodui.github.io";
+
     const corsHeaders = {
-      "Access-Control-Allow-Origin": allowedOrigins.has(origin) ? origin : "https://mitechraq.com",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Origin": corsOrigin,
+      "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, X-Admin-Key",
       "Access-Control-Max-Age": "86400",
       "Vary": "Origin"
