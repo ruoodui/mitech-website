@@ -730,6 +730,9 @@ export default {
             for(const k of fields) if(p[k]!==undefined) item[k]=String(p[k]||"").trim();
             if(Array.isArray(p.tags)) item.tags=p.tags.map(x=>String(x).trim()).filter(Boolean);
             if(Array.isArray(p.socialLinks)) item.socialLinks=p.socialLinks.map(x=>({platform:String(x?.platform||"").trim().toLowerCase(),url:String(x?.url||"").trim()})).filter(x=>x.url && ["instagram","tiktok","youtube"].includes(x.platform));
+            if(p.type!==undefined) item.type=String(p.type||"news").trim()==="exhibition"?"exhibition":"news";
+            if(p.exhibitionSlug!==undefined) item.exhibitionSlug=String(p.exhibitionSlug||"").trim();
+            if(item.type!=="exhibition") item.exhibitionSlug="";
             if(p.published!==undefined) item.published=Boolean(p.published);
           } else {
           const title=String(p.title||"").trim(), slug=String(p.slug||title).trim().toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/g,"-").replace(/^-+|-+$/g,"") || `article-${Date.now()}`;
