@@ -438,6 +438,22 @@ export default {
           );
         }
 
+        // Reorder reviews without requiring title/YouTube fields.
+        if (String(item.action ?? "").trim() === "reorder") {
+          const index = Number(item.index);
+          const direction = String(item.direction ?? "").trim();
+          if (!Number.isInteger(index) || index < 0 || index >= reviews.length) {
+            return json({ error: "ترتيب المراجعة غير صالح" }, 400, corsHeaders);
+          }
+          if (direction !== "up" && direction !== "down") {
+            return json({ error: "اتجاه الترتيب غير صالح" }, 400, corsHeaders);
+          }
+          const target = direction === "up" ? index - 1 : index + 1;
+          if (target < 0 || target >= reviews.length) {
+            return json({ reviews }, 200, corsHeaders);
+          }
+          [reviews[index], reviews[target]] = [reviews[target], reviews[index]];
+        } else {
         const title = String(item.title ?? "").trim();
         const youtube = String(item.youtube ?? "").trim();
 
@@ -458,6 +474,7 @@ export default {
         };
 
         reviews.unshift(review);
+        }
       }
 
       if (request.method === "DELETE") {
