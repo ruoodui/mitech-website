@@ -626,17 +626,22 @@ export default {
           x.cover=cover;
           x.description=String(p.description||"").trim();
           x.media=Array.isArray(x.media)?x.media:[];
+        } else if (request.method === "POST" && p.action === "reorder-media") {
+          const x=data.find(v=>v.slug===String(p.slug||"")); if(!x)return json({error:"المعرض غير موجود"},404,corsHeaders);
+          const ids=Array.isArray(p.indices)?p.indices.map(Number):[],media=Array.isArray(x.media)?x.media:[],ordered=[],used=new Set();
+          for(const i of ids){if(Number.isInteger(i)&&i>=0&&i<media.length&&!used.has(i)){ordered.push(media[i]);used.add(i)}}
+          media.forEach((m,i)=>{if(!used.has(i))ordered.push(m)}); x.media=ordered.map((m,i)=>({...m,order:i}));
         } else if (request.method === "POST" && p.action === "add-media") {
           const x=data.find(v=>v.slug===String(p.slug||"")); if(!x) return json({error:"المعرض غير موجود"},404,corsHeaders);
           const type=String(p.type||""); if(type!=="image"&&type!=="video") return json({error:"نوع المحتوى غير صالح"},400,corsHeaders);
           let media={type,title:String(p.title||"").trim(),url:""};
           if(type==="video") { media.url=String(p.url||"").trim(); if(!media.url) return json({error:"رابط الفيديو مطلوب"},400,corsHeaders); }
           else { const dataUrl=String(p.data||""); if(!dataUrl.startsWith("data:image/")) return json({error:"ملف الصورة غير صالح"},400,corsHeaders); const m=dataUrl.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/); if(!m) return json({error:"الصورة غير صالحة"},400,corsHeaders); const ext=(String(p.filename||"image.jpg").split(".").pop()||"jpg").replace(/[^a-zA-Z0-9]/g,"").toLowerCase()||"jpg"; const safe=(String(p.filename||"image").replace(/[^a-zA-Z0-9._-]/g,"_").replace(/\.[^.]+$/,""))||"image"; const mediaPath=`media/exhibitions/${x.slug}/${Date.now()}-${safe}.${ext}`; const bin=m[2]; const put=await fetch(`https://api.github.com/repos/${repo}/contents/${mediaPath}`,{method:"PUT",headers:{...githubHeaders,"Content-Type":"application/json"},body:JSON.stringify({message:`Add exhibition image - ${x.slug}`,content:bin,branch})}); if(!put.ok) return json({error:"فشل رفع الصورة إلى GitHub"},502,corsHeaders); media.url=`https://raw.githubusercontent.com/${repo}/${branch}/${mediaPath}`; }
-          x.media=x.media||[]; x.media.unshift(media);
+          x.media=x.media||[]; x.media.unshift({...media,order:0}); x.media=x.media.map((m,i)=>({...m,order:i}));
         } else if (request.method === "DELETE" && p.action === "delete-exhibition") {
           const before=data.length; data=data.filter(x=>x.slug!==String(p.slug||"")); if(data.length===before) return json({error:"المعرض غير موجود"},404,corsHeaders);
         } else if (request.method === "DELETE" && p.action === "delete-media") {
-          const x=data.find(v=>v.slug===String(p.slug||"")); if(!x) return json({error:"المعرض غير موجود"},404,corsHeaders); const i=Number(p.index); if(!Number.isInteger(i)||i<0||i>=(x.media||[]).length) return json({error:"المحتوى غير موجود"},404,corsHeaders); x.media.splice(i,1);
+          const x=data.find(v=>v.slug===String(p.slug||"")); if(!x) return json({error:"المعرض غير موجود"},404,corsHeaders); const i=Number(p.index); if(!Number.isInteger(i)||i<0||i>=(x.media||[]).length) return json({error:"المحتوى غير موجود"},404,corsHeaders); x.media.splice(i,1); x.media=x.media.map((m,idx)=>({...m,order:idx}));
         } else return json({error:"طلب غير معروف"},400,corsHeaders);
         const content=btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))));
         const body={message:`Update exhibitions - ${new Date().toISOString()}`,content,branch}; if(current.sha) body.sha=current.sha;
@@ -647,6 +652,27 @@ export default {
     }
 
 
+
+    // =========================
+    // SITE SEARCH API
+    // =========================
+    if (url.pathname === "/api/search" && request.method === "GET") {
+      try {
+        const q=String(url.searchParams.get("q")||"").trim().toLowerCase();
+        if(!q) return json({results:[]},200,corsHeaders);
+        const repo="ruoodui/mitech-website",branch="main";
+        const gh={"Authorization":`Bearer ${env.GITHUB_TOKEN}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","User-Agent":"MiTech-Search"};
+        const readJson=async(path,fallback=[])=>{const r=await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`,{headers:gh});if(r.status===404)return fallback;if(!r.ok)throw Error(`تعذر قراءة ${path}`);const c=await r.json();try{return JSON.parse(decodeURIComponent(escape(atob(c.content.replace(/\n/g,"")))))}catch{return fallback}};
+        const [ar0,ex,re0]=await Promise.all([readJson("articles.json",[]),readJson("exhibitions.json",[]),readJson("reviews.json",[])]);
+        const articles=Array.isArray(ar0)?ar0:(ar0.articles||[]),reviews=Array.isArray(re0)?re0:(re0.reviews||[]),results=[];
+        const hit=(...v)=>v.filter(Boolean).join(" ").toLowerCase().includes(q);
+        for(const a of articles) if(a.published!==false&&hit(a.title,a.excerpt,a.content,...(a.tags||[]))) results.push({type:"article",title:a.title,excerpt:a.excerpt||"",url:`article.html?slug=${encodeURIComponent(a.slug||a.id)}`,date:a.createdAt||"",order:Number(a.order??999999)});
+        for(const x of ex){if(hit(x.title,x.location,x.description,x.slug))results.push({type:"exhibition",title:x.title,excerpt:[x.location,x.date].filter(Boolean).join(" • "),url:`exhibition.html?slug=${encodeURIComponent(x.slug)}`,date:"",order:999999});for(const m of (x.media||[]))if(hit(m.title,m.url))results.push({type:m.type==="video"?"video":"photo",title:m.title||x.title,excerpt:x.title,url:`exhibition.html?slug=${encodeURIComponent(x.slug)}`,date:"",order:Number(m.order??999999)})}
+        for(const r of reviews)if(hit(r.title,r.device,r.description))results.push({type:"review",title:r.title,excerpt:r.device||r.description||"",url:r.youtube||"reviews.html",date:r.date||"",order:999999});
+        results.sort((a,b)=>a.order-b.order||new Date(b.date||0)-new Date(a.date||0));
+        return json({results:results.slice(0,50)},200,corsHeaders);
+      }catch(e){return json({error:e.message||"فشل البحث"},500,corsHeaders)}
+    }
 
     // =========================
     // AI ARTICLE WRITER
@@ -736,7 +762,7 @@ export default {
           if(published!==null) list=list.filter(a => published==="true" ? a.published===true : a.published!==true);
           if(type) list=list.filter(a => String(a.type||"")===type);
           if(exhibitionSlug) list=list.filter(a => String(a.exhibitionSlug||"")===exhibitionSlug);
-          list.sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
+          list.sort((a,b)=>Number(a.order??999999)-Number(b.order??999999)||new Date(b.createdAt||0)-new Date(a.createdAt||0));
           if(limit) list=list.slice(0,limit);
           return json({articles:list},200,corsHeaders);
         }
@@ -744,7 +770,12 @@ export default {
         if(request.headers.get("X-Admin-Key")!==env.ADMIN_KEY) return json({error:"رمز الإدارة غير صحيح"},401,corsHeaders);
         const p=await request.json(); let data=current.data;
         if(request.method==="POST"){
-          if(String(p.action||"")==="update-article") {
+          if(String(p.action||"")==="reorder-articles") {
+            const ids=Array.isArray(p.ids)?p.ids.map(String):[]; const map=new Map(data.map(a=>[String(a.id),a])); const ordered=[];
+            for(const id of ids){const item=map.get(id);if(item){ordered.push(item);map.delete(id)}}
+            for(const item of data){if(map.has(String(item.id))){ordered.push(item);map.delete(String(item.id))}}
+            data=ordered.map((item,i)=>({...item,order:i}));
+          } else if(String(p.action||"")==="update-article") {
             const id=String(p.id||"").trim();
             const item=data.find(a=>a.id===id);
             if(!item) return json({error:"المقال غير موجود"},404,corsHeaders);
@@ -770,8 +801,8 @@ export default {
             if(!putImg.ok)return json({error:"فشل رفع صورة المقال إلى GitHub"},502,corsHeaders);
             imageUrl=`https://raw.githubusercontent.com/${repo}/${branch}/${mediaPath}`;
           }
-          const article={id:crypto.randomUUID(),slug,title,excerpt:String(p.excerpt||"").trim(),content:String(p.content||"").trim(),seoTitle:String(p.seoTitle||title).trim(),seoDescription:String(p.seoDescription||"").trim(),tags:Array.isArray(p.tags)?p.tags:[],socialLinks:Array.isArray(p.socialLinks)?p.socialLinks.map(x=>({platform:String(x?.platform||"").trim().toLowerCase(),url:String(x?.url||"").trim()})).filter(x=>x.url && ["instagram","tiktok","youtube"].includes(x.platform)):[],image:imageUrl,type:String(p.type||"news"),exhibitionSlug:String(p.exhibitionSlug||"").trim(),createdAt:new Date().toISOString(),published:p.published!==false};
-          data.unshift(article);
+          const article={id:crypto.randomUUID(),slug,title,order:0,excerpt:String(p.excerpt||"").trim(),content:String(p.content||"").trim(),seoTitle:String(p.seoTitle||title).trim(),seoDescription:String(p.seoDescription||"").trim(),tags:Array.isArray(p.tags)?p.tags:[],socialLinks:Array.isArray(p.socialLinks)?p.socialLinks.map(x=>({platform:String(x?.platform||"").trim().toLowerCase(),url:String(x?.url||"").trim()})).filter(x=>x.url && ["instagram","tiktok","youtube"].includes(x.platform)):[],image:imageUrl,type:String(p.type||"news"),exhibitionSlug:String(p.exhibitionSlug||"").trim(),createdAt:new Date().toISOString(),published:p.published!==false};
+          data.unshift(article); data=data.map((item,i)=>({...item,order:i}));
           }
         } else {
           const id=String(p.id||""); const before=data.length; data=data.filter(a=>a.id!==id); if(data.length===before)return json({error:"المقال غير موجود"},404,corsHeaders);
