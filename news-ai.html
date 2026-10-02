@@ -1,0 +1,111 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>M.iTech | الأخبار</title><link rel="stylesheet" href="style.css"></head><body><header class="nav"><a class="logo" href="index.html">M.i<span>Tech</span></a><nav><a href="index.html">الرئيسية</a><a href="phones.html">الهواتف</a><a href="reviews.html">المراجعات</a><a href="news.html">الأخبار</a><a href="exhibitions.html">المعارض</a><a href="videos.html">الفيديوهات</a></nav><a class="nav-btn" href="contact.html">تعاون معنا</a></header><main>
+<section class="section news-page">
+  <div class="eyebrow">M.iTECH NEWS</div>
+  <h1>الأخبار</h1>
+  <p class="muted">آخر الأخبار والتغطيات التقنية من M.iTech</p>
+
+  <div class="news-toolbar" style="display:flex;gap:10px;flex-wrap:wrap;margin:24px 0;">
+    <button class="news-filter active" data-filter="all">الكل</button>
+    <button class="news-filter" data-filter="news">أخبار</button>
+    <button class="news-filter" data-filter="exhibition">تغطيات المعارض</button>
+  </div>
+
+  <div id="news-status" class="muted">جاري تحميل الأخبار...</div>
+  <div id="news-grid" class="news-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:20px;"></div>
+</section>
+</main>
+<script>
+const API_BASE = "https://mitech-website.eng-mohammede-me.workers.dev";
+let allArticles = [];
+let activeFilter = "all";
+
+const statusEl = document.getElementById("news-status");
+const gridEl = document.getElementById("news-grid");
+
+function escapeHtml(value = "") {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+  }[ch]));
+}
+
+function formatDate(value) {
+  if (!value) return "";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("ar-IQ", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+}
+
+function articleCard(article) {
+  const typeLabel = article.type === "exhibition" ? "تغطية معرض" : "خبر";
+  const image = article.image
+    ? `<img src="${escapeHtml(article.image)}" alt="${escapeHtml(article.title)}" loading="lazy" style="width:100%;height:210px;object-fit:cover;border-radius:16px 16px 0 0;">`
+    : `<div style="height:210px;border-radius:16px 16px 0 0;background:linear-gradient(135deg,#101827,#17263d);display:flex;align-items:center;justify-content:center;color:#6ee7ff;font-size:42px;">M.iTech</div>`;
+
+  const tags = Array.isArray(article.tags)
+    ? article.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")
+    : "";
+
+  return `
+    <article class="news-card" style="overflow:hidden;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.03);">
+      ${image}
+      <div style="padding:18px;">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;">
+          <span class="eyebrow">${typeLabel}</span>
+          <span class="muted" style="font-size:12px;">${formatDate(article.createdAt)}</span>
+        </div>
+        <h2 style="margin:0 0 10px;font-size:21px;line-height:1.45;">${escapeHtml(article.title)}</h2>
+        <p class="muted" style="line-height:1.8;margin:0 0 14px;">${escapeHtml(article.excerpt || "")}</p>
+        ${tags ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">${tags}</div>` : ""}
+        <a href="article.html?slug=${encodeURIComponent(article.slug || article.id)}" class="nav-btn" style="display:inline-block;">اقرأ المقال</a>
+      </div>
+    </article>`;
+}
+
+function renderArticles() {
+  const filtered = activeFilter === "all"
+    ? allArticles
+    : allArticles.filter(a => a.type === activeFilter);
+
+  if (!filtered.length) {
+    gridEl.innerHTML = "";
+    statusEl.textContent = "لا توجد مقالات منشورة بهذا التصنيف حالياً.";
+    return;
+  }
+
+  statusEl.textContent = `${filtered.length} مقال منشور`;
+  gridEl.innerHTML = filtered.map(articleCard).join("");
+}
+
+async function loadArticles() {
+  try {
+    const res = await fetch(`${API_BASE}/api/articles?published=true`, {
+      headers: { "Accept": "application/json" }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = await res.json();
+    allArticles = Array.isArray(data) ? data : (data.articles || []);
+    allArticles = allArticles.filter(a => a.published !== false);
+    allArticles.sort((a,b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    renderArticles();
+  } catch (err) {
+    console.error(err);
+    statusEl.textContent = "تعذر تحميل الأخبار حالياً. تأكد من نشر Worker وإتاحة API.";
+  }
+}
+
+document.querySelectorAll(".news-filter").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".news-filter").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeFilter = btn.dataset.filter;
+    renderArticles();
+  });
+});
+
+loadArticles();
+</script>
+<script src="site.js"></script>
+</body></html>
