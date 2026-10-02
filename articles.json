@@ -1,5 +1,35 @@
 [
   {
+    "id": "2fe3e2c6-25ad-433d-bb18-c96b76e8b930",
+    "slug": "galaxy-tab-s12-ultra",
+    "title": "Galaxy Tab S12 Ultra",
+    "order": 0,
+    "excerpt": "",
+    "content": "كشفت سامسونج رسمياً عن Galaxy Tab S12 Ultra ضمن سلسلة Galaxy Tab S12 الجديدة، لتقدم جهازاً لوحياً يجمع بين الشاشة الكبيرة والأداء القوي ومزايا الذكاء الاصطناعي في تصميم فائق النحافة.\nويأتي الجهاز بسماكة تبلغ 5.1 ملم فقط، ليكون أنحف جهاز Galaxy Tab تطلقه سامسونج حتى الآن، مع شاشة Dynamic AMOLED 2X بحجم 14.6 بوصة ودقة 2960 × 1848 ومعدل تحديث 120Hz. كما تصل الإضاءة القصوى إلى 1600 شمعة، مع تقنية Seamless Vision Booster التي تضبط السطوع والتباين وفق ظروف الإضاءة المحيطة. Samsung Global Newsroom\nأداء قوي مع Dimensity 9500\nيعتمد Galaxy Tab S12 Ultra على معالج MediaTek Dimensity 9500 بتقنية تصنيع 3 نانومتر، وتقول سامسونج إن المعالج يقدم مقارنةً بالجيل السابق زيادة تصل إلى 61% في أداء NPU، و19% في أداء CPU، و17% في أداء GPU. Samsung Global Newsroom\nوللحفاظ على الأداء أثناء الاستخدام المكثف، زودت سامسونج الجهاز بنظام تبريد جديد يعتمد على 3D Vapor Chamber، لمساعدة الجهاز على تبديد الحرارة أثناء مهام مثل تحرير الفيديو والألعاب والتطبيقات الثقيلة.\nذاكرة تصل إلى 16GB وتخزين 1TB\nيتوفر الجهاز بعدة خيارات، تبدأ من 12GB RAM مع 256GB، مروراً بـ512GB، وصولاً إلى 16GB RAM مع 1TB من التخزين.\nكما يدعم الجهاز بطاقات microSD بسعة تصل إلى 2TB، ما يوفر مساحة إضافية كبيرة للملفات والفيديوهات والمشاريع. Samsung Global Newsroom\nبطارية ضخمة و45W\nيحتوي Galaxy Tab S12 Ultra على بطارية بسعة 11,600mAh، وتقول سامسونج إن الجهاز قادر على تقديم ما يصل إلى 23 ساعة من تشغيل الفيديو بشحنة واحدة.\nكما يدعم الشحن بقدرة 45W، وتذكر سامسونج أن شحن البطارية من 0 إلى 100% يستغرق حوالي 95 دقيقة باستخدام شاحن 45W. Samsung Global Newsroom\nGalaxy AI وS Pen\nركزت سامسونج أيضاً على الذكاء الاصطناعي، حيث يأتي الجهاز مع أحدث مزايا Galaxy AI، إضافة إلى قلم S Pen داخل العلبة.\nويستهدف الجهاز المستخدمين الذين يحتاجون إلى شاشة كبيرة للعمل والدراسة وتدوين الملاحظات والرسم وتحرير المحتوى، مع دعم تطبيقات احترافية وواجهة One UI 9 المبنية على Android 17. Samsung Global Newsroom\nكاميرات واتصالات\nفي الخلف توجد كاميرا مزدوجة بدقة 13MP + 8MP Ultra Wide، بينما تأتي الكاميرا الأمامية بدقة 12MP Ultra Wide.\nأما الاتصال، فيدعم الجهاز Wi-Fi 7 وBluetooth 6.0، مع توفر نسخة 5G أيضاً. ويحصل الجهاز على تصنيف IP68 لمقاومة الماء والغبار. Samsung Global Newsroom\nالخلاصة\nمع شاشة 14.6 بوصة، سماكة 5.1 ملم، معالج Dimensity 9500، ذاكرة تصل إلى 16GB وتخزين 1TB وبطارية 11,600mAh، يحاول Galaxy Tab S12 Ultra تقديم تجربة أقرب إلى الكمبيوتر المحمول مع الحفاظ على شكل الجهاز اللوحي.\nومن المقرر أن يبدأ توفر سلسلة Galaxy Tab S12 في أسواق محددة اعتباراً من 7 أكتوبر 2026.",
+    "seoTitle": "Samsung Galaxy Tab S12 Ultra.. المواصفات والمميزات الكاملة",
+    "seoDescription": "تعرف على Galaxy Tab S12 Ultra الجديد من سامسونج، بشاشة 14.6 بوصة ومعالج Dimensity 9500 وذاكرة تصل إلى 16GB وتخزين 1TB.",
+    "tags": [
+      "Samsung",
+      "Galaxy Tab S12 Ultra",
+      "Galaxy Tab S12",
+      "Tablets",
+      "Galaxy AI",
+      "Android 17",
+      "Dimensity 9500"
+    ],
+    "socialLinks": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/reel/Dd6VLHLtavf/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA=="
+      }
+    ],
+    "image": "https://raw.githubusercontent.com/ruoodui/mitech-website/main/media/articles/1790965352291-Galaxy_Tab_S12_Ultra.jpg",
+    "type": "news",
+    "exhibitionSlug": "",
+    "createdAt": "2026-10-02T18:22:34.077Z",
+    "published": true
+  },
+  {
     "id": "d541980e-5eda-43be-b9ab-8077d4510ce3",
     "slug": "acer-تكشف-عن-predator-atlas-7-جهاز-ألعاب-محمول-بحجم-7-بوصات",
     "title": "Acer تكشف عن Predator Atlas 7.. جهاز ألعاب محمول بحجم 7 بوصات",
@@ -26,6 +56,7 @@
     "type": "exhibition",
     "exhibitionSlug": "ifa-berlin-2026",
     "createdAt": "2026-10-02T13:13:15.894Z",
-    "published": true
+    "published": true,
+    "order": 1
   }
 ]
