@@ -10,12 +10,42 @@ body{margin:0;background:#08090d;color:#f5f6f8;font-family:Arial,sans-serif}.wra
 <section id="media" class="panel hidden"><div class="card"><h2>إضافة صورة أو فيديو</h2><div class="grid"><label>رمز الإدارة<input id="mk" type="password"></label><label>المعرض<select id="mex"></select></label><label>نوع المحتوى<select id="mtype"><option value="image">📸 صورة</option><option value="video">🎥 YouTube</option></select></label><label>العنوان<input id="mtitle" placeholder="Dreame Booth / Hands-on..."></label></div><div id="imageBox" style="margin-top:14px"><label>اختر صورة من جهازك<input id="mfile" type="file" accept="image/*"></label><div class="help">الصورة تُرفع إلى مستودع GitHub تلقائياً.</div></div><div id="videoBox" class="hidden" style="margin-top:14px"><label>رابط YouTube<input id="murl" placeholder="https://www.youtube.com/watch?v=..."></label></div><div class="actions"><button class="btn primary" id="addMedia">إضافة للموقع</button><span id="ms" class="status">جاهز</span></div></div><div class="card"><h2>المحتوى الحالي</h2><div id="mediaList" class="list"></div></div></section>
 <section id="aiwriter" class="panel hidden"><div class="card"><h2>✨ AI Writer — كتابة المقال من الصورة</h2><div class="muted">ارفع صورة، أعطِ الذكاء الاصطناعي السياق المتوفر لديك، ثم راجع المسودة قبل النشر.</div></div><div class="card"><div class="grid"><label>رمز الإدارة<input id="aik" type="password"></label><label>نوع المحتوى<select id="aitype"><option value="news">📰 خبر تقني</option><option value="exhibition">🎪 تغطية معرض</option></select></label><label id="aiexWrap">المعرض<select id="aiex"></select></label><label>الشركة<input id="aicompany" placeholder="Samsung"></label><label>المنتج<input id="aiproduct" placeholder="Galaxy S26 Ultra"></label><label>عنوان/فكرة أولية<input id="aititle" placeholder="اختياري"></label></div><label style="margin-top:14px">ملاحظاتك<textarea id="ainotes" placeholder="اكتب أي معلومات تعرفها عن الصورة أو الحدث. AI لن يخترع معلومات غير مؤكدة."></textarea></label><div class="drop" style="margin-top:14px"><label>📸 صورة المقال<input id="aifile" type="file" accept="image/*"></label><img id="aipreview" class="preview-img hidden"></div><div class="actions"><button class="btn ai" id="generateAI">✨ توليد المقال</button><span id="ais" class="status">جاهز</span></div></div>
 <div class="card article-editor hidden" id="aiResult"><h2>مراجعة المسودة</h2><label>العنوان<input id="aititleOut"></label><label style="margin-top:12px">الملخص<textarea id="aiexcerpt"></textarea></label><label style="margin-top:12px">المقال<textarea id="aicontent"></textarea></label><label style="margin-top:12px">SEO Title<input id="aiseoTitle"></label><label style="margin-top:12px">SEO Description<textarea id="aiseoDescription"></textarea></label><label style="margin-top:12px">Tags<input id="aitags"></label><div class="actions"><button class="btn primary" id="publishAI">🚀 نشر المقال</button><button class="btn secondary" id="saveDraftAI">💾 حفظ كمسودة</button><span id="pubs" class="status">جاهز</span></div></div></section>
-<section id="articles" class="panel hidden"><div class="card"><h2>📰 المقالات المنشورة والمسودات</h2><div id="articleList" class="list"></div></div></section>
+<section id="articles" class="panel hidden">
+<div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+  <div><h2 style="margin:0 0 6px">📰 إدارة المقالات</h2><div class="muted">أضف مقالاً يدوياً بدون استخدام الذكاء الاصطناعي، أو عدّل المقالات الموجودة.</div></div>
+  <button class="btn primary" id="openManualArticle">＋ إضافة مقال يدوي</button>
+</div>
+<div id="manualArticleCard" class="card">
+<div class="card">
+  <h2>✍️ إضافة مقال يدوياً</h2>
+  <div class="muted">تقدر تنشر مقال بدون استخدام الذكاء الاصطناعي. الصورة اختيارية، وإذا اخترت تغطية معرض اربط المقال بالمعرض المناسب.</div>
+  <div class="grid" style="margin-top:16px">
+    <label>رمز الإدارة<input id="manualKey" type="password" placeholder="رمز الإدارة"></label>
+    <label>نوع المحتوى<select id="manualType"><option value="news">📰 خبر تقني</option><option value="exhibition">🎪 تغطية معرض</option></select></label>
+    <label id="manualExWrap">المعرض<select id="manualEx"></select></label>
+    <label>العنوان<input id="manualTitle" placeholder="عنوان المقال"></label>
+    <label>الملخص<textarea id="manualExcerpt" placeholder="مقدمة قصيرة للمقال"></textarea></label>
+    <label>SEO Title<input id="manualSeoTitle" placeholder="اختياري"></label>
+    <label>SEO Description<textarea id="manualSeoDescription" placeholder="اختياري"></textarea></label>
+    <label class="full">المقال<textarea id="manualContent" style="min-height:280px" placeholder="اكتب المقال هنا..."></textarea></label>
+    <label>Tags<input id="manualTags" placeholder="Acer, IFA 2026, laptops"></label>
+    <label>📸 صورة المقال (اختيارية)<input id="manualFile" type="file" accept="image/*"><img id="manualPreview" class="preview-img hidden"></label>
+  </div>
+  <div class="actions">
+    <button class="btn primary" id="publishManual">🚀 نشر المقال</button>
+    <button class="btn secondary" id="saveManualDraft">💾 حفظ كمسودة</button>
+    <span id="manualStatus" class="status">جاهز</span>
+  </div>
+</div>
+<div class="card"><h2>📰 المقالات المنشورة والمسودات</h2><div id="articleList" class="list"></div></div>
+</section>
 </div>
 <div id="editArticleModal" class="modal"><div class="modal-box"><h3>✏️ تعديل المقال</h3><input id="editArticleId" type="hidden"><label>العنوان<input id="editArticleTitle"></label><label style="margin-top:12px">الملخص<textarea id="editArticleExcerpt"></textarea></label><label style="margin-top:12px">المقال<textarea id="editArticleContent" style="min-height:260px"></textarea></label><label style="margin-top:12px">SEO Title<input id="editArticleSeoTitle"></label><label style="margin-top:12px">SEO Description<textarea id="editArticleSeoDescription"></textarea></label><label style="margin-top:12px">Tags<input id="editArticleTags"></label><div class="actions"><button class="btn primary" onclick="saveArticleEdit()">حفظ التعديل</button><button class="btn secondary" onclick="closeArticleEdit()">إلغاء</button></div></div></div><div id="editExModal" class="modal"><div class="modal-box"><h3>✏️ تعديل المعرض</h3><div class="ex-edit-grid"><div class="full"><label>اسم المعرض</label><input id="editExName"></div><div><label>Slug</label><input id="editExSlug"></div><div><label>الحالة</label><select id="editExStatus"><option>COMING SOON</option><option>LIVE COVERAGE</option><option>COVERAGE</option></select></div><div><label>التاريخ</label><input id="editExDate"></div><div><label>الموقع</label><input id="editExLocation"></div><div class="full"><label>صورة الغلاف</label><input id="editExImage"></div><div class="full"><label>الوصف</label><textarea id="editExDescription"></textarea></div></div><div class="actions"><button class="btn primary" onclick="saveExhibitionEdit()">حفظ التعديل</button><button class="btn secondary" onclick="closeExhibitionEdit()">إلغاء</button></div></div></div>
 <script>
-const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));let reviews=[],exhibitions=[],articles=[],editingExhibitionIndex=-1,lastAI={};
-for(const b of document.querySelectorAll('.tab'))b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));$(b.dataset.tab).classList.remove('hidden');if(b.dataset.tab==='reviews')loadReviews();if(b.dataset.tab==='exhibitions')loadEx();if(b.dataset.tab==='media'){loadEx().then(loadMedia)}if(b.dataset.tab==='aiwriter'){loadEx().then(fillAIEx)}if(b.dataset.tab==='articles')loadArticles()};
+const $=id=>document.getElementById(id);
+const manualCardToggle=()=>{const c=$("manualArticleCard"); if(c)c.classList.toggle("hidden");};
+document.addEventListener("DOMContentLoaded",()=>{const b=$("openManualArticle"); if(b)b.onclick=()=>{const c=$("manualArticleCard"); if(c)c.classList.remove("hidden"); c?.scrollIntoView({behavior:"smooth",block:"start"});};});const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));let reviews=[],exhibitions=[],articles=[],editingExhibitionIndex=-1,lastAI={};
+for(const b of document.querySelectorAll('.tab'))b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));$(b.dataset.tab).classList.remove('hidden');if(b.dataset.tab==='reviews')loadReviews();if(b.dataset.tab==='exhibitions')loadEx();if(b.dataset.tab==='media'){loadEx().then(loadMedia)}if(b.dataset.tab==='aiwriter'){loadEx().then(fillAIEx)}if(b.dataset.tab==='articles'){loadEx().then(fillManualEx);loadArticles()}};
 $('rdate').value=new Date().toISOString().slice(0,10);
 async function api(path,opt={}){const r=await fetch('https://mitech-website.eng-mohammede-me.workers.dev'+path+'?ts='+Date.now(),{cache:'no-store',...opt});const d=await r.json();if(!r.ok)throw Error(d.error||'فشل الطلب');return d}
 function status(id,t,c=''){$(id).textContent=t;$(id).className='status '+c}
@@ -37,8 +67,49 @@ window.openAIForEx=function(i){document.querySelector('[data-tab="aiwriter"]').c
 $('generateAI').onclick=async()=>{try{const f=$('aifile').files[0];if(!f)throw Error('ارفع صورة أولاً');status('ais','جاري تحليل الصورة وكتابة المقال...');const data=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});const ex=$('aitype').value==='exhibition'?exhibitions[Number($('aiex').value)]:null;const d=await api('/api/ai/generate-article',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':$('aik').value.trim()},body:JSON.stringify({type:$('aitype').value,company:$('aicompany').value.trim(),product:$('aiproduct').value.trim(),titleHint:$('aititle').value.trim(),notes:$('ainotes').value.trim(),exhibition:ex?.title||'',imageData:data})});lastAI={...d.article,imageData:data,filename:f.name,type:$('aitype').value,exhibitionSlug:ex?.slug||''};$('aititleOut').value=d.article.title||'';$('aiexcerpt').value=d.article.excerpt||'';$('aicontent').value=d.article.content||'';$('aiseoTitle').value=d.article.seoTitle||'';$('aiseoDescription').value=d.article.seoDescription||'';$('aitags').value=(d.article.tags||[]).join(', ');$('aiResult').classList.remove('hidden');status('ais','تم توليد المسودة ✓','ok')}catch(e){status('ais',e.message,'err')}};
 async function publishAI(published){try{if(!lastAI.title)throw Error('ولد المقال أولاً');status('pubs','جاري النشر...');const d=await api('/api/articles',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':$('aik').value.trim()},body:JSON.stringify({title:$('aititleOut').value.trim(),excerpt:$('aiexcerpt').value.trim(),content:$('aicontent').value.trim(),seoTitle:$('aiseoTitle').value.trim(),seoDescription:$('aiseoDescription').value.trim(),tags:$('aitags').value.split(',').map(x=>x.trim()).filter(Boolean),type:lastAI.type,exhibitionSlug:lastAI.exhibitionSlug,imageData:lastAI.imageData,filename:lastAI.filename,published})});articles=d.articles||[];status('pubs',published?'تم نشر المقال ✓':'تم حفظ المسودة ✓','ok');loadArticles()}catch(e){status('pubs',e.message,'err')}}
 $('publishAI').onclick=()=>publishAI(true);$('saveDraftAI').onclick=()=>publishAI(false);
+function fillManualEx(){
+  const sel=$('manualEx');
+  if(!sel)return;
+  sel.innerHTML=exhibitions.map((x,i)=>`<option value="${i}">${esc(x.title||x.slug||'معرض')}</option>`).join('');
+}
+$('manualType').onchange=()=>$('manualExWrap').classList.toggle('hidden',$('manualType').value!=='exhibition');
+$('manualFile').onchange=()=>{const f=$('manualFile').files[0];const img=$('manualPreview');if(!f){img.classList.add('hidden');img.removeAttribute('src');return}img.src=URL.createObjectURL(f);img.classList.remove('hidden')};
+async function readOptionalImage(){
+  const f=$('manualFile').files[0];
+  if(!f)return {imageData:'',filename:''};
+  const data=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});
+  return {imageData:data,filename:f.name};
+}
+async function publishManual(published){
+  try{
+    const key=$('manualKey').value.trim() || $('aik').value.trim();
+    if(!key)throw Error('أدخل رمز الإدارة');
+    const title=$('manualTitle').value.trim();
+    const content=$('manualContent').value.trim();
+    if(!title)throw Error('العنوان مطلوب');
+    if(!content)throw Error('محتوى المقال مطلوب');
+    const type=$('manualType').value;
+    const ex=type==='exhibition'?exhibitions[Number($('manualEx').value)]:null;
+    const img=await readOptionalImage();
+    status('manualStatus',published?'جاري نشر المقال...':'جاري حفظ المسودة...');
+    const d=await api('/api/articles',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':key},body:JSON.stringify({
+      title,excerpt:$('manualExcerpt').value.trim(),content,
+      seoTitle:$('manualSeoTitle').value.trim()||title,
+      seoDescription:$('manualSeoDescription').value.trim(),
+      tags:$('manualTags').value.split(',').map(x=>x.trim()).filter(Boolean),
+      type,exhibitionSlug:ex?.slug||'',imageData:img.imageData,filename:img.filename,published
+    })});
+    articles=d.articles||[];
+    status('manualStatus',published?'تم نشر المقال ✓':'تم حفظ المسودة ✓','ok');
+    $('manualTitle').value='';$('manualExcerpt').value='';$('manualContent').value='';$('manualSeoTitle').value='';$('manualSeoDescription').value='';$('manualTags').value='';$('manualFile').value='';$('manualPreview').classList.add('hidden');
+    loadArticles();
+  }catch(e){status('manualStatus',e.message,'err')}
+}
+$('publishManual').onclick=()=>publishManual(true);
+$('saveManualDraft').onclick=()=>publishManual(false);
+
 async function loadArticles(){try{const d=await api('/api/articles');articles=d.articles||[];$('articleList').innerHTML=articles.map((a,i)=>`<div class="row"><div><h3>${esc(a.title)}</h3><div class="muted">${a.published?'🟢 منشور':'🟡 مسودة'} • ${a.type==='exhibition'?'🎪 معرض':'📰 خبر'} ${a.exhibitionSlug?'• '+esc(a.exhibitionSlug):''}</div></div><div class="actions"><button class="btn secondary" onclick="openArticleEdit(${i})">✏️ تعديل</button><button class="btn danger" onclick="deleteArticle(${i})">حذف</button></div></div>`).join('')||'<div class="muted">لا توجد مقالات.</div>'}catch(e){$('articleList').innerHTML='<div class="err">'+esc(e.message)+'</div>'}}
 window.deleteArticle=async i=>{try{if(!confirm('حذف المقال؟'))return;await api('/api/articles',{method:'DELETE',headers:{'Content-Type':'application/json','X-Admin-Key':$('aik').value.trim()},body:JSON.stringify({id:articles[i].id})});loadArticles()}catch(e){alert(e.message)}};window.openArticleEdit=function(i){const a=articles[i];if(!a)return;$('editArticleId').value=a.id;$('editArticleTitle').value=a.title||'';$('editArticleExcerpt').value=a.excerpt||'';$('editArticleContent').value=a.content||'';$('editArticleSeoTitle').value=a.seoTitle||'';$('editArticleSeoDescription').value=a.seoDescription||'';$('editArticleTags').value=Array.isArray(a.tags)?a.tags.join(', '):'';$('editArticleModal').classList.add('show')};window.closeArticleEdit=function(){$('editArticleModal').classList.remove('show')};window.saveArticleEdit=async function(){try{const key=$('aik').value.trim();if(!key)throw Error('أدخل رمز الإدارة في قسم AI Writer أولاً');const d=await api('/api/articles',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':key},body:JSON.stringify({action:'update-article',id:$('editArticleId').value,title:$('editArticleTitle').value.trim(),excerpt:$('editArticleExcerpt').value.trim(),content:$('editArticleContent').value.trim(),seoTitle:$('editArticleSeoTitle').value.trim(),seoDescription:$('editArticleSeoDescription').value.trim(),tags:$('editArticleTags').value.split(',').map(x=>x.trim()).filter(Boolean)})});articles=d.articles||[];closeArticleEdit();loadArticles()}catch(e){alert(e.message)}};$('editArticleModal').addEventListener('click',e=>{if(e.target===$('editArticleModal'))closeArticleEdit()});
 window.openExhibitionEdit=function(i){const x=exhibitions[i];if(!x)return;editingExhibitionIndex=i;$('editExName').value=x.title||'';$('editExSlug').value=x.slug||'';$('editExStatus').value=x.status||'COVERAGE';$('editExDate').value=x.date||'';$('editExLocation').value=x.location||'';$('editExImage').value=x.cover||'';$('editExDescription').value=x.description||'';$('editExModal').classList.add('show')};window.closeExhibitionEdit=function(){$('editExModal').classList.remove('show');editingExhibitionIndex=-1};window.saveExhibitionEdit=async function(){const old=exhibitions[editingExhibitionIndex];if(!old)return;const key=$('ek').value.trim();if(!key){alert('أدخل رمز الإدارة أولاً');return}try{status('esx','جاري حفظ التعديل...');const d=await api('/api/exhibitions',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':key},body:JSON.stringify({action:'update-exhibition',oldSlug:old.slug,title:$('editExName').value.trim(),slug:$('editExSlug').value.trim(),location:$('editExLocation').value.trim(),date:$('editExDate').value.trim(),status:$('editExStatus').value,cover:$('editExImage').value.trim(),description:$('editExDescription').value.trim()})});exhibitions=d.exhibitions||[];closeExhibitionEdit();status('esx','تم تعديل المعرض ✓','ok');loadEx()}catch(e){status('esx',e.message,'err');alert(e.message)}};$('editExModal').addEventListener('click',e=>{if(e.target===$('editExModal'))closeExhibitionEdit()});
-loadReviews();loadEx();
+loadReviews();loadEx().then(()=>{fillAIEx();fillManualEx();$('manualType').dispatchEvent(new Event('change'));});
 </script></body></html>
