@@ -698,11 +698,39 @@ export default {
       const read=async()=>{const r=await fetch(api,{headers:githubHeaders});if(r.status===404)return {sha:null,data:[]};if(!r.ok)throw Error("تعذر قراءة articles.json من GitHub");const c=await r.json();let data=[];try{data=JSON.parse(decodeURIComponent(escape(atob(c.content.replace(/\n/g,"")))))}catch{}if(!Array.isArray(data))data=Array.isArray(data.articles)?data.articles:[];return {sha:c.sha,data};};
       try {
         const current=await read();
-        if(request.method==="GET") return json({articles:current.data},200,corsHeaders);
+        if(request.method==="GET") {
+          const slug=String(url.searchParams.get("slug")||"").trim();
+          const id=String(url.searchParams.get("id")||"").trim();
+          const published=url.searchParams.get("published");
+          const type=String(url.searchParams.get("type")||"").trim();
+          const exhibitionSlug=String(url.searchParams.get("exhibitionSlug")||"").trim();
+          const limit=Math.min(Math.max(Number(url.searchParams.get("limit")||0)||0,0),50);
+          if(slug || id) {
+            const article=current.data.find(a => (slug && String(a.slug||"")===slug) || (id && String(a.id||"")===id));
+            if(!article) return json({error:"المقال غير موجود"},404,corsHeaders);
+            return json({article},200,corsHeaders);
+          }
+          let list=current.data.slice();
+          if(published!==null) list=list.filter(a => published==="true" ? a.published===true : a.published!==true);
+          if(type) list=list.filter(a => String(a.type||"")===type);
+          if(exhibitionSlug) list=list.filter(a => String(a.exhibitionSlug||"")===exhibitionSlug);
+          list.sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
+          if(limit) list=list.slice(0,limit);
+          return json({articles:list},200,corsHeaders);
+        }
         if(request.method!=="POST"&&request.method!=="DELETE") return json({error:"Method not allowed"},405,corsHeaders);
         if(request.headers.get("X-Admin-Key")!==env.ADMIN_KEY) return json({error:"رمز الإدارة غير صحيح"},401,corsHeaders);
         const p=await request.json(); let data=current.data;
         if(request.method==="POST"){
+          if(String(p.action||"")==="update-article") {
+            const id=String(p.id||"").trim();
+            const item=data.find(a=>a.id===id);
+            if(!item) return json({error:"المقال غير موجود"},404,corsHeaders);
+            const fields=["title","excerpt","content","seoTitle","seoDescription"];
+            for(const k of fields) if(p[k]!==undefined) item[k]=String(p[k]||"").trim();
+            if(Array.isArray(p.tags)) item.tags=p.tags.map(x=>String(x).trim()).filter(Boolean);
+            if(p.published!==undefined) item.published=Boolean(p.published);
+          } else {
           const title=String(p.title||"").trim(), slug=String(p.slug||title).trim().toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/g,"-").replace(/^-+|-+$/g,"") || `article-${Date.now()}`;
           if(!title) return json({error:"العنوان مطلوب"},400,corsHeaders);
           if(data.some(a=>a.slug===slug)) return json({error:"هذا المقال موجود مسبقاً"},409,corsHeaders);
@@ -718,6 +746,7 @@ export default {
           }
           const article={id:crypto.randomUUID(),slug,title,excerpt:String(p.excerpt||"").trim(),content:String(p.content||"").trim(),seoTitle:String(p.seoTitle||title).trim(),seoDescription:String(p.seoDescription||"").trim(),tags:Array.isArray(p.tags)?p.tags:[],image:imageUrl,type:String(p.type||"news"),exhibitionSlug:String(p.exhibitionSlug||"").trim(),createdAt:new Date().toISOString(),published:p.published!==false};
           data.unshift(article);
+          }
         } else {
           const id=String(p.id||""); const before=data.length; data=data.filter(a=>a.id!==id); if(data.length===before)return json({error:"المقال غير موجود"},404,corsHeaders);
         }
