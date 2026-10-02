@@ -587,7 +587,18 @@ export default {
           const title=String(p.title||"").trim(), slug=String(p.slug||"").trim().toLowerCase().replace(/[^a-z0-9-]+/g,"-").replace(/^-+|-+$/g,"");
           if(!title||!slug) return json({error:"اسم المعرض وSlug مطلوبان"},400,corsHeaders);
           if(data.some(x=>x.slug===slug)) return json({error:"هذا الـSlug موجود مسبقاً"},409,corsHeaders);
-          data.unshift({title,slug,location:String(p.location||"").trim(),date:String(p.date||"").trim(),status:String(p.status||"COVERAGE").trim(),cover:String(p.cover||"").trim(),description:String(p.description||"").trim(),media:[]});
+          let cover=String(p.cover||"").trim();
+          if(String(p.coverData||"").startsWith('data:image/')){
+            const m=String(p.coverData).match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+            if(!m) return json({error:"صورة الغلاف غير صالحة"},400,corsHeaders);
+            const ext=(String(p.coverFilename||"cover.jpg").split('.').pop()||"jpg").replace(/[^a-zA-Z0-9]/g,"").toLowerCase()||"jpg";
+            const safe=(title.replace(/[^a-zA-Z0-9\u0600-\u06ff._-]/g,"_").slice(0,70)||"cover");
+            const coverPath=`media/exhibitions/${slug}/cover-${Date.now()}-${safe}.${ext}`;
+            const putCover=await fetch(`https://api.github.com/repos/${repo}/contents/${coverPath}`,{method:'PUT',headers:{...githubHeaders,'Content-Type':'application/json'},body:JSON.stringify({message:`Add exhibition cover - ${slug}`,content:m[2],branch})});
+            if(!putCover.ok) return json({error:"فشل رفع صورة غلاف المعرض إلى GitHub"},502,corsHeaders);
+            cover=`https://raw.githubusercontent.com/${repo}/${branch}/${coverPath}`;
+          }
+          data.unshift({title,slug,location:String(p.location||"").trim(),date:String(p.date||"").trim(),status:String(p.status||"COVERAGE").trim(),cover,description:String(p.description||"").trim(),media:[]});
         } else if (request.method === "POST" && p.action === "update-exhibition") {
           const oldSlug=String(p.oldSlug||"").trim();
           const title=String(p.title||"").trim();
@@ -601,7 +612,18 @@ export default {
           x.location=String(p.location||"").trim();
           x.date=String(p.date||"").trim();
           x.status=String(p.status||"COVERAGE").trim();
-          x.cover=String(p.cover||"").trim();
+          let cover=String(p.cover||"").trim();
+          if(String(p.coverData||"").startsWith('data:image/')){
+            const m=String(p.coverData).match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+            if(!m) return json({error:"صورة الغلاف غير صالحة"},400,corsHeaders);
+            const ext=(String(p.coverFilename||"cover.jpg").split('.').pop()||"jpg").replace(/[^a-zA-Z0-9]/g,"").toLowerCase()||"jpg";
+            const safe=(title.replace(/[^a-zA-Z0-9\u0600-\u06ff._-]/g,"_").slice(0,70)||"cover");
+            const coverPath=`media/exhibitions/${slug}/cover-${Date.now()}-${safe}.${ext}`;
+            const putCover=await fetch(`https://api.github.com/repos/${repo}/contents/${coverPath}`,{method:'PUT',headers:{...githubHeaders,'Content-Type':'application/json'},body:JSON.stringify({message:`Update exhibition cover - ${slug}`,content:m[2],branch})});
+            if(!putCover.ok) return json({error:"فشل رفع صورة غلاف المعرض إلى GitHub"},502,corsHeaders);
+            cover=`https://raw.githubusercontent.com/${repo}/${branch}/${coverPath}`;
+          }
+          x.cover=cover;
           x.description=String(p.description||"").trim();
           x.media=Array.isArray(x.media)?x.media:[];
         } else if (request.method === "POST" && p.action === "add-media") {
