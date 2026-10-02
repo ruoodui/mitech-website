@@ -729,6 +729,7 @@ export default {
             const fields=["title","excerpt","content","seoTitle","seoDescription"];
             for(const k of fields) if(p[k]!==undefined) item[k]=String(p[k]||"").trim();
             if(Array.isArray(p.tags)) item.tags=p.tags.map(x=>String(x).trim()).filter(Boolean);
+            if(Array.isArray(p.socialLinks)) item.socialLinks=p.socialLinks.map(x=>({platform:String(x?.platform||"").trim().toLowerCase(),url:String(x?.url||"").trim()})).filter(x=>x.url && ["instagram","tiktok","youtube"].includes(x.platform));
             if(p.published!==undefined) item.published=Boolean(p.published);
           } else {
           const title=String(p.title||"").trim(), slug=String(p.slug||title).trim().toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/g,"-").replace(/^-+|-+$/g,"") || `article-${Date.now()}`;
@@ -744,7 +745,7 @@ export default {
             if(!putImg.ok)return json({error:"فشل رفع صورة المقال إلى GitHub"},502,corsHeaders);
             imageUrl=`https://raw.githubusercontent.com/${repo}/${branch}/${mediaPath}`;
           }
-          const article={id:crypto.randomUUID(),slug,title,excerpt:String(p.excerpt||"").trim(),content:String(p.content||"").trim(),seoTitle:String(p.seoTitle||title).trim(),seoDescription:String(p.seoDescription||"").trim(),tags:Array.isArray(p.tags)?p.tags:[],image:imageUrl,type:String(p.type||"news"),exhibitionSlug:String(p.exhibitionSlug||"").trim(),createdAt:new Date().toISOString(),published:p.published!==false};
+          const article={id:crypto.randomUUID(),slug,title,excerpt:String(p.excerpt||"").trim(),content:String(p.content||"").trim(),seoTitle:String(p.seoTitle||title).trim(),seoDescription:String(p.seoDescription||"").trim(),tags:Array.isArray(p.tags)?p.tags:[],socialLinks:Array.isArray(p.socialLinks)?p.socialLinks.map(x=>({platform:String(x?.platform||"").trim().toLowerCase(),url:String(x?.url||"").trim()})).filter(x=>x.url && ["instagram","tiktok","youtube"].includes(x.platform)):[],image:imageUrl,type:String(p.type||"news"),exhibitionSlug:String(p.exhibitionSlug||"").trim(),createdAt:new Date().toISOString(),published:p.published!==false};
           data.unshift(article);
           }
         } else {
