@@ -835,25 +835,94 @@ export default {
     // =========================
     // SOCIAL STATS
     // =========================
-    if (url.pathname === "/api/social-stats" && request.method === "GET") {
-      const refresh = url.searchParams.get("refresh") === "1";
-      const cache = caches.default;
-      const keyUrl = new URL(request.url); keyUrl.search = requestOrigin ? `?origin=${encodeURIComponent(requestOrigin)}` : "?origin=none"; const cacheKey = new Request(keyUrl.toString(), request);
-      if (!refresh) {
-        const cached = await cache.match(cacheKey);
-        if (cached) return cached;
+    if (url.pathname === "/api/social-stats") {
+      const repo = "ruoodui/mitech-website";
+      const path = "social-stats.json";
+      const branch = "main";
+      const githubHeaders = {
+        "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "MiTech-Social-Stats"
+      };
+      const api = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
+
+      // Manual update from the admin dashboard. These values are stored in GitHub
+      // so they are shared by the public website and survive browser/device changes.
+      if (request.method === "POST") {
+        if (request.headers.get("X-Admin-Key") !== env.ADMIN_KEY) {
+          return json({ error: "رمز الإدارة غير صحيح" }, 401, corsHeaders);
+        }
+        try {
+          const p = await request.json();
+          if (String(p.action || "") !== "manual") return json({ error: "إجراء غير صحيح" }, 400, corsHeaders);
+          const input = p.stats || {};
+          const stats = {
+            youtube: Math.max(0, Math.floor(Number(input.youtube ?? 0))),
+            instagram: Math.max(0, Math.floor(Number(input.instagram ?? 0))),
+            tiktok: Math.max(0, Math.floor(Number(input.tiktok ?? 0))),
+            updatedAt: new Date().toISOString()
+          };
+          if (![stats.youtube, stats.instagram, stats.tiktok].every(Number.isFinite)) {
+            return json({ error: "الأرقام غير صالحة" }, 400, corsHeaders);
+          }
+
+          let sha = null;
+          const current = await fetch(api, { headers: githubHeaders });
+          if (current.ok) {
+            const cur = await current.json();
+            sha = cur.sha || null;
+          } else if (current.status !== 404) {
+            return json({ error: "تعذر قراءة ملف الإحصائيات من GitHub" }, 502, corsHeaders);
+          }
+
+          const content = btoa(unescape(encodeURIComponent(JSON.stringify(stats, null, 2))));
+          const body = { message: `Update social stats - ${new Date().toISOString()}`, content, branch };
+          if (sha) body.sha = sha;
+          const put = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+            method: "PUT",
+            headers: { ...githubHeaders, "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+          });
+          if (!put.ok) return json({ error: "GitHub رفض حفظ الإحصائيات" }, 502, corsHeaders);
+          return json({ ok: true, stats }, 200, corsHeaders);
+        } catch (e) {
+          return json({ error: e.message || "فشل حفظ الإحصائيات" }, 500, corsHeaders);
+        }
       }
 
+      if (request.method !== "GET") return json({ error: "Method not allowed" }, 405, corsHeaders);
+
+      const now = new Date().toISOString();
       const stats = {
         youtube: { followers: null, updatedAt: null },
         instagram: { followers: null, updatedAt: null },
         tiktok: { followers: null, updatedAt: null }
       };
-      const now = new Date().toISOString();
 
-      // YouTube: uses the public Data API channel statistics.
+      // Manual values are authoritative when social-stats.json exists.
       try {
-        if (env.YOUTUBE_API_KEY) {
+        const g = await fetch(api, { headers: githubHeaders });
+        if (g.ok) {
+          const cur = await g.json();
+          const raw = decodeURIComponent(escape(atob(String(cur.content || "").replace(/\n/g, ""))));
+          const manual = JSON.parse(raw);
+          for (const k of ["youtube", "instagram", "tiktok"]) {
+            if (Number.isFinite(Number(manual[k]))) {
+              stats[k].followers = Number(manual[k]);
+              stats[k].updatedAt = manual.updatedAt || now;
+              stats[k].source = "manual";
+            }
+          }
+          if (["youtube", "instagram", "tiktok"].every(k => stats[k].source === "manual")) {
+            return json({ ok: true, cached: false, stats, updatedAt: manual.updatedAt || now }, 200, corsHeaders);
+          }
+        }
+      } catch (_) {}
+
+      // Automatic API fallback for any platform without a manual value.
+      try {
+        if (env.YOUTUBE_API_KEY && stats.youtube.followers == null) {
           const handle = String(env.YOUTUBE_HANDLE || "@mitech808").trim();
           const u = `https://www.googleapis.com/youtube/v3/channels?part=statistics&forHandle=${encodeURIComponent(handle)}&key=${encodeURIComponent(env.YOUTUBE_API_KEY)}`;
           const r = await fetch(u);
@@ -862,12 +931,12 @@ export default {
           if (!r.ok || !item) throw new Error(d?.error?.message || "YouTube channel not found");
           stats.youtube.followers = Number(item.statistics?.subscriberCount || 0);
           stats.youtube.updatedAt = now;
-        } else stats.youtube.error = "YOUTUBE_API_KEY غير مضبوط";
+          stats.youtube.source = "api";
+        } else if (stats.youtube.followers == null) stats.youtube.error = "YOUTUBE_API_KEY غير مضبوط";
       } catch (e) { stats.youtube.error = e.message || "فشل جلب YouTube"; }
 
-      // Instagram Graph API: requires an Instagram access token for the account.
       try {
-        if (env.INSTAGRAM_ACCESS_TOKEN) {
+        if (env.INSTAGRAM_ACCESS_TOKEN && stats.instagram.followers == null) {
           const u = `https://graph.instagram.com/me?fields=id,username,followers_count&access_token=${encodeURIComponent(env.INSTAGRAM_ACCESS_TOKEN)}`;
           const r = await fetch(u);
           const d = await r.json();
@@ -875,12 +944,12 @@ export default {
           stats.instagram.followers = Number(d.followers_count || 0);
           stats.instagram.username = d.username || "";
           stats.instagram.updatedAt = now;
-        } else stats.instagram.error = "INSTAGRAM_ACCESS_TOKEN غير مضبوط";
+          stats.instagram.source = "api";
+        } else if (stats.instagram.followers == null) stats.instagram.error = "INSTAGRAM_ACCESS_TOKEN غير مضبوط";
       } catch (e) { stats.instagram.error = e.message || "فشل جلب Instagram"; }
 
-      // TikTok v2 User Info: follower_count requires user.info.stats scope.
       try {
-        if (env.TIKTOK_ACCESS_TOKEN) {
+        if (env.TIKTOK_ACCESS_TOKEN && stats.tiktok.followers == null) {
           const u = "https://open.tiktokapis.com/v2/user/info/?fields=open_id,username,follower_count";
           const r = await fetch(u, { headers: { Authorization: `Bearer ${env.TIKTOK_ACCESS_TOKEN}` } });
           const d = await r.json();
@@ -889,15 +958,11 @@ export default {
           stats.tiktok.followers = Number(user.follower_count || 0);
           stats.tiktok.username = user.username || "";
           stats.tiktok.updatedAt = now;
-        } else stats.tiktok.error = "TIKTOK_ACCESS_TOKEN غير مضبوط";
+          stats.tiktok.source = "api";
+        } else if (stats.tiktok.followers == null) stats.tiktok.error = "TIKTOK_ACCESS_TOKEN غير مضبوط";
       } catch (e) { stats.tiktok.error = e.message || "فشل جلب TikTok"; }
 
-      const payload = json({ ok: true, cached: false, stats, updatedAt: now }, 200, {
-        ...corsHeaders,
-        "Cache-Control": "public, max-age=21600"
-      });
-      if (!refresh) await cache.put(cacheKey, payload.clone());
-      return payload;
+      return json({ ok: true, cached: false, stats, updatedAt: now }, 200, corsHeaders);
     }
 
     // =========================
