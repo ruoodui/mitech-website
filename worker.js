@@ -943,7 +943,16 @@ export default {
     // WEBSITE ASSETS
     // =========================
 
-    return env.ASSETS.fetch(request);
+    // Keep the admin page fresh after Worker deployments so an older cached
+    // admin.html cannot keep running stale JavaScript.
+    const assetResponse = await env.ASSETS.fetch(request);
+    if (url.pathname === "/admin" || url.pathname === "/admin.html") {
+      const headers = new Headers(assetResponse.headers);
+      headers.set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+      headers.set("Pragma", "no-cache");
+      return new Response(assetResponse.body, { status: assetResponse.status, statusText: assetResponse.statusText, headers });
+    }
+    return assetResponse;
   }
 };
 
