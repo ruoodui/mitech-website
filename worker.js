@@ -833,6 +833,74 @@ export default {
     }
 
     // =========================
+    // SOCIAL STATS
+    // =========================
+    if (url.pathname === "/api/social-stats" && request.method === "GET") {
+      const refresh = url.searchParams.get("refresh") === "1";
+      const cache = caches.default;
+      const keyUrl = new URL(request.url); keyUrl.search = requestOrigin ? `?origin=${encodeURIComponent(requestOrigin)}` : "?origin=none"; const cacheKey = new Request(keyUrl.toString(), request);
+      if (!refresh) {
+        const cached = await cache.match(cacheKey);
+        if (cached) return cached;
+      }
+
+      const stats = {
+        youtube: { followers: null, updatedAt: null },
+        instagram: { followers: null, updatedAt: null },
+        tiktok: { followers: null, updatedAt: null }
+      };
+      const now = new Date().toISOString();
+
+      // YouTube: uses the public Data API channel statistics.
+      try {
+        if (env.YOUTUBE_API_KEY) {
+          const handle = String(env.YOUTUBE_HANDLE || "@mitech808").trim();
+          const u = `https://www.googleapis.com/youtube/v3/channels?part=statistics&forHandle=${encodeURIComponent(handle)}&key=${encodeURIComponent(env.YOUTUBE_API_KEY)}`;
+          const r = await fetch(u);
+          const d = await r.json();
+          const item = d?.items?.[0];
+          if (!r.ok || !item) throw new Error(d?.error?.message || "YouTube channel not found");
+          stats.youtube.followers = Number(item.statistics?.subscriberCount || 0);
+          stats.youtube.updatedAt = now;
+        } else stats.youtube.error = "YOUTUBE_API_KEY غير مضبوط";
+      } catch (e) { stats.youtube.error = e.message || "فشل جلب YouTube"; }
+
+      // Instagram Graph API: requires an Instagram access token for the account.
+      try {
+        if (env.INSTAGRAM_ACCESS_TOKEN) {
+          const u = `https://graph.instagram.com/me?fields=id,username,followers_count&access_token=${encodeURIComponent(env.INSTAGRAM_ACCESS_TOKEN)}`;
+          const r = await fetch(u);
+          const d = await r.json();
+          if (!r.ok || d?.followers_count == null) throw new Error(d?.error?.message || "Instagram followers unavailable");
+          stats.instagram.followers = Number(d.followers_count || 0);
+          stats.instagram.username = d.username || "";
+          stats.instagram.updatedAt = now;
+        } else stats.instagram.error = "INSTAGRAM_ACCESS_TOKEN غير مضبوط";
+      } catch (e) { stats.instagram.error = e.message || "فشل جلب Instagram"; }
+
+      // TikTok v2 User Info: follower_count requires user.info.stats scope.
+      try {
+        if (env.TIKTOK_ACCESS_TOKEN) {
+          const u = "https://open.tiktokapis.com/v2/user/info/?fields=open_id,username,follower_count";
+          const r = await fetch(u, { headers: { Authorization: `Bearer ${env.TIKTOK_ACCESS_TOKEN}` } });
+          const d = await r.json();
+          const user = d?.data?.user;
+          if (!r.ok || user?.follower_count == null) throw new Error(d?.error?.message || d?.error?.code || "TikTok followers unavailable");
+          stats.tiktok.followers = Number(user.follower_count || 0);
+          stats.tiktok.username = user.username || "";
+          stats.tiktok.updatedAt = now;
+        } else stats.tiktok.error = "TIKTOK_ACCESS_TOKEN غير مضبوط";
+      } catch (e) { stats.tiktok.error = e.message || "فشل جلب TikTok"; }
+
+      const payload = json({ ok: true, cached: false, stats, updatedAt: now }, 200, {
+        ...corsHeaders,
+        "Cache-Control": "public, max-age=21600"
+      });
+      if (!refresh) await cache.put(cacheKey, payload.clone());
+      return payload;
+    }
+
+    // =========================
     // WEBSITE ASSETS
     // =========================
 
