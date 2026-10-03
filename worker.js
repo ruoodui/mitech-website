@@ -847,8 +847,7 @@ export default {
       };
       const api = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
 
-      // Manual update from the admin dashboard. These values are stored in GitHub
-      // so they are shared by the public website and survive browser/device changes.
+      // Instagram and TikTok are intentionally manual. YouTube is always fetched live.
       if (request.method === "POST") {
         if (request.headers.get("X-Admin-Key") !== env.ADMIN_KEY) {
           return json({ error: "رمز الإدارة غير صحيح" }, 401, corsHeaders);
@@ -857,14 +856,10 @@ export default {
           const p = await request.json();
           if (String(p.action || "") !== "manual") return json({ error: "إجراء غير صحيح" }, 400, corsHeaders);
           const input = p.stats || {};
-          const stats = {
-            youtube: Math.max(0, Math.floor(Number(input.youtube ?? 0))),
-            instagram: Math.max(0, Math.floor(Number(input.instagram ?? 0))),
-            tiktok: Math.max(0, Math.floor(Number(input.tiktok ?? 0))),
-            updatedAt: new Date().toISOString()
-          };
-          if (![stats.youtube, stats.instagram, stats.tiktok].every(Number.isFinite)) {
-            return json({ error: "الأرقام غير صالحة" }, 400, corsHeaders);
+          const instagram = Number(input.instagram);
+          const tiktok = Number(input.tiktok);
+          if (![instagram, tiktok].every(v => Number.isInteger(v) && v >= 0)) {
+            return json({ error: "أدخل أرقام Instagram وTikTok صحيحة وغير سالبة" }, 400, corsHeaders);
           }
 
           let sha = null;
@@ -876,8 +871,13 @@ export default {
             return json({ error: "تعذر قراءة ملف الإحصائيات من GitHub" }, 502, corsHeaders);
           }
 
+          const stats = {
+            instagram,
+            tiktok,
+            updatedAt: new Date().toISOString()
+          };
           const content = btoa(unescape(encodeURIComponent(JSON.stringify(stats, null, 2))));
-          const body = { message: `Update social stats - ${new Date().toISOString()}`, content, branch };
+          const body = { message: `Update Instagram and TikTok stats - ${new Date().toISOString()}`, content, branch };
           if (sha) body.sha = sha;
           const put = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
             method: "PUT",
@@ -900,67 +900,41 @@ export default {
         tiktok: { followers: null, updatedAt: null }
       };
 
-      // Manual values are authoritative when social-stats.json exists.
+      // Read only the manual Instagram/TikTok values from GitHub.
       try {
         const g = await fetch(api, { headers: githubHeaders });
         if (g.ok) {
           const cur = await g.json();
           const raw = decodeURIComponent(escape(atob(String(cur.content || "").replace(/\n/g, ""))));
           const manual = JSON.parse(raw);
-          for (const k of ["youtube", "instagram", "tiktok"]) {
+          for (const k of ["instagram", "tiktok"]) {
             if (Number.isFinite(Number(manual[k]))) {
               stats[k].followers = Number(manual[k]);
               stats[k].updatedAt = manual.updatedAt || now;
               stats[k].source = "manual";
             }
           }
-          if (["youtube", "instagram", "tiktok"].every(k => stats[k].source === "manual")) {
-            return json({ ok: true, cached: false, stats, updatedAt: manual.updatedAt || now }, 200, corsHeaders);
-          }
         }
       } catch (_) {}
 
-      // Automatic API fallback for any platform without a manual value.
+      // YouTube is ALWAYS automatic and never comes from the manual file.
       try {
-        if (env.YOUTUBE_API_KEY && stats.youtube.followers == null) {
-          const handle = String(env.YOUTUBE_HANDLE || "@mitech808").trim();
-          const u = `https://www.googleapis.com/youtube/v3/channels?part=statistics&forHandle=${encodeURIComponent(handle)}&key=${encodeURIComponent(env.YOUTUBE_API_KEY)}`;
-          const r = await fetch(u);
-          const d = await r.json();
-          const item = d?.items?.[0];
-          if (!r.ok || !item) throw new Error(d?.error?.message || "YouTube channel not found");
-          stats.youtube.followers = Number(item.statistics?.subscriberCount || 0);
-          stats.youtube.updatedAt = now;
-          stats.youtube.source = "api";
-        } else if (stats.youtube.followers == null) stats.youtube.error = "YOUTUBE_API_KEY غير مضبوط";
-      } catch (e) { stats.youtube.error = e.message || "فشل جلب YouTube"; }
+        if (!env.YOUTUBE_API_KEY) throw new Error("YOUTUBE_API_KEY غير مضبوط");
+        const handle = String(env.YOUTUBE_HANDLE || "@mitech808").trim();
+        const u = `https://www.googleapis.com/youtube/v3/channels?part=statistics&forHandle=${encodeURIComponent(handle)}&key=${encodeURIComponent(env.YOUTUBE_API_KEY)}`;
+        const r = await fetch(u);
+        const d = await r.json();
+        const item = d?.items?.[0];
+        if (!r.ok || !item) throw new Error(d?.error?.message || "YouTube channel not found");
+        stats.youtube.followers = Number(item.statistics?.subscriberCount || 0);
+        stats.youtube.updatedAt = now;
+        stats.youtube.source = "api";
+      } catch (e) {
+        stats.youtube.error = e.message || "فشل جلب YouTube";
+      }
 
-      try {
-        if (env.INSTAGRAM_ACCESS_TOKEN && stats.instagram.followers == null) {
-          const u = `https://graph.instagram.com/me?fields=id,username,followers_count&access_token=${encodeURIComponent(env.INSTAGRAM_ACCESS_TOKEN)}`;
-          const r = await fetch(u);
-          const d = await r.json();
-          if (!r.ok || d?.followers_count == null) throw new Error(d?.error?.message || "Instagram followers unavailable");
-          stats.instagram.followers = Number(d.followers_count || 0);
-          stats.instagram.username = d.username || "";
-          stats.instagram.updatedAt = now;
-          stats.instagram.source = "api";
-        } else if (stats.instagram.followers == null) stats.instagram.error = "INSTAGRAM_ACCESS_TOKEN غير مضبوط";
-      } catch (e) { stats.instagram.error = e.message || "فشل جلب Instagram"; }
-
-      try {
-        if (env.TIKTOK_ACCESS_TOKEN && stats.tiktok.followers == null) {
-          const u = "https://open.tiktokapis.com/v2/user/info/?fields=open_id,username,follower_count";
-          const r = await fetch(u, { headers: { Authorization: `Bearer ${env.TIKTOK_ACCESS_TOKEN}` } });
-          const d = await r.json();
-          const user = d?.data?.user;
-          if (!r.ok || user?.follower_count == null) throw new Error(d?.error?.message || d?.error?.code || "TikTok followers unavailable");
-          stats.tiktok.followers = Number(user.follower_count || 0);
-          stats.tiktok.username = user.username || "";
-          stats.tiktok.updatedAt = now;
-          stats.tiktok.source = "api";
-        } else if (stats.tiktok.followers == null) stats.tiktok.error = "TIKTOK_ACCESS_TOKEN غير مضبوط";
-      } catch (e) { stats.tiktok.error = e.message || "فشل جلب TikTok"; }
+      if (stats.instagram.followers == null) stats.instagram.error = "أدخل رقم Instagram يدوياً";
+      if (stats.tiktok.followers == null) stats.tiktok.error = "أدخل رقم TikTok يدوياً";
 
       return json({ ok: true, cached: false, stats, updatedAt: now }, 200, corsHeaders);
     }
