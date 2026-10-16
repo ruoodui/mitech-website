@@ -31,3 +31,5 @@ Important:
 - Do not replace reviews.json with an empty file; it is managed by the worker.
 
 V24: Added English Contact page, English nav Contact link, and updated WhatsApp number to +964 782 881 6508.
+
+V25 changes: simplified contact page to clickable WhatsApp and email icons only; removed the separate English Media & Press page and its navigation links.
