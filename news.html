@@ -1,4 +1,9 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>M.iTech | الأخبار</title><link rel="stylesheet" href="style.css"><link rel="alternate" hreflang="ar" href="https://mitechiraq.com/news.html"><link rel="alternate" hreflang="en" href="https://mitechiraq.com/en/news.html"></head><body><header class="nav"><a class="logo" href="index.html">M.i<span>Tech</span></a><nav><a href="index.html">الرئيسية</a><a href="reviews.html">المراجعات</a><a href="news.html">الأخبار</a><a href="exhibitions.html">المعارض</a><a href="videos.html">الفيديوهات</a></nav><a class="nav-btn" href="contact.html">تعاون معنا</a><a class="language-switch" href="/en/news.html" lang="en" dir="ltr" aria-label="Switch to English">EN</a></header><main>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>M.iTech | الأخبار</title><link rel="stylesheet" href="style.css"><link rel="alternate" hreflang="ar" href="https://mitechiraq.com/news.html"><link rel="alternate" hreflang="en" href="https://mitechiraq.com/en/news.html">
+<style>
+.news-card-link:hover,.news-card-link:focus-visible{transform:translateY(-3px);border-color:rgba(34,211,238,.65)!important;outline:none;box-shadow:0 8px 28px rgba(0,0,0,.18)}
+.news-card-link:focus-visible{outline:2px solid #22d3ee;outline-offset:3px}
+</style>
+</head><body><header class="nav"><a class="logo" href="index.html">M.i<span>Tech</span></a><nav><a href="index.html">الرئيسية</a><a href="reviews.html">المراجعات</a><a href="news.html">الأخبار</a><a href="exhibitions.html">المعارض</a><a href="videos.html">الفيديوهات</a></nav><a class="nav-btn" href="contact.html">تعاون معنا</a><a class="language-switch" href="/en/news.html" lang="en" dir="ltr" aria-label="Switch to English">EN</a></header><main>
 <section class="section news-page">
   <div class="eyebrow">M.iTECH NEWS</div>
   <h1>الأخبار</h1>
@@ -48,7 +53,7 @@ function articleCard(article) {
     : "";
 
   return `
-    <article class="news-card" style="overflow:hidden;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.03);">
+    <a href="article.html?slug=${encodeURIComponent(article.slug || article.id)}" class="news-card news-card-link" aria-label="قراءة ${escapeHtml(article.title)}" style="display:block;overflow:hidden;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.03);color:inherit;text-decoration:none;cursor:pointer;transition:transform .18s ease,border-color .18s ease;">
       ${image}
       <div style="padding:18px;">
         <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;">
@@ -58,9 +63,9 @@ function articleCard(article) {
         <h2 style="margin:0 0 10px;font-size:21px;line-height:1.45;">${escapeHtml(article.title)}</h2>
         <p class="muted" style="line-height:1.8;margin:0 0 14px;">${escapeHtml(article.excerpt || "")}</p>
         ${tags ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">${tags}</div>` : ""}
-        <a href="article.html?slug=${encodeURIComponent(article.slug || article.id)}" class="nav-btn" style="display:inline-block;">اقرأ المقال</a>
+        <span class="nav-btn" style="display:inline-block;">اقرأ المقال ←</span>
       </div>
-    </article>`;
+    </a>`;
 }
 
 function renderArticles() {
