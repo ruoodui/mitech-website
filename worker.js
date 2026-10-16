@@ -470,6 +470,9 @@ export default {
           youtube,
           device: String(item.device ?? "").trim(),
           description: String(item.description ?? "").trim(),
+          titleEn: String(item.titleEn ?? "").trim(),
+          deviceEn: String(item.deviceEn ?? "").trim(),
+          descriptionEn: String(item.descriptionEn ?? "").trim(),
           date: String(item.date ?? "").trim()
         };
 
@@ -615,7 +618,7 @@ export default {
             if(!putCover.ok) return json({error:"فشل رفع صورة غلاف المعرض إلى GitHub"},502,corsHeaders);
             cover=`https://raw.githubusercontent.com/${repo}/${branch}/${coverPath}`;
           }
-          data.unshift({title,slug,location:String(p.location||"").trim(),date:String(p.date||"").trim(),status:String(p.status||"COVERAGE").trim(),cover,description:String(p.description||"").trim(),media:[]});
+          data.unshift({title,slug,location:String(p.location||"").trim(),date:String(p.date||"").trim(),status:String(p.status||"COVERAGE").trim(),cover,description:String(p.description||"").trim(),titleEn:String(p.titleEn||"").trim(),locationEn:String(p.locationEn||"").trim(),descriptionEn:String(p.descriptionEn||"").trim(),media:[]});
         } else if (request.method === "POST" && p.action === "update-exhibition") {
           const oldSlug=String(p.oldSlug||"").trim();
           const title=String(p.title||"").trim();
@@ -796,7 +799,7 @@ export default {
             const id=String(p.id||"").trim();
             const item=data.find(a=>a.id===id);
             if(!item) return json({error:"المقال غير موجود"},404,corsHeaders);
-            const fields=["title","excerpt","content","seoTitle","seoDescription"];
+            const fields=["title","excerpt","content","seoTitle","seoDescription","titleEn","excerptEn","contentEn","seoTitleEn","seoDescriptionEn"];
             for(const k of fields) if(p[k]!==undefined) item[k]=String(p[k]||"").trim();
             if(Array.isArray(p.tags)) item.tags=p.tags.map(x=>String(x).trim()).filter(Boolean);
             if(Array.isArray(p.socialLinks)) item.socialLinks=p.socialLinks.map(x=>({platform:String(x?.platform||"").trim().toLowerCase(),url:String(x?.url||"").trim()})).filter(x=>x.url && ["instagram","tiktok","youtube"].includes(x.platform));
@@ -818,7 +821,7 @@ export default {
             if(!putImg.ok)return json({error:"فشل رفع صورة المقال إلى GitHub"},502,corsHeaders);
             imageUrl=`https://raw.githubusercontent.com/${repo}/${branch}/${mediaPath}`;
           }
-          const article={id:crypto.randomUUID(),slug,title,order:0,excerpt:String(p.excerpt||"").trim(),content:String(p.content||"").trim(),seoTitle:String(p.seoTitle||title).trim(),seoDescription:String(p.seoDescription||"").trim(),tags:Array.isArray(p.tags)?p.tags:[],socialLinks:Array.isArray(p.socialLinks)?p.socialLinks.map(x=>({platform:String(x?.platform||"").trim().toLowerCase(),url:String(x?.url||"").trim()})).filter(x=>x.url && ["instagram","tiktok","youtube"].includes(x.platform)):[],image:imageUrl,type:String(p.type||"news"),exhibitionSlug:String(p.exhibitionSlug||"").trim(),createdAt:new Date().toISOString(),published:p.published!==false};
+          const article={id:crypto.randomUUID(),slug,title,order:0,excerpt:String(p.excerpt||"").trim(),content:String(p.content||"").trim(),seoTitle:String(p.seoTitle||title).trim(),seoDescription:String(p.seoDescription||"").trim(),titleEn:String(p.titleEn||"").trim(),excerptEn:String(p.excerptEn||"").trim(),contentEn:String(p.contentEn||"").trim(),seoTitleEn:String(p.seoTitleEn||"").trim(),seoDescriptionEn:String(p.seoDescriptionEn||"").trim(),tags:Array.isArray(p.tags)?p.tags:[],socialLinks:Array.isArray(p.socialLinks)?p.socialLinks.map(x=>({platform:String(x?.platform||"").trim().toLowerCase(),url:String(x?.url||"").trim()})).filter(x=>x.url && ["instagram","tiktok","youtube"].includes(x.platform)):[],image:imageUrl,type:String(p.type||"news"),exhibitionSlug:String(p.exhibitionSlug||"").trim(),createdAt:new Date().toISOString(),published:p.published!==false};
           data.unshift(article); data=data.map((item,i)=>({...item,order:i}));
           }
         } else {
