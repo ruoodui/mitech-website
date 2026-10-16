@@ -18,3 +18,10 @@
 - لوحة تحكم لإضافة الأسعار والمراجعات.
 - ربط Google Analytics.
 - ربط دومين خاص مثل mitech.tech.
+
+
+## Bilingual site (V20)
+- Arabic pages remain at the root paths.
+- English pages are in `/en/`: Home, Reviews, News, Events Coverage, Videos, Media & Press, and Story view.
+- Public Arabic pages include an EN switch and hreflang alternates; English pages include an Arabic switch and SEO metadata.
+- Dynamic CMS stories currently render their stored title/body as entered. To publish fully bilingual editorial content, create English versions of stories in the CMS or extend the article data model with language-specific fields.
