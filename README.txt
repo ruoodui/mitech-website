@@ -29,3 +29,5 @@ Dashboard:
 Important:
 - Dynamic reviews/exhibitions are loaded from the Cloudflare Worker API so they work from GitHub Pages.
 - Do not replace reviews.json with an empty file; it is managed by the worker.
+
+V24: Added English Contact page, English nav Contact link, and updated WhatsApp number to +964 782 881 6508.
